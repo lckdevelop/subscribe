@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="dev.department.subscribe.dao.BrandDAO">
+	<select id="getNotSubscribedBrands" parameterType="int" resultType="BrandDTO">
+		select b.no, b.name, b.engname, b.subscount
+		from brand b inner join
+			(select no from brand b
+			minus
+			select brand_no from subs where member_no=#{memeberNo}) n
+		on b.no=n.no
+	</select>
+	
+	<select id="getSubscribedBrand" parameterType="int" resultType="BrandDTO">
+		select b.no, b.name, b.engname, b.subscount
+		from brand b inner join subs s
+		on b.no=s.brand_no
+		where member_no=#{memberNo}
+	</select>
+	
+	<insert id="insertSubscribe" parameterType="hashMap">
+		insert into subs (no, brand_no, member_no)
+		values (subs_id_seq.nextval, #{brandNo}, #{memberNo})
+	</insert>
+	
+	<delete id="deleteSubscribe" parameterType="hashMap">
+		delete from subs
+		where member_no=#{memberNo} and brand_no=#{brandNo}	
+	</delete>
+</mapper>

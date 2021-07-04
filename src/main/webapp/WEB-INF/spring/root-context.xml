@@ -19,4 +19,32 @@
 		p:maximumPoolSize="20"
 		/>
 		
+	<!-- BrandDAO start -->
+	<bean
+		id="brandSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/> 
+	<bean
+		id="brandDAO" 
+		class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="brandSqlSession"
+		p:mapperInterface="dev.department.subscribe.dao.BrandDAO"
+		/>
+	<!-- BrandDAO end -->
+	
+	<!-- MemberDAO start -->
+	<bean
+		id="memberSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/> 
+	<bean
+		id="memberDAO" 
+		class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSqlSession"
+		p:mapperInterface="dev.department.subscribe.dao.MemberDAO"
+		/>
+	<!-- BrandDAO end -->
+		
 </beans>
