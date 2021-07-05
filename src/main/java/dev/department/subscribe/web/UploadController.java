@@ -1,4 +1,4 @@
-package dev.department.subscribe;
+package dev.department.subscribe.web;
 
 import org.springframework.stereotype.Controller;
 import dev.department.subscribe.util.S3Utils;
