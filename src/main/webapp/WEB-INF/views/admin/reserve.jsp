@@ -22,9 +22,6 @@
           rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="${context}/resources/theme/css/mailform.css" rel="stylesheet">
-    <script>
-    	window.brandNo = ${sessionScope.memberInfo.brandNo};
-    </script>
 
 </head>
 
@@ -370,17 +367,13 @@
 		                                    	<tr>
 		                                    		<th>번호</th>
 		                                    		<th>성함</th>
+		                                    		<th>연락처</th>
 		                                    		<th>예약시간</th>
-		                                    		<th>승인</th>
+		                                    		<th>진행상태</th>
 		                                    	</tr>
 		                                    </thead>
-		                                    <tbody>
-		                                    	<tr>
-		                                    		<td>1</td>
-		                                    		<td>홍길동</td>
-		                                    		<td>21/07/05 12:30</td>
-		                                    		<td><button>승인</button></td>
-		                                    	</tr>
+		                                    <tbody id="upv-list">
+
 		                                    </tbody>
 	                                    </table>
 	                                </div>

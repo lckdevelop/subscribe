@@ -45,15 +45,8 @@ public class AdminController {
 	private ReserveService reserveService;
 	
 	@GetMapping("/{brandNo}/")
-	public String adminMain(@PathVariable int brandNo, HttpSession session) {
+	public String adminMain(@PathVariable int brandNo) {
 		
-		// 임시로 세션에 관리자 정보 등록 ------------ //
-		/*
-		 * MemberDTO memberInfo = new MemberDTO(); memberInfo.setNo(1);
-		 * memberInfo.setName("홍민석"); memberInfo.setBrandNo(1); memberInfo.setId("hms");
-		 * session.setAttribute("memberInfo", memberInfo);
-		 */
-		// -------------------------------------------- //
 		
 		return "admin/admin-main";
 	}
@@ -74,7 +67,7 @@ public class AdminController {
 	
 	// 메일 전송
 	@PostMapping("/{brandNo}/mailform")
-	public String mailForm(@PathVariable int brandNo, MailFormDTO mailInput, HttpSession session, Model model) {
+	public String mailForm(@PathVariable int brandNo, MailFormDTO mailInput, Model model) {
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		boolean sendFlag = true;
