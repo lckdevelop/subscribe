@@ -15,5 +15,7 @@ public interface BrandDAO {
 	public void deleteSubscribe(Map<String, Integer> deleteInfo) throws SQLException;
 
 	public void insertSubscribe(Map<String, Integer> insertInfo) throws SQLException;
+
+	public BrandDTO getBrandInfo(int brandNo) throws SQLException;
 	
 }

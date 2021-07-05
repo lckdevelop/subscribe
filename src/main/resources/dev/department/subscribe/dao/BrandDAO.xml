@@ -29,4 +29,11 @@
 		delete from subs
 		where member_no=#{memberNo} and brand_no=#{brandNo}	
 	</delete>
+	
+	<select id="getBrandInfo" parameterType="int" resultType="BrandDTO">
+		select *
+		from brand
+		where no=#{brandNo}
+	
+	</select>
 </mapper>

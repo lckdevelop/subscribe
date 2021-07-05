@@ -15,4 +15,6 @@ public interface BrandService {
 
 	void insertSubscribe(Map<String, Integer> insertInfo) throws Exception;
 
+	BrandDTO getBrandInfo(int brandNo) throws Exception;
+
 }

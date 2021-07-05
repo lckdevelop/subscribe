@@ -4,61 +4,14 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="notSubscribedBrands" value="${notSubscribedBrands}" />
-<c:set var="subscribedBrands" value="${subscribedBrands}" />
+<c:set var="brandInfo" value="${brandInfo}" />
 <!DOCTYPE html>
-<html lang="zxx">
 <%
 MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
 %>
-
+<html>
 <head>
-<script type="text/javascript">
-	function brandPage(brandNo){
-		location.href="brands/brandpage/"+brandNo;
-	}
-	
-	function drag(target, brand) { //드래그 시작시 호출 할 함수
-		brand.dataTransfer.setData('Text', target.id);
-	};
-	
-	function drop(target, brand) { //드롭시 호출 할 함수
-		var id = brand.dataTransfer.getData('Text');
-		
-		
-		if(target.getAttribute('id')=="allBrands"){
-			$.ajax({
-				url : '${context}/brands/delete/subscribe',
-		        type : 'POST',
-		        data : 
-		        	{
-		        	'brandNo' : id
-		       		},
-		        success : function(data) {
-		        	target.appendChild(document.getElementById(id));
-		    		brand.preventDefault();
-		        }
-			});
-		}
-		
-		if(target.getAttribute('id')=="subscribedBrands"){
-			$.ajax({
-				url : '${context}/brands/insert/subscribe',
-		        type : 'POST',
-		        data : 
-		        	{
-		        	'brandNo' : id
-		       		},
-		        success : function(data) {
-		        	target.appendChild(document.getElementById(id));
-		    		brand.preventDefault();
-		        }
-			});
-		}
-	};
-</script>
-
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +20,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="${context}/resources/theme/css/bootstrap.min.css" type="text/css">
@@ -78,8 +31,6 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
-    <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
-</head>
 
 <body>
     <!-- Page Preloder -->
@@ -167,8 +118,8 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li class="active"><a href="./contact.html">Brands</a></li>
+                            <li class="active"><a href="./blog.html">Blog</a></li>
+                            <li><a href="./contact.html">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -186,40 +137,79 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     </header>
     <!-- Header Section End -->
 
-    
-    <!-- Product Section Begin -->
-	<section class="brands spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="row justify-content-center">
-						<span class="h4">전체 브랜드</span>
-						<div class="col-lg-12 all-brand mt-3" id="allBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
-							<c:forEach items="${notSubscribedBrands}" var="brand">
-								<div class="brand-image brand-list" id="${brand.no}" onclick="brandPage(${brand.no})" draggable="true" ondragstart="drag(this, event)">
-									<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.png">
-								</div>		
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="row justify-content-center">
-						<span class="h4">구독중</span>
-						<div class="col-lg-12 subs-brand mt-3" id="subscribedBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
-							<c:forEach items="${subscribedBrands}" var="brand">
-								<div class="brand-image brand-list" id="${brand.no}" onclick="brandPage(${brand.no})" draggable="true" ondragstart="drag(this, event)">
-									<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.png">
-								</div>		
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-blog set-bg black-filter" data-setbg="${context}/resources/brands/img/hermes1.jpg">
+    	<img src="${context}/resources/brands/img/black-cover.png" style="position: relative;">
+        <div class="container" style="position: absolute;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 style="text-transform : uppercase">${brandInfo.engname}</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
 
-		</div>
-	</section>
-	<!-- Product Section End -->
+    <!-- Shop Section Begin -->
+    <section class="shop spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__product__option">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="shop__product__option__left">
+                                    <p>Showing 1–12 of 126 results</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="shop__product__option__right">
+                                    <select>
+                                        <option value="new">신상품순</option>
+                                        <option value="high-price">높은 가격순</option>
+                                        <option value="low-price">낮은 가격순</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="${context}/resources/theme/img/product/product-2.jpg">
+                                    <ul class="product__hover">
+                                        <li><a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>
+                                        <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>Compare</span></a>
+                                        </li>
+                                        <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6>Piqué Biker Jacket</h6>
+                                    <a href="#" class="add-cart">+ 장바구니에 담기</a>
+                                    <h5>$67.24</h5>
+                                </div>
+                            </div>
+                        </div>
+                                                
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product__pagination">
+                                <a class="active" href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                                <span>...</span>
+                                <a href="#">21</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -273,12 +263,12 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
                 <div class="col-lg-12 text-center">
                     <div class="footer__copyright__text">
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright Â©
+                        <p>Copyright ©
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
