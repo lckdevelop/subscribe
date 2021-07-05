@@ -6,6 +6,7 @@
 
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
 	<bean 
  		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/spring/database.properties" />
@@ -39,5 +40,20 @@
 		p:sqlSessionFactory-ref="mypageSession"
 		p:mapperInterface="dev.department.subscribe.dao.MypageDAO" />
 	<!-- mypageDAO end -->
+	
+	<bean
+		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="memberInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.sec.MemberInfoDAO" />
+		
+	<bean id="memberDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.dao.MemberDAO" />
+
 		
 </beans>
