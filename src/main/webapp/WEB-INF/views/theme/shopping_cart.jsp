@@ -1,3 +1,10 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="context" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -14,14 +21,112 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script type="text/javascript">
+    //1로 표시된 파라미터 값(memberNo) 이후에 수정
+    
+    $(document).ready(function(){
+		selectContent();
+		selectTotal();
+	});
+	
+    function selectTotal() {
+		$.ajax({
+			method : 'GET',
+			url : '${pageContext.request.contextPath}/cart/totalinfo/1', 
+		}).done(function( data ) {
+			var mytable = '<ul><li>Total <span>' + data + '</span></li>';
+			$('#displayTotal').html(mytable);
+		});
+	}
+	
+	function selectContent() {
+		$.ajax({
+			method : 'GET',
+			url : '${pageContext.request.contextPath}/cart/cartinfo/1', 
+		}).done(function( data ) {
+		 	displayContentList(data);
+		});
+	}
+	
+	function displayContentList(data) {
+		var mytable = "";
+	  	$.each( data, function( key, val ) {
+	    	mytable += '<tr><td class="product__cart__item">';
+	    	mytable += '<div class="product__cart__item__pic"><img src="' + val['thumbnail'] + '" alt="썸네일"></div>';
+	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><h5>' + val['productPrice'] + '원</h5></div></td>';
+	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
+	    	mytable += '<span class="fa fa-angle-left decqtybtn" myval ="'+ val['productNo'] +'"></span>';
+	    	mytable += '<input type="text" value="' + val['qty'] + '">';
+	    	mytable += '<span class="fa fa-angle-right incqtybtn" myval ="'+ val['productNo'] +'"></span></div></div></td>';
+	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
+	    	mytable += '<td class="cart__close"><i class="deletebtn fa fa-close" myval ="'+ val['productNo'] +'"></i></td></tr>';
+			});
+	 
+			$('#contentdisplay').html(mytable);
+			selectTotal();
+			changedecQTY();
+			changeincQTY();
+			deleteProduct();
+	}
+	
+	function deleteProduct(){
+		$(".deletebtn").click(function () {
+			$.ajax({
+				method : 'DELETE',
+				url : '${pageContext.request.contextPath}/cart/deletepro/1/'+ $(this).attr('myval')
+			}).done(function( data ) {
+				displayContentList(data);
+			});
+		});
+	}
+	
+	function changedecQTY(){
+		$(".decqtybtn").click(function () {
+			$.ajax({
+				method : 'POST',
+				url : '${pageContext.request.contextPath}/cart/decqty/1/'+ $(this).attr('myval')
+			}).done(function( data ) {
+				displayContentList(data);
+			});
+		});
+	}
+	
+	function changeincQTY(){
+		$(".incqtybtn").click(function () {
+			$.ajax({
+				method : 'POST',
+				url : '${pageContext.request.contextPath}/cart/incqty/1/'+ $(this).attr('myval')
+			}).done(function( data ) {
+				displayContentList(data);
+			});
+		});
+	}
+	
+	function mapDetailEvent() {
+		$('.mapdetailButton').click(function(){
+			$.ajax({
+				method : 'POST',
+				url : '${pageContext.request.contextPath}/cart/decqty'
+			}).done(function( data ) {
+				displayMapDetailList(data);
+			});
+		});
+	}
+		
+    </script>
 </head>
 
 <body>
@@ -48,9 +153,9 @@
             </div>
         </div>
         <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+            <a href="#" class="search-switch"><img src="${context}/resources/img/icon/search.png" alt=""></a>
+            <a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a>
+            <a href="#"><img src="${context}/resources/theme/img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -93,7 +198,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.html"><img src="${context}/resources/theme/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -117,9 +222,9 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+                        <a href="#" class="search-switch"><img src="${context}/resources/theme/img/icon/search.png" alt=""></a>
+                        <a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a>
+                        <a href="#"><img src="${context}/resources/theme/img/icon/cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
                     </div>
                 </div>
@@ -135,11 +240,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Shopping Cart</h4>
+                        <h4>장바구니</h4>
                         <div class="breadcrumb__links">
                             <a href="./index.html">Home</a>
                             <a href="./shop.html">Shop</a>
-                            <span>Shopping Cart</span>
+                            <span>장바구니</span>
                         </div>
                     </div>
                 </div>
@@ -157,124 +262,32 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>상품</th>
+                                    <th>수량</th>
+                                    <th>가격</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-1.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>T-shirt Contrast Pocket</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-4.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
+                            <tbody id = "contentdisplay">
+                            
+                                
+                             
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div style="text-align : center">
                             <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                <a href="#">쇼핑 계속하기</a>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
+                <div class="col-lg-4" style="margin-top: 60px">
                     <div class="cart__total">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
-                        </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <h6>총 상품 금액</h6>
+                        <div id="displayTotal">
+                       
+                        </div>
+                        <a href="/subscribe/checkout" class="primary-btn">결제하러 가기</a>
                     </div>
                 </div>
             </div>
@@ -289,10 +302,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="${context}/resources/theme/img/footer-logo.png" alt=""></a>
                         </div>
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
+                        <a href="#"><img src="${context}/resources/theme/img/payment.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
@@ -361,16 +374,17 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
+    <script src="${context}/resources/theme/js/bootstrap.min.js"></script>
+    <script src="${context}/resources/theme/js/jquery.nice-select.min.js"></script>
+    <script src="${context}/resources/theme/js/jquery.nicescroll.min.js"></script>
+    <script src="${context}/resources/theme/js/jquery.magnific-popup.min.js"></script>
+    <script src="${context}/resources/theme/js/jquery.countdown.min.js"></script>
+    <script src="${context}/resources/theme/js/jquery.slicknav.js"></script>
+    <script src="${context}/resources/theme/js/mixitup.min.js"></script>
+    <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
+    <script src="${context}/resources/theme/js/main.js"></script>
+    
 </body>
 
 </html>

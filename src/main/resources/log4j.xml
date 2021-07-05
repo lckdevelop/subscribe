@@ -11,11 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-<<<<<<< HEAD
-	<logger name="dev.department.auction">
-=======
 	<logger name="dev.department.subscribe">
->>>>>>> main
 		<level value="info" />
 	</logger>
 	
@@ -35,14 +31,11 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-<<<<<<< HEAD
-
-=======
+	
 	<logger name="org.springframework.jdbc">
 		<level value="info" />
 	</logger>
 	
->>>>>>> main
 	<!-- Root Logger -->
 	<root>
 		<priority value="warn" />

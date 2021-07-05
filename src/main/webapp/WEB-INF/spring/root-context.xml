@@ -3,10 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean 
@@ -22,9 +19,25 @@
 		p:driverClassName="${driver}"
 		p:maximumPoolSize="20"
 		/>
-<<<<<<< HEAD
-
-=======
->>>>>>> main
+		
+	<!-- purprocessDAO start -->
+	<bean id="purprocessSession" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto" />
+	
+	<bean id="purprocessDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="purprocessSession"
+		p:mapperInterface="dev.department.subscribe.dao.PurprocessDAO" />
+	<!-- purprocessDAO end -->
+	
+	<!-- mypageDAO start -->
+	<bean id="mypageSession" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto" />
+	
+	<bean id="mypageDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="mypageSession"
+		p:mapperInterface="dev.department.subscribe.dao.MypageDAO" />
+	<!-- mypageDAO end -->
 		
 </beans>
