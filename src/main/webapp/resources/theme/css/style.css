@@ -328,9 +328,11 @@ ol {
 	padding: 10px 0;
 }
 
-.header__top__left p {
+.header__top__left a {
 	color: #ffffff;
-	margin-bottom: 0;
+    font-size: 20px;
+    letter-spacing: 2px;
+    display: inline-block;
 }
 
 .header__top__right {
