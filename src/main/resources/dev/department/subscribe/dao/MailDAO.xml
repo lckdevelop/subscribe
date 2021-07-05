@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.department.subscribe.dao.MailDAO">
+
+	<select id='getReceiverInfo' parameterType="int" resultType="MemberDTO">
+		SELECT NAME , 
+		       ID   , 
+		       EMAIL
+		  FROM MEMBER M
+		  JOIN (SELECT MEMBER_NO
+		          FROM SUBS
+		         WHERE BRAND_NO = #{brandNo}) S
+		    ON M.NO = S.MEMBER_NO
+	</select>
+	
+	<select id='getSubsCount' parameterType="int" resultType="int">
+		    SELECT COUNT(BRAND_NO) AS CNT
+		      FROM SUBS S
+		RIGHT JOIN BRAND B
+		        ON S.BRAND_NO = B.NO
+		  GROUP BY B.NO
+		    HAVING B.NO = #{brandNo}
+	</select>
+	
+	
+</mapper>

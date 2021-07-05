@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dev.department.subscribe.dto.TestDTO;
-
 /**
  * Handles requests for the application home page.
  */
@@ -38,11 +36,12 @@ public class HomeController {
 	public String home(Locale locale, Model model) throws IOException {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
-		File file = new File(
-		        getClass().getClassLoader().getResource("s3key.json").getFile()
-	    );
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String, String> test = mapper.readValue(file, new TypeReference<Map<String, String>>(){});
+		/*
+		 * File file = new File(
+		 * getClass().getClassLoader().getResource("s3key.json").getFile() );
+		 * ObjectMapper mapper = new ObjectMapper(); Map<String, String> test =
+		 * mapper.readValue(file, new TypeReference<Map<String, String>>(){});
+		 */
 		//logger.info(test.get("accessKey") + ": accessKey");
 		//logger.info(test.get("secretKey") + ": secretKey");
 		
