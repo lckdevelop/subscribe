@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.department.subscribe.dao.PurprocessDAO">
+
+	<select id="selectCartList" parameterType="CartListDTO" resultType="CartListDTO">
+		select b.name, a.qty, b.price as productPrice, a.price as memberPrice, b.thumbnail, b.no as productNo,
+		c.name as memberName, c.email as email, c.phone as phone
+		from cart a
+		JOIN product b on a.product_no = b.no 
+		JOIN member c on a.member_no = c.no
+		where a.member_no = #{memberNo}
+	</select>
+	
+	<update id="updatedecQty" parameterType="CartListDTO">
+		update cart set qty = qty - 1 where product_no = #{productNo} and member_no = #{memberNo}
+	</update>
+	
+	<update id="updateincQty" parameterType="CartListDTO">
+		update cart set qty = qty + 1 where product_no = #{productNo} and member_no = #{memberNo}
+	</update>
+	
+	<update id="updatePrice" parameterType="CartListDTO">
+		update cart set price = (select price from product where no = #{productNo}) * (
+		select qty from cart where product_no = #{productNo} and member_no = #{memberNo})
+		where product_no = #{productNo} and member_no = #{memberNo}
+	</update>
+	
+	<delete id="deleteCartPro" parameterType="CartListDTO">
+		delete from cart where product_no = #{productNo} and member_no = #{memberNo}
+	</delete>
+	
+	<select id="selectCartTotal" parameterType="CartListDTO" resultType="CartListDTO">
+		select sum(price) as totalPrice from cart where member_no = #{memberNo}
+	</select>
+	
+	<select id="checkoutUserInfo" parameterType="MemberDTO" resultType="MemberDTO">
+		select name, email, phone from member where no = #{no}
+	</select>
+	
+	<select id="checkoutTotalInfo" parameterType="CartListDTO" resultType="CartListDTO">
+	<!-- 할인 비율에 따른 조정 필요 -->
+		select distinct (select sum(price) from cart where member_no =#{memberNo}) as productPrice, 
+       (select sum(price) * 0.9 from cart where member_no = #{memberNo}) as memberPrice
+        from cart
+	</select>
+	
+</mapper>

@@ -10,6 +10,6 @@ import lombok.ToString;
 public class BrandDTO {
 	int no;
 	String name;
+	String engname;
 	int subscount;
-	int subsNo;
 }

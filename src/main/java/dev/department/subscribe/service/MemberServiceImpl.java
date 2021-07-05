@@ -1,5 +1,7 @@
 package dev.department.subscribe.service;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,11 @@ public class MemberServiceImpl implements MemberService {
 		String endcodedPassword = bcryptPasswordEncoder.encode(memberDTO.getPassword());
 		memberDTO.setPassword(endcodedPassword);
 		memberDAO.memberJoin(memberDTO);
+	}
+	
+	@Override
+	public int getMemberNo(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return memberDAO.getMemberNo(id);
 	}
 }

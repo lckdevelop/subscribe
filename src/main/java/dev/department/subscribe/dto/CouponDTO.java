@@ -1,10 +1,8 @@
 package dev.department.subscribe.dto;
 
-import java.sql.Date;
+import java.sql.*;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -19,4 +17,6 @@ public class CouponDTO {
 	Date duetime;
 	int type;
 	Date useddate;
+	String brandname;
+	String brandengname;
 }
