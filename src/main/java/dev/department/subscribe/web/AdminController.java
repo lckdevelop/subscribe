@@ -1,34 +1,22 @@
 package dev.department.subscribe.web;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
-import javax.servlet.http.HttpSession;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.mail.internet.MimeMessage.*;
+import javax.servlet.http.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.mail.javamail.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
-import dev.department.subscribe.dto.MailFormDTO;
-import dev.department.subscribe.dto.MemberDTO;
-import dev.department.subscribe.dto.PagingDTO;
-import dev.department.subscribe.dto.ReserveListDTO;
-import dev.department.subscribe.service.MailService;
-import dev.department.subscribe.service.ReserveService;
-import lombok.extern.slf4j.Slf4j;
+import dev.department.subscribe.dto.*;
+import dev.department.subscribe.service.*;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 @Controller
