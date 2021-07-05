@@ -11,18 +11,14 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-<<<<<<< HEAD
-	<logger name="dev.department.auction">
-=======
 	<logger name="dev.department.subscribe">
->>>>>>> main
 		<level value="info" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
-	</logger>	
+	</logger>
 	
 	<logger name="org.springframework.beans">
 		<level value="info" />
@@ -35,10 +31,14 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-
+	
+	<logger name="org.springframework.jdbc">
+		<level value="info" />
+	</logger>
+	
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
 	
