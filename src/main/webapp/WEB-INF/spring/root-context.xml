@@ -5,6 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
 	<bean 
  		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/spring/database.properties" />
@@ -18,21 +19,7 @@
 		p:driverClassName="${driver}"
 		p:maximumPoolSize="20"
 		/>
-		
-	<bean id="SqlSession"
-		class="org.mybatis.spring.SqlSessionFactoryBean"
-		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
-
-	<bean id="mailDAO"
-		class="org.mybatis.spring.mapper.MapperFactoryBean"
-		p:sqlSessionFactory-ref="SqlSession"
-		p:mapperInterface="dev.department.subscribe.dao.MailDAO" />
-		
-	<bean id="reserveDAO"
-		class="org.mybatis.spring.mapper.MapperFactoryBean"
-		p:sqlSessionFactory-ref="SqlSession"
-		p:mapperInterface="dev.department.subscribe.dao.ReserveDAO" />
-		
+	
 	<!-- mailSender 설정 -->
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -54,6 +41,38 @@
 		</property>
 	</bean>
 	
+	<bean
+		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="memberInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.sec.MemberInfoDAO" />
 		
+	<bean id="memberDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.dao.MemberDAO" />
+		
+		
+	<bean id="mailSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
 
+	<bean id="mailDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="mailSession"
+		p:mapperInterface="dev.department.subscribe.dao.MailDAO" />
+		
+	<bean id="reserveSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
+		
+	<bean id="reserveDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="reserveSession"
+		p:mapperInterface="dev.department.subscribe.dao.ReserveDAO" />
+		
+		
 </beans>

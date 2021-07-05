@@ -48,13 +48,11 @@ public class AdminController {
 	public String adminMain(@PathVariable int brandNo, HttpSession session) {
 		
 		// 임시로 세션에 관리자 정보 등록 ------------ //
-		MemberDTO memberInfo = new MemberDTO();
-		memberInfo.setNo(1);
-		memberInfo.setName("홍민석");
-		memberInfo.setBrandNo(1);
-		memberInfo.setId("hms");
-		memberInfo.setRole(1);
-		session.setAttribute("memberInfo", memberInfo);
+		/*
+		 * MemberDTO memberInfo = new MemberDTO(); memberInfo.setNo(1);
+		 * memberInfo.setName("홍민석"); memberInfo.setBrandNo(1); memberInfo.setId("hms");
+		 * session.setAttribute("memberInfo", memberInfo);
+		 */
 		// -------------------------------------------- //
 		
 		return "admin/admin-main";
