@@ -14,12 +14,12 @@ public class MemberDTO {
 	String name;
 	String id;
 	String password;
+	int enabled;
 	String email;
 	Date birthdate;
 	String phone;
 	String address;
-	int premoney;
 	int point;
-	int role;
+	String role;
 	int brandNo;
 }

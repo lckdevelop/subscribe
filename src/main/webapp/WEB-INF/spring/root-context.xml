@@ -5,6 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
 	<bean 
  		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/spring/database.properties" />
@@ -18,5 +19,19 @@
 		p:driverClassName="${driver}"
 		p:maximumPoolSize="20"
 		/>
+		
+	<bean
+		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="memberInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.sec.MemberInfoDAO" />
+		
+	<bean id="memberDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.dao.MemberDAO" />
 		
 </beans>
