@@ -43,4 +43,10 @@ public class BrandServiceImpl implements BrandService{
 		brandDAO.insertSubscribe(insertInfo);
 	}
 
+	@Override
+	public BrandDTO getBrandInfo(int brandNo) throws Exception {
+		// TODO Auto-generated method stub
+		return brandDAO.getBrandInfo(brandNo);
+	}
+
 }
