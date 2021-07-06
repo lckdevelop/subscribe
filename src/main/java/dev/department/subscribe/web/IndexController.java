@@ -3,16 +3,19 @@ package dev.department.subscribe.web;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.department.subscribe.dto.MemberDTO;
+import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,8 +25,13 @@ public class IndexController {
 	@Autowired
 	private MemberService memberService;
 	
+//	@GetMapping("/index")
+//	public String index() {
+//		return "home/index";
+//	}
+	
 	// 로그인 창
-	@GetMapping("/login")
+	@RequestMapping("/login")
 	public String loginPage() {
 		return "home/login";
 	}
@@ -41,10 +49,11 @@ public class IndexController {
 		try {
 			memberService.memberJoin(memberDTO);
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 		return "home/index";
 	}
+	
 	// 아이디 중복 체크
 	@PostMapping(value="/idcheck", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -58,7 +67,7 @@ public class IndexController {
 			idDuplBool = memberService.idDuplicateCheck(id);
 			log.info(idDuplBool + "");
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 		
 		if (idDuplBool == true) {
@@ -68,6 +77,39 @@ public class IndexController {
 		}
 		
 		return idDuplStr;
+	}
+	
+	// 심플 구독
+	@GetMapping(value="/simplesubs/{brandNo}/{subsed}", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String simpleSubsAction(@PathVariable int brandNo, @PathVariable int subsed,
+									Authentication authentication) {
+		int memberNo = 0;
+		
+		String result = "실패";
+		log.info(brandNo + ": brandNo");
+		log.info(subsed + ": subsed");
+		
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			memberNo = sMember.getNo();
+		}
+		
+		try {
+			result = memberService.brandSubsAction(brandNo, subsed, memberNo);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		
+		return result;
+	}
+	
+	@GetMapping("/product/category")
+	public String productCategory(@RequestParam String main, @RequestParam String sub) {
+		log.info(main);
+		log.info(sub);
+		
+		return "category/categoryList";
 	}
 	
 	
@@ -95,13 +137,8 @@ public class IndexController {
 	public String goAdmin2() {
 		return "home/adminMain";
 	}
+	
 	// 여기부터
-
-	@RequestMapping("/index")
-	public String index() {
-		return "home/index";
-	}
-
 	@RequestMapping("/admin/usermanager/main")
 	public String home() {
 		return "sec_view2/usermanagerMain";

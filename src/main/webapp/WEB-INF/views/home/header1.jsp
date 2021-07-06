@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
 </head>
 <body>
+
+<!-- <script type="text/javascript">
+function btnClick(formName) {
+	logoutAskOne.submit();
+};
+</script> -->
 <!-- Offcanvas Menu Begin -->
    <div class="offcanvas-menu-overlay"></div>
    <div class="offcanvas-menu-wrapper">
@@ -46,7 +52,6 @@
        </div>
    </div>
 <!-- Offcanvas Menu End -->
-    
 <div class="header__top">
 	<div class="container">
 	    <div class="row">
@@ -65,7 +70,7 @@
 						<a href="login">로그인|회원가입</a>
 					</sec:authorize>
 	                <sec:authorize access="isAuthenticated()">
-						<a href="logout">로그아웃</a>
+						<a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>    
 	                    <a href="#">마이페이지</a>
 	                    <a href="#">장바구니</a>

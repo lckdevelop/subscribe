@@ -15,19 +15,7 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("serial")
 public class SecurityMember extends MemberDTO implements UserDetails {
-//	private int no;
-//	private String id;
-//	private String name;
 	private Collection<? extends GrantedAuthority> authorities;
-//	private String password;
-//	private int enabled;
-//	private String email;
-//	private Date birthdate;
-//	private String phone;
-//	private String address;
-//	private int point;
-//	private String role;
-//	private int brandNo;
 	
 	@Override
 	public String getUsername() {

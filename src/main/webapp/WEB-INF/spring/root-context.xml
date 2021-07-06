@@ -47,7 +47,32 @@
 		p:sqlSessionFactory-ref="memberSqlSession"
 		p:mapperInterface="dev.department.subscribe.dao.MemberDAO"
 		/>
-	<!-- BrandDAO end -->
+	<!-- MemberDAO end -->
+	
+	<!-- secMemberInfoDAO start -->
+	<bean
+		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="memberInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="memberSession"
+		p:mapperInterface="dev.department.subscribe.sec.MemberInfoDAO" />
+	<!-- secMemberInfoDAO end -->
+	
+	<!-- indexDAO start -->
+	<bean
+		id="indexSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="indexDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="indexSession"
+		p:mapperInterface="dev.department.subscribe.dao.IndexDAO" />
+	<!-- indexDAO end -->
+	
 	<!-- purprocessDAO start -->
 	<bean id="purprocessSession" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
@@ -88,18 +113,6 @@
 	        </props>
 		</property>
 	</bean>
-	
-	<bean
-		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
-		p:dataSource-ref="dataSource"
-		p:typeAliasesPackage="dev.department.subscribe.dto"
-		/>
-	
-	<bean id="memberInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
-		p:sqlSessionFactory-ref="memberSession"
-		p:mapperInterface="dev.department.subscribe.sec.MemberInfoDAO" />
-		
-	
 		
 	<bean id="mailSession"
 		class="org.mybatis.spring.SqlSessionFactoryBean"
