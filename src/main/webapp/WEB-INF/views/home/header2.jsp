@@ -21,15 +21,22 @@
 <script type="text/javascript">
 $(function(){
     // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-    $(".subCategory").click(function(){
-        alert($(".subCategory").text());
+    $("ul li a").click(function(){
+    	var t = $(this).html();
+    	alert($(this).parent(li).text());
+        alert(t);
     });
     
 });
+
+function test(ths){
+    var hello = $(ths).text();
+    alert(ths);
+}
 </script>
 <div class="container">
 	<div class="row">
-	    <div class="col-lg-3 col-md-3">
+	    <div class="col-lg-2 col-md-2">
 	        <div class="header__logo">
 	            <a href="${context}"><img src="${context}/resources/index/images/mainLogo.PNG" alt=""></a>
 	        </div>
@@ -37,51 +44,55 @@ $(function(){
 	    <div class="col-lg-9 col-md-9">
 	        <nav class="header__menu mobile-menu">
 	            <ul>
-	                <li class="active"><a href="./index.html">홈</a></li>
-	                <li><a href="#">여성패션</a>
+	                <li><a href="${context}">홈</a></li>
+	                <li class="mainCategory"><a href="${context}/product/category?main='여성패션'&sub=''">여성패션</a>
 	                    <ul class="dropdown">
-	                        <li><a href="./about.html">아우터</a></li>
-	                        <li><a href="./shop-details.html">상의</a></li>
-	                        <li><a href="./shopping-cart.html">하의</a></li>
-	                        <li><a href="./checkout.html">정장/원피스</a></li>
-	                        <li><a href="./blog-details.html">가죽/모피</a></li>
-	                        <li><a href="./blog-details.html">언더웨어/이지웨어</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='상의'">상의</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='하의'">하의</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='정장'">정장</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='신발'">신발</a></li>
+	                        <li><a href="${context}/product/category?main='여성패션'&sub='기타잡화'">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="#">남성패션</a>
+	                <li><a href="${context}/product/category?main='남성패션'&sub=''">남성패션</a>
 	                    <ul class="dropdown">
-	                        <li><a href="./about.html">정장/수트</a></li>
-	                        <li><a href="./shop-details.html">아우터</a></li>
-	                        <li><a href="./shopping-cart.html">상의</a></li>
-	                        <li><a href="./checkout.html">하의</a></li>
-	                        <li><a href="./blog-details.html">남성 언더웨어</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='상의'">상의</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='하의'">하의</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='정장'">정장</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='신발'">신발</a></li>
+	                        <li><a href="${context}/product/category?main='남성패션'&sub='기타잡화'">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="#">진/이지</a>
+	                <li><a href="${context}/product/category?main='진/캐주얼'&sub=''">진/캐주얼</a>
 	                    <ul class="dropdown">
-	                        <li class="subCategory"><a href="#">티셔츠/셔츠/블라우스</a></li>
-	                        <li><a href="./shop-details.html">원피스/니트/가디건</a></li>
-	                        <li><a href="./shopping-cart.html">팬츠/스커트</a></li>
-	                        <li><a href="./checkout.html">데님팬츠</a></li>
-	                        <li><a href="./blog-details.html">자켓/점퍼/코트</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='상의'">상의</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='하의'">하의</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='정장'">정장</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='신발'">신발</a></li>
+	                        <li><a href="${context}/product/category?main='진/캐주얼'&sub='기타잡화'">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="#">스포츠/레저</a>
+	                <li><a href="${context}/product/category?main='스포츠/레저'&sub=''">스포츠/레저</a>
 	                    <ul class="dropdown">
-	                        <li><a href="./sports">스포츠/레저</a></li>
-	                        <li><a href="./shop-details.html">Shop Details</a></li>
-	                        <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-	                        <li><a href="./checkout.html">Check Out</a></li>
-	                        <li><a href="./blog-details.html">Blog Details</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='상의'">상의</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='하의'">하의</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='정장'">정장</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='신발'">신발</a></li>
+	                        <li><a href="${context}/product/category?main='스포츠/레저'&sub='기타잡화'">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="#">브랜드</a>
+	                <li><a href="${context}/product/category?main='브랜드'&sub=''">브랜드</a>
 	                    <ul class="dropdown">
-	                        <li><a href="./about.html">스포츠/레저</a></li>
-	                        <li><a href="./shop-details.html">Shop Details</a></li>
-	                        <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-	                        <li><a href="./checkout.html">Check Out</a></li>
-	                        <li><a href="./blog-details.html">Blog Details</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='상의'">상의</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='하의'">하의</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='정장'">정장</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='신발'">신발</a></li>
+	                        <li><a href="${context}/product/category?main='브랜드'&sub='기타잡화'">기타잡화</a></li>
 	                    </ul>
 	                </li>
 	            </ul>
