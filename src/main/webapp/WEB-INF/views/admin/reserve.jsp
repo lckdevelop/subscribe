@@ -17,16 +17,29 @@
     <title>현대백화점 브랜드 관리자 예약 관리</title>
 
     <!-- Custom fonts for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" 
-          rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="${context}/resources/theme/css/mailform.css" rel="stylesheet">
+    <link href="${context}/resources/theme/css/adminreserve.css" rel="stylesheet">
+    
+	<!-- Calendar css -->
+    <link rel="stylesheet" type="text/css" href="${context}/resources/fullcalendar/main.min.css" />
+    
+    <!-- Calendar js -->
+	<script src="${context}/resources/fullcalendar/main.min.js"></script>
+	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
+    
+    <script>
+    	window.search = '${search}';
+    	
 
+
+    	
+    </script>
 </head>
 
 <body id="page-top">
-
+	
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -148,13 +161,13 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form action="reserve" method="POST"
+                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="예약 현황 검색..."
+                                aria-label="search" aria-describedby="basic-addon2" id="searchbar" name="search" value="${search}">
                             <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
+                                <button class="btn btn-secondary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -163,30 +176,6 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-secondary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -350,6 +339,45 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">예약 관리</h1>
                     </div>
+                    
+                    <div class="row">
+                    	<div class="col-xl-5 col-lg-5">
+	                    	<div class="card shadow mb-4">
+	                    		<div class="card-body">
+		                    		<div id="calendar">
+		                    		
+		                    		</div>
+	                    		</div>
+	                    	</div>
+                    	</div>
+                    	
+                    	<div class="col-xl-7 col-lg-7">
+							<div class="card shadow mb-4">
+	                            <!-- Card Header - Dropdown -->
+	                            <div
+	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+	                                <h6 class="m-0 font-weight-bold text-primary">전체 예약 현황</h6>
+	                            </div>
+	                            <!-- Card Body -->
+	                            <div class="card-body">
+                                    <table class="table table-hover text-center">
+	                                    <thead>
+	                                    	<tr>
+	                                    		<th>성함</th>
+	                                    		<th>연락처</th>
+	                                    		<th>예약시간</th>
+	                                    		<th>진행상태</th>
+	                                    	</tr>
+	                                    </thead>
+	                                    <tbody id="rlist">
+
+	                                    </tbody>
+                                    </table>
+                                    <div id="pagination3" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
 
                     <div class="row">
 	                    <div class="col-xl-6 col-lg-6">
@@ -361,22 +389,20 @@
 	                            </div>
 	                            <!-- Card Body -->
 	                            <div class="card-body">
-	                                <div class="chart-area">
-	                                    <table class="table table-hover">
-		                                    <thead>
-		                                    	<tr>
-		                                    		<th>번호</th>
-		                                    		<th>성함</th>
-		                                    		<th>연락처</th>
-		                                    		<th>예약시간</th>
-		                                    		<th>진행상태</th>
-		                                    	</tr>
-		                                    </thead>
-		                                    <tbody id="upv-list">
+                                    <table class="table table-hover text-center">
+	                                    <thead>
+	                                    	<tr>
+	                                    		<th>성함</th>
+	                                    		<th>연락처</th>
+	                                    		<th>예약시간</th>
+	                                    		<th>진행상태</th>
+	                                    	</tr>
+	                                    </thead>
+	                                    <tbody id="upv-list">
 
-		                                    </tbody>
-	                                    </table>
-	                                </div>
+	                                    </tbody>
+                                    </table>
+                                    <div id="pagination1" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -385,43 +411,31 @@
 	                            <!-- Card Header - Dropdown -->
 	                            <div
 	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">미완료 픽업 현황</h6>
+	                                <h6 class="m-0 font-weight-bold text-primary">금일 예약 현황</h6>
 	                            </div>
 	                            <!-- Card Body -->
 	                            <div class="card-body">
-	                                <div class="chart-area">
-	                                    <canvas id="myAreaChart"></canvas>
-	                                </div>
+                                    <table class="table table-hover text-center">
+	                                    <thead>
+	                                    	<tr>
+	                                    		<th>성함</th>
+	                                    		<th>연락처</th>
+	                                    		<th>예약시간</th>
+	                                    		<th>진행상태</th>
+	                                    	</tr>
+	                                    </thead>
+	                                    <tbody id="today-list">
+
+	                                    </tbody>
+                                    </table>
+                                    <div id="pagination2" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
 	                            </div>
 	                        </div>
 	                    </div>
 	                    
 					</div>
 					
-					<div class="row">
-						<div class="col-xl-8 col-lg-7">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">예약 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-	                                <div class="chart-area">
-	                                    <table>
-	                                    	<tr>
-	                                    		<th>번호</th>
-	                                    		<th>성함</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>처리결과</th>
-	                                    	</tr>
-	                                    </table>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-					</div>
+					
                 </div>
                 <!-- /.container-fluid -->
 
@@ -464,6 +478,47 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Approve Modal-->
+    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">예약 확정</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div id="approve-modal-body" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button id="refuse-modal-btn" class="btn btn-danger" data-dismiss="modal">거절</button>
+                    <button id="approve-modal-btn" class="btn btn-success" data-dismiss="modal">승인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- UPVDetail Modal-->
+    <div class="modal fade" id="upvdetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">예약 상세 정보</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div id="upv-modal-body" class="modal-body">
+
+                </div>
+				<div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
