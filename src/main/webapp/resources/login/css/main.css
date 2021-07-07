@@ -151,7 +151,7 @@ iframe {
 }
 
 .bg1 {background-color: #3b5998}
-.bg2 {background-color: #1da1f2}
+.bg2 {background-color: #f9e000}
 .bg3 {background-color: #ea4335}
 
 
@@ -459,7 +459,11 @@ iframe {
   border-radius: 50%;
   margin: 5px;
 }
-
+.login100-social-item>img {
+  width: 130px;
+  object-fit: cover;
+  max-width: 200%;
+}
 .login100-social-item:hover {
   color: #fff;
   background-color: #333333;

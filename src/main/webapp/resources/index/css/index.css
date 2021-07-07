@@ -46,3 +46,45 @@
     text-indent: 0;
 }
 
+/* 브랜드 로고 구독 */
+.brand-image{
+	overflow: hidden;
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	margin-left: 17px;
+	box-shadow: 5px 5px 5px gray;
+	cursor: pointer;
+}
+
+.brand-list{
+	display: inline-block;
+}
+
+.brand-image:hover img{
+  opacity: 0.2;
+}
+
+.subtextBox{
+	position: absolute;
+	top:45px;
+	padding-left:24px;
+	opacity: 0; 
+} 
+
+.brand-image:hover .subtextBox{
+  opacity: 1; 
+}
+
+.brand_logo {
+	overflow: hidden;
+	width: 100px;
+	margin-left: 17px;
+	/* height: 100px; */
+}
+
+
+/* .brand-image:hover {
+	background-color : #fdfdfd;
+} */
+

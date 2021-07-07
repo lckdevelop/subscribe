@@ -4,9 +4,9 @@
 
 <mapper namespace="dev.department.subscribe.dao.ReserveDAO">
 
-	<select id='getUnpermittedVisitList' parameterType="PagingDTO" resultType="ReserveListDTO">
-		  SELECT R.NO			,
-		         M.NAME			,
+	<select id="getUnpermittedVisitList" parameterType="PagingDTO" resultType="ReserveListDTO">
+		  SELECT R.NO			,			
+		  		 M.NAME			,
 		         M.PHONE		,
 		         R.RESTIME		,
 		         R.KIND			,
@@ -18,6 +18,81 @@
 		   WHERE STATUS = 0
 		     AND R.BRAND_NO = #{brandNo}
 		     AND NAME LIKE '%'||#{search}||'%'
+		ORDER BY NO DESC
+		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<select id="getUnpermittedVisitCnt" parameterType="String" resultType="int">
+		    SELECT COUNT(R.NO)AS COUNT
+		      FROM RESERVATION R
+		INNER JOIN MEMBER M
+		        ON R.MEMBER_NO = M.NO
+		     WHERE STATUS = 0
+		       AND NAME LIKE '%'||#{search}||'%'
+	</select>
+
+	<update id="permitReserve"  parameterType="ReservePermitDTO">
+		UPDATE RESERVATION
+       	   SET STATUS = 1
+     	 WHERE NO = #{no}
+     	   AND BRAND_NO = #{brandNo}
+	</update>
+	
+	<update id="refuseReserve" parameterType="ReservePermitDTO">
+		UPDATE RESERVATION
+       	   SET STATUS = 3
+     	 WHERE NO = #{no}
+     	   AND BRAND_NO = #{brandNo}
+	</update>
+	
+	<select id="getReserveCnt" parameterType="String" resultType="int">
+		    SELECT COUNT(R.NO)AS COUNT
+		      FROM RESERVATION R
+		INNER JOIN MEMBER M
+		        ON R.MEMBER_NO = M.NO
+		     WHERE NAME LIKE '%'||#{search}||'%'
+	</select>
+	
+	<select id="getReserveList" parameterType="PagingDTO" resultType="ReserveListDTO">
+		  SELECT R.NO			,			
+		  		 M.NAME			,
+		         M.PHONE		,
+		         R.RESTIME		,
+		         R.KIND			,
+		         R.MEMO			,
+		         R.STATUS
+		    FROM RESERVATION R
+		    JOIN MEMBER M
+		      ON R.MEMBER_NO = M.NO
+		   WHERE R.BRAND_NO = #{brandNo}
+		     AND NAME LIKE '%'||#{search}||'%'
+		ORDER BY RESTIME DESC
+		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<select id="getTodayReserveCnt" parameterType="String" resultType="int">
+		    SELECT COUNT(R.NO)AS COUNT
+		      FROM RESERVATION R
+		INNER JOIN MEMBER M
+		        ON R.MEMBER_NO = M.NO
+		     WHERE NAME LIKE '%'||#{search}||'%'
+		       AND TO_CHAR(R.RESTIME, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
+	</select>
+	
+	<select id="getTodayReserveList" parameterType="PagingDTO" resultType="ReserveListDTO">
+		  SELECT R.NO			,			
+		  		 M.NAME			,
+		         M.PHONE		,
+		         R.RESTIME		,
+		         R.KIND			,
+		         R.MEMO			,
+		         R.STATUS
+		    FROM RESERVATION R
+		    JOIN MEMBER M
+		      ON R.MEMBER_NO = M.NO
+		   WHERE R.BRAND_NO = #{brandNo}
+		     AND NAME LIKE '%'||#{search}||'%'
+		     AND TO_CHAR(R.RESTIME, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
 		ORDER BY RESTIME
 		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
 	</select>

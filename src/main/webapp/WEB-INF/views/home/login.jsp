@@ -20,6 +20,30 @@
 <title>현대백화점 | 로그인</title>
 </head>
 <body>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script type="text/javascript">
+	window.Kakao.init("c719163c8a3ae97ac6453318e9396038");
+	
+	function kakaoLogin() {
+		window.Kakao.Auth.login({
+			scope:'profile_nickname, account_email, gender, birthday',
+			success: function(authObj) {
+				console.log(authObj);
+				window.Kakao.API.request({
+					url:'/v2/user/me',
+					success: res => {
+						const kakao_account = res.kakao_account;
+						console.log(kakao_account);
+						$("#name").val(res.kakao_account.profile.nickname);
+						$("#email").val(res.kakao_account.email);
+						$("#kakaoConfirm").text("kakao계정으로 인증 하셨습니다.");
+					}
+				});
+			}
+		});
+	}
+	</script>
+	
 	<header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
         <%-- <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" /> --%>
@@ -28,45 +52,45 @@
 		<div class="container-login100">
 <%-- 		<div class="container-login100" style="background-image: url('${context}/resources/login/images/bg-01.jpg');"> --%>
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-			<c:if test="${param.fail == 'true'}">
-				<strong>아이디와 암호가 일치하지 않습니다.</strong>
-			</c:if>
 				<form action="loginAction" method="post" class="login100-form validate-form">
 					<span class="login100-form-title p-b-49">
-						Login
+						<a href="${context}"><img src="${context}/resources/index/images/mainLogo.PNG" alt=""></a>
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
 						<span class="label-input100">Username</span>
-						<input class="input100" type="text" name="id" placeholder="Type your username">
+						<input class="input100" type="text" name="id" placeholder="아이디를 입력하세요.">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="password" placeholder="Type your password">
+						<input class="input100" type="password" name="password" placeholder="비밀번호를 입력하세요.">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
-					
+					<c:if test="${param.fail == 'true'}">
+						<p class="mt-3" style="text-align:center;color:'red';"><strong>아이디와 암호가 일치하지 않습니다.</strong></p>
+					</c:if>
 					<div class="text-right p-t-8 p-b-31">
 						<a href="#">
 							Forgot password?
 						</a>
 					</div>
-					
+					<!-- csrf 토큰 설정 -->
+					<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%> 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn">
-								Login
+								로그인
 							</button>
 						</div>
 					</div>
 
 					<div class="txt1 text-center p-t-54 p-b-20">
-						<span>
-							Or Sign Up Using
-						</span>
+						<a href="signup" class="txt2">
+							<strong>회원가입</strong>
+						</a>
 					</div>
 
 					<div class="flex-c-m">
@@ -75,22 +99,15 @@
 						</a>
 
 						<a href="#" class="login100-social-item bg2">
-							<i class="fa fa-twitter"></i>
+							<img src="${context}/resources/index/images/kakaoLogin.png" alt="">
 						</a>
 
-						<a href="#" class="login100-social-item bg3">
+						<a href="javascript:kakaoLogin();" class="login100-social-item bg3">
 							<i class="fa fa-google"></i>
 						</a>
 					</div>
 
-					<div class="flex-col-c p-t-155">
-						<span class="txt1 p-b-17">
-							The Hyundai
-						</span>
-
-						<a href="signup" class="txt2">
-							Sign Up
-						</a>
+					<div class="flex-col-c p-t-100">
 					</div>
 				</form>
 			</div>

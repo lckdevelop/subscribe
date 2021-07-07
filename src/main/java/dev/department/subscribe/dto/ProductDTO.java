@@ -17,5 +17,5 @@ public class ProductDTO {
 	int zzimNo;
 	int subsboardproNo;
 	int brandNo;
-	int categoryNo;
+	int categoryproductNo;
 }

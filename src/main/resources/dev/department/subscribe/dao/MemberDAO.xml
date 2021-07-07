@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.department.subscribe.dao.MemberDAO">
+	<select id="getMemberNo" parameterType="String" resultType="int">
+		select no
+		from member
+		where id=#{id}
+	</select>
 	<select id="idDuplicateCheck" parameterType="String" resultType="boolean">
 		SELECT decode(count(*), 1, 'true', 'false') as result from member
 		WHERE id = #{id}
@@ -13,5 +19,4 @@
 		VALUES
 		(member_id_seq.nextval, #{name}, #{id}, #{password}, 1, #{email}, #{birthdate}, #{phone})
 	</insert>
-	
 </mapper>

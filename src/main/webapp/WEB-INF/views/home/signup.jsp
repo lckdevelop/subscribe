@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -37,12 +38,6 @@
 	}
 	</script>
 	<script type="text/javascript">
-	function dateFormat(el){
-        //익스플로러 브라우저인 
-        if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1))
-            el.value = el.value.replace(/(\d\d\d\d)(\d\d)(\d\d)/g, '$1-$2-$3');
-    }
-	
 	$(function(){
 		$('#btnIdDupl').click(function(){
 			var loginid = $("#id").val();
@@ -175,6 +170,7 @@
 			    	</div>
 				</div>
 			</div>
+			
 		</form>
     </div>
     
