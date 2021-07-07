@@ -19,6 +19,7 @@ public class PagingDTO {
 	long endPage;
 	String search;
 	int brandNo;
+	int storeNo;
 	List<ReserveListDTO> list1;
 
 	public PagingDTO() {

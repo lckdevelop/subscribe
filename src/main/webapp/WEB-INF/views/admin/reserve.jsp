@@ -28,13 +28,9 @@
     <!-- Calendar js -->
 	<script src="${context}/resources/fullcalendar/main.min.js"></script>
 	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
-    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script>
     	window.search = '${search}';
-    	
-
-
-    	
     </script>
 </head>
 

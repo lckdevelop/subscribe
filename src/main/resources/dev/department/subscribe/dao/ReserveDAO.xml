@@ -17,17 +17,20 @@
 		      ON R.MEMBER_NO = M.NO
 		   WHERE STATUS = 0
 		     AND R.BRAND_NO = #{brandNo}
+		     AND R.STORE_NO = #{storeNo}
 		     AND NAME LIKE '%'||#{search}||'%'
 		ORDER BY NO DESC
 		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
 	</select>
 	
-	<select id="getUnpermittedVisitCnt" parameterType="String" resultType="int">
+	<select id="getUnpermittedVisitCnt" parameterType="ReserveCntParamDTO" resultType="int">
 		    SELECT COUNT(R.NO)AS COUNT
 		      FROM RESERVATION R
 		INNER JOIN MEMBER M
 		        ON R.MEMBER_NO = M.NO
 		     WHERE STATUS = 0
+		       AND R.BRAND_NO = #{brandNo}
+		       AND R.STORE_NO = #{storeNo}
 		       AND NAME LIKE '%'||#{search}||'%'
 	</select>
 
@@ -36,6 +39,7 @@
        	   SET STATUS = 1
      	 WHERE NO = #{no}
      	   AND BRAND_NO = #{brandNo}
+     	   AND STORE_NO = #{storeNo}
 	</update>
 	
 	<update id="refuseReserve" parameterType="ReservePermitDTO">
@@ -43,14 +47,25 @@
        	   SET STATUS = 3
      	 WHERE NO = #{no}
      	   AND BRAND_NO = #{brandNo}
+     	   AND STORE_NO = #{storeNo}
 	</update>
 	
-	<select id="getReserveCnt" parameterType="String" resultType="int">
+	<update id="reserveVisit"  parameterType="ReservePermitDTO">
+		UPDATE RESERVATION
+       	   SET STATUS = 2
+     	 WHERE NO = #{no}
+     	   AND BRAND_NO = #{brandNo}
+     	   AND STORE_NO = #{storeNo}
+	</update>
+	
+	<select id="getReserveCnt" parameterType="ReserveCntParamDTO" resultType="int">
 		    SELECT COUNT(R.NO)AS COUNT
 		      FROM RESERVATION R
 		INNER JOIN MEMBER M
 		        ON R.MEMBER_NO = M.NO
-		     WHERE NAME LIKE '%'||#{search}||'%'
+		     WHERE R.BRAND_NO = #{brandNo}
+		       AND R.STORE_NO = #{storeNo}
+		       AND NAME LIKE '%'||#{search}||'%'
 	</select>
 	
 	<select id="getReserveList" parameterType="PagingDTO" resultType="ReserveListDTO">
@@ -65,17 +80,20 @@
 		    JOIN MEMBER M
 		      ON R.MEMBER_NO = M.NO
 		   WHERE R.BRAND_NO = #{brandNo}
+		     AND R.STORE_NO = #{storeNo}
 		     AND NAME LIKE '%'||#{search}||'%'
 		ORDER BY RESTIME DESC
 		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
 	</select>
 	
-	<select id="getTodayReserveCnt" parameterType="String" resultType="int">
+	<select id="getTodayReserveCnt" parameterType="ReserveCntParamDTO" resultType="int">
 		    SELECT COUNT(R.NO)AS COUNT
 		      FROM RESERVATION R
 		INNER JOIN MEMBER M
 		        ON R.MEMBER_NO = M.NO
-		     WHERE NAME LIKE '%'||#{search}||'%'
+		     WHERE R.BRAND_NO = #{brandNo}
+		       AND R.STORE_NO = #{storeNo}
+		       AND NAME LIKE '%'||#{search}||'%'
 		       AND TO_CHAR(R.RESTIME, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
 	</select>
 	
@@ -91,10 +109,23 @@
 		    JOIN MEMBER M
 		      ON R.MEMBER_NO = M.NO
 		   WHERE R.BRAND_NO = #{brandNo}
+		     AND R.STORE_NO = #{storeNo}
 		     AND NAME LIKE '%'||#{search}||'%'
 		     AND TO_CHAR(R.RESTIME, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
 		ORDER BY RESTIME
 		  OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<select id="getCalendarData" parameterType="CalendarParamDTO" resultType="FullCalendarDTO">
+		SELECT M.NAME AS TITLE,
+		       TO_CHAR(R.RESTIME, 'YYYY-MM-DD HH24:MI') AS "START"
+		  FROM RESERVATION R
+		  JOIN MEMBER M
+		    ON R.MEMBER_NO = M.NO
+		 WHERE R.BRAND_NO = #{brandNo}
+		   AND R.STORE_NO = #{storeNo}
+		   AND STATUS = 1
+		   AND TO_CHAR(R.RESTIME, 'YYYY-MM') = #{date}
 	</select>
 	
 	

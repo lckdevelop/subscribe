@@ -1,10 +1,15 @@
 package dev.department.subscribe.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.department.subscribe.dao.ReserveDAO;
+import dev.department.subscribe.dto.CalendarParamDTO;
+import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,8 +27,8 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public int getUnpremittedVisitCnt(String search) throws Exception {
-		return reserveDAO.getUnpermittedVisitCnt(search);
+	public int getUnpremittedVisitCnt(ReserveCntParamDTO reserveCntParamDTO) throws Exception {
+		return reserveDAO.getUnpermittedVisitCnt(reserveCntParamDTO);
 	}
 
 	@Override
@@ -37,8 +42,8 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public int getReserveCnt(String search) throws Exception {
-		return reserveDAO.getReserveCnt(search);
+	public int getReserveCnt(ReserveCntParamDTO reserveCntParamDTO) throws Exception {
+		return reserveDAO.getReserveCnt(reserveCntParamDTO);
 	}
 
 	@Override
@@ -48,8 +53,8 @@ public class ReserveServiceImpl implements ReserveService {
 	}
 
 	@Override
-	public int getTodayReserveCnt(String search) throws Exception {
-		return reserveDAO.getTodayReserveCnt(search);
+	public int getTodayReserveCnt(ReserveCntParamDTO reserveCntParamDTO) throws Exception {
+		return reserveDAO.getTodayReserveCnt(reserveCntParamDTO);
 	}
 
 	@Override
@@ -57,4 +62,15 @@ public class ReserveServiceImpl implements ReserveService {
 		pagingDTO.setList1(reserveDAO.getTodayReserveList(pagingDTO));
 		return pagingDTO;
 	}
+
+	@Override
+	public List<FullCalendarDTO> getCalendarData(CalendarParamDTO calendarParamDTO) throws Exception {
+		return reserveDAO.getCalendarData(calendarParamDTO);
+	}
+
+	@Override
+	public void reserveVisit(ReservePermitDTO reservePermitDTO) throws Exception {
+		reserveDAO.reserveVisit(reservePermitDTO);
+	}
+
 }

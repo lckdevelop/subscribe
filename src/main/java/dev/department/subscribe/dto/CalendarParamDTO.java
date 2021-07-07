@@ -1,5 +1,7 @@
 package dev.department.subscribe.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ReservePermitDTO {
+public class CalendarParamDTO {
 
-	int no;
-	int brandNo;
-	int storeNo;
+	private String date;
+	private int brandNo;
+	private int storeNo;
+	
 }

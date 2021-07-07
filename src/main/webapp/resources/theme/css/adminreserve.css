@@ -15,6 +15,26 @@
 	
 }
 
+.btn-reserved {
+	border: 1px solid #00c462;
+	background-color: white;
+	color: #00c462;
+	border-radius: 0 0 0 0;
+	width: 50px;
+	font-size: 9pt;
+	
+}
+
+.btn-fin {
+	border: 1px solid #808080;
+	background-color: white;
+	color: #808080;
+	border-radius: 0 0 0 0;
+	width: 50px;
+	font-size: 9pt;
+	
+}
+
 .hidden-col {
 	display: none;
 }

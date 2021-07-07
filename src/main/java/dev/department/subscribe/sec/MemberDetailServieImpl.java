@@ -38,6 +38,7 @@ public class MemberDetailServieImpl implements UserDetailsService {
         	securitymember.setAddress(memberDTO.getAddress());
         	securitymember.setPoint(memberDTO.getPoint());
         	securitymember.setBrandNo(memberDTO.getBrandNo());
+        	securitymember.setStoreNo(memberDTO.getStoreNo());
         	securitymember.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(memberDTO.getRole()))); 
 //            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 //            authorities.add(new SimpleGrantedAuthority(memberDTO.getRole()));

@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.department.subscribe.dto.CalendarParamDTO;
+import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.MailFormDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import dev.department.subscribe.sec.SecurityMember;
@@ -143,10 +146,12 @@ public class AdminController {
 	public String reserve(Authentication authentication, Model model) {
 		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		return "admin/reserve";
@@ -157,10 +162,12 @@ public class AdminController {
 	public String reserve(Authentication authentication, HttpServletRequest request, Model model) {
 		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 				
 		model.addAttribute("search", (String) request.getParameter("search"));
@@ -175,11 +182,14 @@ public class AdminController {
 	public PagingDTO getUnpermittedVisitList(Authentication authentication,
 														@RequestParam("pg") int pg,
 														@RequestParam("search") String search) {
+		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		List<ReserveListDTO> reserveList = new ArrayList<>();
@@ -187,10 +197,11 @@ public class AdminController {
 		PagingDTO pagingDTO = null;
 		
 		try {
-			int unpremittedVisitCnt = reserveService.getUnpremittedVisitCnt(search);
+			int unpremittedVisitCnt = reserveService.getUnpremittedVisitCnt(new ReserveCntParamDTO(search, brandNo, storeNo));
 			pagingDTO = new PagingDTO(pg, 5, 5, unpremittedVisitCnt);
 			pagingDTO.setSearch(search);
 			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
 			pagingDTO = reserveService.getUnpermittedVisitList(pagingDTO);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
@@ -206,11 +217,14 @@ public class AdminController {
 	public PagingDTO getReserveList(Authentication authentication,
 									@RequestParam("pg") int pg,
 									@RequestParam("search") String search) {
+		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		List<ReserveListDTO> reserveList = new ArrayList<>();
@@ -218,10 +232,11 @@ public class AdminController {
 		PagingDTO pagingDTO = null;
 		
 		try {
-			int reserveCnt = reserveService.getReserveCnt(search);
+			int reserveCnt = reserveService.getReserveCnt(new ReserveCntParamDTO(search, brandNo, storeNo));
 			pagingDTO = new PagingDTO(pg, 5, 5, reserveCnt);
 			pagingDTO.setSearch(search);
 			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
 			pagingDTO = reserveService.getReserveList(pagingDTO);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
@@ -238,10 +253,12 @@ public class AdminController {
 									@RequestParam("pg") int pg,
 									@RequestParam("search") String search) {
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		List<ReserveListDTO> reserveList = new ArrayList<>();
@@ -249,10 +266,11 @@ public class AdminController {
 		PagingDTO pagingDTO = null;
 		
 		try {
-			int todayReserveCnt = reserveService.getTodayReserveCnt(search);
+			int todayReserveCnt = reserveService.getTodayReserveCnt(new ReserveCntParamDTO(search, brandNo, storeNo));
 			pagingDTO = new PagingDTO(pg, 5, 5, todayReserveCnt);
 			pagingDTO.setSearch(search);
 			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
 			pagingDTO = reserveService.getTodayReserveList(pagingDTO);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
@@ -268,14 +286,16 @@ public class AdminController {
 	public void reservePermit(@RequestParam("no") int no, Authentication authentication) {
 		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		try {
-			reserveService.permitReserve(new ReservePermitDTO(no, brandNo));
+			reserveService.permitReserve(new ReservePermitDTO(no, brandNo, storeNo));
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 			e.printStackTrace();
@@ -288,19 +308,72 @@ public class AdminController {
 	public void reserveRefuse(@RequestParam("no") int no, Authentication authentication) {
 		
 		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
 		}
 		
 		try {
-			reserveService.refuseReserve(new ReservePermitDTO(no, brandNo));
+			reserveService.refuseReserve(new ReservePermitDTO(no, brandNo, storeNo));
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 			e.printStackTrace();
 		}
 		
+	}
+	
+	// 방문 완료 확인
+	@GetMapping("/reserve/visit")
+	@ResponseBody
+	public void reserveVisit(@RequestParam("no") int no, Authentication authentication) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			reserveService.reserveVisit(new ReservePermitDTO(no, brandNo, storeNo));
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+	// 방문예약 FullCalendar 이벤트 띄우기
+	@GetMapping("/reserve/getCalendarData")
+	@ResponseBody
+	public List<FullCalendarDTO> getCalendarData(@RequestParam("date") String date, Authentication authentication) {
+		log.info(date);
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<FullCalendarDTO> list = new ArrayList<>();
+		
+		try {
+			log.info("date: {"+date+"} brandNo: {"+brandNo+"} storeNo: {"+storeNo+"}");
+			list = reserveService.getCalendarData(new CalendarParamDTO(date, brandNo, storeNo));
+			log.info(list.toString() + " ");
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 }
