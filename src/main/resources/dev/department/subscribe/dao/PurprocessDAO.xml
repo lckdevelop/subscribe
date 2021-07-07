@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"     
+    "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.department.subscribe.dao.PurprocessDAO">
 
 	<select id="selectCartList" parameterType="CartListDTO" resultType="CartListDTO">
@@ -26,6 +26,12 @@
 		where product_no = #{productNo} and member_no = #{memberNo}
 	</update>
 	
+	<update id="updateDCPrice" parameterType="CartListDTO">
+		update cart set dcprice = (select price from product where no = #{productNo}) * (
+		select qty from cart where product_no = #{productNo} and member_no = #{memberNo})
+		where product_no = #{productNo} and member_no = #{memberNo}
+	</update>
+	
 	<delete id="deleteCartPro" parameterType="CartListDTO">
 		delete from cart where product_no = #{productNo} and member_no = #{memberNo}
 	</delete>
@@ -39,10 +45,57 @@
 	</select>
 	
 	<select id="checkoutTotalInfo" parameterType="CartListDTO" resultType="CartListDTO">
-	<!-- 할인 비율에 따른 조정 필요 -->
-		select distinct (select sum(price) from cart where member_no =#{memberNo}) as productPrice, 
-       (select sum(price) * 0.9 from cart where member_no = #{memberNo}) as memberPrice
-        from cart
+		select distinct (select sum(price) from cart where member_no = #{memberNo}) as memberPrice, 
+       (select sum(dcprice) from cart where member_no = #{memberNo}) as productPrice
+		from cart
 	</select>
 	
+	<select id="getCouponList" parameterType="CouponDTO" resultType="CouponDTO">
+		select a.no as no, a.member_no as memberNo, a.brand_no as brandNo, a.title, a.classification,
+		a.amount, a.duetime, a.type, a.useddate, b.name as brandname, b.engname as brandengname
+		from coupon a
+		join brand b on a.brand_no = b.no
+		where member_no = #{memberNo}
+		and a.brand_no in (select distinct c.no from cart a
+		                    join product b
+		                    on a.product_no = b.no
+		                    join brand c
+		                    on b.brand_no = c.no
+		                    where a.member_no = #{memberNo})
+	</select>
+	
+	<select id="getCouponCard" parameterType="CouponDTO" resultType="CouponDTO">
+		select  a.no, a.title, a.amount, a.duetime, a.type, b.name as brandname, b.engname as brandengname
+		from coupon a join brand b
+		on a.brand_no = b.no where a.no = #{no}
+	</select>
+	
+	<select id="selectDcproduct" parameterType="CartListDTO" resultType="CartListDTO">
+		select * from (select a.no as productNo, a.name from product a 
+		join coupon b
+		on a.brand_no = b.brand_no
+		join cart c
+		on a.no = c.product_no
+		where b.no = #{couponNo}
+		and c.member_no = #{memberNo}
+		order by a.price desc)
+		where rownum = 1
+	</select>
+	
+	<select id="selectDcproductPrice" parameterType="CartListDTO" resultType="CartListDTO">
+		select (case when type = 0 then (select price from cart where product_no = #{productNo}) * (100 - amount) / 100
+		when type = 1 then (select price from cart where product_no = #{productNo}) - amount end) as productPrice
+		from coupon where no = #{couponNo}
+	</select>
+	
+	<select id="applyDiscount" parameterType="CartListDTO">
+		update cart set dcprice = (select 
+		case when type = 0 then (select price from cart where product_no = #{productNo}) * (100 - amount) / 100
+		when type = 1 then (select price from cart where product_no = #{productNo}) - amount end
+		from coupon where no = #{couponNo}) where product_no = #{productNo} and member_no = #{memberNo}
+	</select>
+	
+	<select id="getPointAmount" parameterType="CouponDTO" resultType="PointDTO">
+		select sum(amount) as amount from point where member_no = #{memberNo}
+	</select>
 </mapper>

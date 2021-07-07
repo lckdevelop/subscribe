@@ -44,6 +44,16 @@ public class PurprocessServiceImpl implements PurprocessService{
 			throw e;
 		}
 	}
+	
+	@Override
+	public void updateDCPrice(CartListDTO cartlistDTO) throws Exception {
+		try {
+			purprocessDAO.updateDCPrice(cartlistDTO);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
 
 	@Override
 	public void updateincQty(CartListDTO cartlistDTO) throws Exception {
@@ -89,6 +99,66 @@ public class PurprocessServiceImpl implements PurprocessService{
 	public CartListDTO checkoutTotalInfo(CartListDTO cartlistDTO) throws Exception {
 		try {
 			return purprocessDAO.checkoutTotalInfo(cartlistDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public List<CouponDTO> getCouponList(CouponDTO couponDTO) throws Exception {
+		try {
+			return purprocessDAO.getCouponList(couponDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public CouponDTO getCouponCard(CouponDTO couponDTO) throws Exception {
+		try {
+			return purprocessDAO.getCouponCard(couponDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public CartListDTO selectDcproduct(CartListDTO cartlistDTO) throws Exception {
+		try {
+			return purprocessDAO.selectDcproduct(cartlistDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public CartListDTO selectDcproductPrice(CartListDTO dcproduct) throws Exception {
+		try {
+			return purprocessDAO.selectDcproductPrice(dcproduct);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void applyDiscount(CartListDTO cartlistDTO) throws Exception {
+		try {
+			purprocessDAO.applyDiscount(cartlistDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public PointDTO getPointAmount(CouponDTO couponDTO) throws Exception {
+		try {
+			return purprocessDAO.getPointAmount(couponDTO);
 		} catch(Exception e) {
 			log.info(e.getMessage());
 			throw e;
