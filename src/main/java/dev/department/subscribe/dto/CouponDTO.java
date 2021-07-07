@@ -19,4 +19,6 @@ public class CouponDTO {
 	Date useddate;
 	String brandname;
 	String brandengname;
+	String typetemp;
+	String duetimetemp;
 }

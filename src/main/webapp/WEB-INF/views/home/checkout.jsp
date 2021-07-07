@@ -19,7 +19,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet">
-
+    
     <!-- Css Styles -->
     <link rel="stylesheet" href="${context}/resources/theme/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/font-awesome.min.css" type="text/css">
@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/custom/css/custom.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/custom/css/table.css" type="text/css">
 	
 	<!-- 아임포트 -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -48,13 +50,80 @@
 		selectCheckoutInfo();
 		selectUserInfo();
 		selectTotal();
-		selectContent()
+		selectContent();
+		clickCouponEvent();
+		//clickPointEvent();
 	});
+	/*
+	function clickPointEvent() {
+		$('#pointbtn').click(function(){
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/coupondisplay/' + $(".couponselect option:selected").val()
+			}).done(function( data ) { 
+				displayCoupon(data);
+				selectdcproduct(data);
+				console.log(data);
+			});
+		});
+	}
+	*/
+	function clickCouponEvent() {
+		$('#couponselectbtn').click(function(){
+			console.log($(".couponselect option:selected").val());
+			//쿠폰 넘버 넘김
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/coupondisplay/' + $(".couponselect option:selected").val()
+			}).done(function( data ) { 
+				displayCoupon(data);
+				selectdcproduct(data);
+				console.log(data);
+			});
+		});
+	}
+	
+	function displayCoupon(data) {
+		var mytable ='';
+	    mytable += '<div class="col-md-4 border-right"><div class="d-flex flex-column align-items-center"><img src="https://i.imgur.com/XwBlVpS.png"><span class="d-block">' + data.brandname + '</span><span class="text-black-50">' + data.brandengname + '</span></div></div>';
+	    mytable += '<div class="col-md-8"><div>';
+	    mytable += '<div class="d-flex flex-row justify-content-end off"><h1 style="color: #B1B1B1; font-size: 50px">' + data.typetemp + '</h1><span style="color: #B1B1B1;">OFF</span></div>';
+	    mytable += '<div class="d-flex flex-row justify-content-between off px-3 p-2" style="color: #B1B1B1; font-size: 13px">~ ' + data.duetimetemp + '</div>';
+	    mytable += '</div> </div>';
+		$('#displaycoupon').html(mytable);
+	}
+	
+	function selectdcproduct(dcproduct) {
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/selectdcproduct/' + dcproduct.no
+			}).done(function( data ) { 
+				displayDCproduct(data);
+			});
+	}
+	
+	function displayDCproduct(data) {
+		var mytable ='';
+	    mytable += '<br><br><div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.productPrice +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="applydcbtn" myval = "'+ data.productNo +'" couval = "'+data.couponNo+'" class="selecttime btn btn-outline-dark" style="border-radius: 20px">할인 적용</button></p></div></div>';
+		$('#displaydcproduct').html(mytable);
+		applyDiscount();
+	}
+	
+	function applyDiscount() {
+		$('#applydcbtn').click(function(){
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/applyDiscount/' + $(this).attr('myval') + '/' + $(this).attr('couval')
+			}).done(function( data ) { 
+				selectTotal();
+			});
+		});
+	}
 	
 	function selectContent() {
 		$.ajax({
 			method : 'GET',
-			url : '${pageContext.request.contextPath}/cart/cartinfo/1', 
+			url : '${pageContext.request.contextPath}/cart/cartinfo', 
 		}).done(function( data ) {
 		 	displayContentList(data);
 		});
@@ -68,7 +137,6 @@
 	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><h5>' + val['productPrice'] + '원</h5></div></td>';
 	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
 	    	mytable += '<input type="text" value="' + val['qty'] + '">';
-	    	
 	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
 			});
 	 
@@ -79,7 +147,7 @@
 	function selectTotal() {
 		$.ajax({
 			method : 'GET',
-			url : '${pageContext.request.contextPath}/checkout/totalinfo/1', 
+			url : '${pageContext.request.contextPath}/checkout/totalinfo', 
 		}).done(function( data ) {
 			displayTotalList(data);
 			payforButtonEvent(data);
@@ -91,7 +159,7 @@
 	function selectUserInfo(){
 		$.ajax({
 			method : 'GET',
-			url : '${pageContext.request.contextPath}/checkout/userInfo/1', 
+			url : '${pageContext.request.contextPath}/checkout/userInfo', 
 		}).done(function( data ) {
 		 	displayUserList(data);
 		});
@@ -100,16 +168,18 @@
 	function selectCheckoutInfo(){
 		$.ajax({
 			method : 'GET',
-			url : '${pageContext.request.contextPath}/checkout/checkoutInfo/1', 
+			url : '${pageContext.request.contextPath}/checkout/checkoutInfo', 
 		}).done(function( data ) {
 		 	displayCheckList(data);
 		});
 	}
 	
 	function displayTotalList(data) {
+	    var dcprice = data.memberPrice - data.productPrice;
 		var mytable = "";
-	  	mytable += '<li>총액 <span>' + data.productPrice + '원</span></li>';
-	  	mytable += '<li>결제 금액 <span>' + data.memberPrice + '원</span></li>';
+	  	mytable += '<li>총액 <span>' + data.memberPrice + '원</span></li>';
+	  	mytable += '<li>할인 금액 <span> -' + dcprice + '원</span></li>';
+	  	mytable += '<li>결제 금액 <span>' + data.productPrice + '원</span></li>';
 	 
 		$('#displayTotal').html(mytable);
 	}
@@ -152,7 +222,7 @@
 	
 	/* 아임 포트 연동 */
 	function payforButtonEvent(data){
-		var totalprice = data.memberPrice;
+		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#check_module").click(function () { 
@@ -181,7 +251,7 @@
 	}
 	
 	function payforButtonKaKaoEvent(data){
-		var totalprice = data.memberPrice;
+		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#kakao_module").click(function () { 
@@ -222,7 +292,7 @@
 	}
 	
 	function payforButtonPaykoEvent(data){
-		var totalprice = data.memberPrice;
+		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#payko_module").click(function () { 
@@ -524,70 +594,8 @@
 
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="${context}/resources/theme/img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="${context}/resources/theme/img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="${context}/resources/theme/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
+    	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
+        <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" />
     </header>
     <!-- Header Section End -->
 
@@ -613,7 +621,6 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <form action="#">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <h6 class="checkout__title">주문 고객</h6>
@@ -850,15 +857,81 @@
 	                        </table>
 	                    </div>
 	                    <h6 class="checkout__title" style="margin-top: 100px">쿠폰 & 포인트</h6>
-	                    
+	                    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+				        <div class="wrapper wrapper--w680">
+				            <div class="card card-4">
+				                <div class="card-body">
+				                            <br><label class="label">브랜드 쿠폰</label><hr>
+				                            <div class="rs-select2 js-select-simple select--no-search">
+				                                <select class="couponselect" id="couponselect">
+				                                <c:forEach items="${couponlist}" var="dto">
+				                                  <option value="${dto.no}">${dto.title}</option>
+				                                 </c:forEach>
+				                                </select>
+				                                <div class="select-dropdown"></div>
+				                                &nbsp;&nbsp;<button id="couponselectbtn" class="selecttime btn btn-outline-dark">쿠폰 선택</button>
+				                                <br><br>
+				                                
+						                    <div class="d-flex justify-content-center row">
+										        <div class="col-md-6">
+										            <div class="coupon p-3 bg-white" style="box-shadow: 5px 8px 10px #d6d5d533"> 
+										                <div class="row no-gutters" id="displaycoupon">
+										                    
+										                </div>
+										            </div>
+										        </div>
+										    </div>
+										    <div id="displaydcproduct">
+											 
+											</div>
+											 <br><br>
+										    <label class="label">포인트 사용</label><hr>
+												<div class="container">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="table-wrap">
+															<table class="table">
+															  <thead class="thead-primary">
+															    <tr>
+															      <th>보유 포인트</th>
+															      <th>사용할 포인트</th>
+															      <th>포인트 적용</th>
+															      <th></th>
+															    </tr>
+															  </thead>
+															  <tbody>
+															    <tr class="alert" role="alert">
+															      <td>${pointamount.amount}P</td>
+															      <td class="quantity">
+														        	<div class="input-group">
+													             	<input type="text" name="usepoint" class="form-control input-number">
+													          	</div>
+													          </td>
+															    <td>
+															      	<button id="pointbtn" class="btn btn-outline-dark" style="border-radius: 20px">포인트 사용</button>
+													        	</td>
+													        	<td></td>
+															    </tr>
+															  </tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+						                </div>
+				                    </div>
+				            </div>
+				        </div>
+				    </div>
+				    
 			            <h6 class="checkout__title" style="margin-top: 100px">결제 수단</h6>
 			            <div style="text-align: center; margin-top: 30px">
-			             <button id="check_module" type="submit" class="btn btn-outline-dark" style="border-radius: 20px">카드 결제</button>
-			             <button id="kakao_module" type="submit" class="btn btn-outline-dark" style="border-radius: 20px">카카오 간편 결제</button>
-			             <button id="payko_module" type="submit" class="btn btn-outline-dark" style="border-radius: 20px">페이코 간편 결제</button>
+			             <button id="check_module" class="btn btn-outline-dark" style="border-radius: 20px">카드 결제</button>
+			             <button id="kakao_module" class="btn btn-outline-dark" style="border-radius: 20px">카카오 간편 결제</button>
+			             <button id="payko_module" class="btn btn-outline-dark" style="border-radius: 20px">페이코 간편 결제</button>
 			            </div>
 			            <div style="text-align: center; margin-top: 30px">
-			            <button type="submit" class="site-btn">결제 취소하기</button>
+			            <button type="submit" class="site-btn">주문 취소하기</button>
 			            </div>
                         </div>
                         
@@ -881,7 +954,6 @@
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </section>
@@ -889,68 +961,7 @@
 
     <!-- Footer Section Begin -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="${context}/resources/theme/img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="${context}/resources/theme/img/payment.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="/WEB-INF/views/home/footer.jsp" flush="false" />
     </footer>
     <!-- Footer Section End -->
 
@@ -978,11 +989,12 @@
     <script src="${context}/resources/theme/js/main.js"></script>
     <script src="${context}/resources/theme/js/jquery.min.js"></script>
     <script src="${context}/resources/theme/js/popper.js"></script>
+    <script src="${context}/resources/custom/js/select2.min.js"></script>
     
     <!-- JQUERY -->
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>          
 	
 </body>
 
