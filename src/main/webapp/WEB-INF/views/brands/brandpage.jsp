@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="brandInfo" value="${brandInfo}" />
+<c:set var="categoryProductInfo" value="${categoryProductInfo}" />
 <!DOCTYPE html>
 <%
 MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
@@ -31,6 +32,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
 
 <body>
     <!-- Page Preloder -->
@@ -136,22 +138,37 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
         </div>
     </header>
     <!-- Header Section End -->
+    
+    <!-- Brand logo IMG Begin -->
+    <div class="brandpage-logo text-center">
+    	<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brandInfo.engname}.jpg">
+    </div>
+    <!-- Brand logo IMG End -->
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-blog set-bg black-filter" data-setbg="${context}/resources/brands/img/hermes1.jpg">
+    <section class="breadcrumb-blog set-bg" data-setbg="${context}/resources/brands/img/hermes1.jpg">
     	<img src="${context}/resources/brands/img/black-cover.png" style="position: relative;">
-        <div class="container" style="position: absolute;">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 style="text-transform : uppercase">${brandInfo.engname}</h2>
-                </div>
-            </div>
-        </div>
+        
     </section>
     <!-- Breadcrumb Section End -->
+    
+    <!-- Product Category Begin -->
+	<div class="container">
+		<div class="product-category text-center">
+			<ul>
+				<li><a href="./blog-details.html">전체</a></li>
+				<c:forEach items="${categoryProductInfo}" var="categoryProduct">
+					<li><a href="./blog-details.html">${categoryProduct.name}</a></li>
+				</c:forEach>
+			</ul>
+			<hr>
+		</div>
+	</div>
+
+	<!-- Product Category End -->
 
     <!-- Shop Section Begin -->
-    <section class="shop spad">
+    <section class="shop spad" style="padding-top: 15px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

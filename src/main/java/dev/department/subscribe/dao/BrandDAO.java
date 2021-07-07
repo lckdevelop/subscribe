@@ -17,5 +17,11 @@ public interface BrandDAO {
 	public void insertSubscribe(Map<String, Integer> insertInfo) throws SQLException;
 
 	public BrandDTO getBrandInfo(int brandNo) throws SQLException;
+
+	public void plusSubscribeCount(int brandNo) throws SQLException;
+
+	public void minusSubscribeCount(int brandNo) throws SQLException;
+
+	public ArrayList<BrandDTO> getAllBrands() throws SQLException;
 	
 }

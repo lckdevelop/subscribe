@@ -2,6 +2,7 @@ package dev.department.subscribe.web;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.department.subscribe.dto.BrandDTO;
+import dev.department.subscribe.dto.CategoryDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.BrandService;
+import dev.department.subscribe.service.CategoryService;
 import dev.department.subscribe.service.MemberService;
 import jdk.internal.org.jline.utils.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -39,19 +42,27 @@ public class BrandsController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	
 	@RequestMapping(value = "/brands", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session, Authentication authentication) {
 	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 	         int memberNo = sMember.getNo();
 	         log.info(Integer.toString(memberNo));
-		
+	         
+	         ArrayList<BrandDTO> notSubscribedBrands = new ArrayList<BrandDTO>();
+	         ArrayList<BrandDTO> subscribedBrands = new ArrayList<BrandDTO>();
 		
 		try {
-			ArrayList<BrandDTO> notSubscribedBrands = brandService.getNotSubscribedBrands(memberNo);
-			ArrayList<BrandDTO> subscribedBrands = brandService.getSubscribedBrands(memberNo);
+			notSubscribedBrands = brandService.getNotSubscribedBrands(memberNo);
+			subscribedBrands = brandService.getSubscribedBrands(memberNo);
+			
+			Collections.shuffle(notSubscribedBrands);
 			model.addAttribute("notSubscribedBrands", notSubscribedBrands);
 			model.addAttribute("subscribedBrands", subscribedBrands);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +80,8 @@ public class BrandsController {
 		try {
 			insertInfo.put("memberNo", memberNo);
 			insertInfo.put("brandNo", brandNo);
-	 		brandService.insertSubscribe(insertInfo);	
+	 		brandService.insertSubscribe(insertInfo);
+	 		brandService.plusSubscribeCount(brandNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,6 +98,7 @@ public class BrandsController {
 			deleteInfo.put("memberNo",memberNo);
 			deleteInfo.put("brandNo", brandNo);
 	 		brandService.deleteSubscribe(deleteInfo);	
+	 		brandService.minusSubscribeCount(brandNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,7 +109,9 @@ public class BrandsController {
 	public String getBrandPage(@PathVariable int brandNo, Model model, HttpSession session) {
 		try {
 			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
+			ArrayList<CategoryDTO> categoryProductDTO = categoryService.getProductCategory();
 			model.addAttribute("brandInfo", brandDTO);
+			model.addAttribute("categoryProductInfo", categoryProductDTO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
