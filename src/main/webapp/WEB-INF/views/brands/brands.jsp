@@ -134,9 +134,14 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
 						<span class="h4">전체 브랜드</span>
 						<div class="col-lg-12 all-brand mt-3" id="allBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
 								<c:forEach items="${notSubscribedBrands}" var="brand">
-									<div class="brand-image brand-list" id="${brand.no}" onclick="brandPage(${brand.no})" draggable="true" ondragstart="drag(this, event)">
-										<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.png">
-									</div>		
+									<div class="brand-list" id="${brand.no}" draggable="true" ondragstart="drag(this, event)">
+										<div class="brand-image"  onclick="brandPage(${brand.no})">
+											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.jpg">
+										</div>	
+										<div class="brand-logo">
+											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brand.engname}.jpg">
+										</div>	
+									</div>
 								</c:forEach>
 						</div>
 					</div>
@@ -146,9 +151,14 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
 						<span class="h4">구독중</span>
 						<div class="col-lg-12 subs-brand mt-3" id="subscribedBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
 							<c:forEach items="${subscribedBrands}" var="brand">
-								<div class="brand-image brand-list" id="${brand.no}" onclick="brandPage(${brand.no})" draggable="true" ondragstart="drag(this, event)">
-									<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.png">
-								</div>		
+								<div class="brand-list" id="${brand.no}" draggable="true" ondragstart="drag(this, event)">
+										<div class="brand-image"  onclick="brandPage(${brand.no})">
+											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.jpg">
+										</div>	
+										<div class="brand-logo">
+											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brand.engname}.jpg">
+										</div>	
+									</div>	
 							</c:forEach>
 						</div>
 					</div>

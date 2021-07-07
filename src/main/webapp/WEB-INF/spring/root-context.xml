@@ -132,4 +132,18 @@
 		p:sqlSessionFactory-ref="reserveSession"
 		p:mapperInterface="dev.department.subscribe.dao.ReserveDAO" />
 		
+		<!-- CategoryDAO start -->
+	<bean
+		id="categorySqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/> 
+	<bean
+		id="categoryDAO" 
+		class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="categorySqlSession"
+		p:mapperInterface="dev.department.subscribe.dao.CategoryDAO"
+		/>
+	<!-- CategoryDAO end -->
+		
 </beans>

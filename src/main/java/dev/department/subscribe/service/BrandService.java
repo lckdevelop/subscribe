@@ -17,4 +17,10 @@ public interface BrandService {
 
 	BrandDTO getBrandInfo(int brandNo) throws Exception;
 
+	void plusSubscribeCount(int brandNo) throws Exception;
+
+	void minusSubscribeCount(int brandNo) throws Exception;
+
+	ArrayList<BrandDTO> getAllBrands() throws Exception;
+
 }
