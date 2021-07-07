@@ -1,33 +1,19 @@
 package dev.department.subscribe.web;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
-import dev.department.subscribe.dto.BrandDTO;
-import dev.department.subscribe.dto.MemberDTO;
-import dev.department.subscribe.sec.SecurityMember;
-import dev.department.subscribe.service.BrandService;
-import dev.department.subscribe.service.MemberService;
-import jdk.internal.org.jline.utils.Log;
-import lombok.extern.slf4j.Slf4j;
+import dev.department.subscribe.dto.*;
+import dev.department.subscribe.sec.*;
+import dev.department.subscribe.service.*;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 @Controller
@@ -39,19 +25,27 @@ public class BrandsController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	
 	@RequestMapping(value = "/brands", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session, Authentication authentication) {
 	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 	         int memberNo = sMember.getNo();
 	         log.info(Integer.toString(memberNo));
-		
+	         
+	         ArrayList<BrandDTO> notSubscribedBrands = new ArrayList<BrandDTO>();
+	         ArrayList<BrandDTO> subscribedBrands = new ArrayList<BrandDTO>();
 		
 		try {
-			ArrayList<BrandDTO> notSubscribedBrands = brandService.getNotSubscribedBrands(memberNo);
-			ArrayList<BrandDTO> subscribedBrands = brandService.getSubscribedBrands(memberNo);
+			notSubscribedBrands = brandService.getNotSubscribedBrands(memberNo);
+			subscribedBrands = brandService.getSubscribedBrands(memberNo);
+			
+			Collections.shuffle(notSubscribedBrands);
 			model.addAttribute("notSubscribedBrands", notSubscribedBrands);
 			model.addAttribute("subscribedBrands", subscribedBrands);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +63,8 @@ public class BrandsController {
 		try {
 			insertInfo.put("memberNo", memberNo);
 			insertInfo.put("brandNo", brandNo);
-	 		brandService.insertSubscribe(insertInfo);	
+	 		brandService.insertSubscribe(insertInfo);
+	 		brandService.plusSubscribeCount(brandNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,6 +81,7 @@ public class BrandsController {
 			deleteInfo.put("memberNo",memberNo);
 			deleteInfo.put("brandNo", brandNo);
 	 		brandService.deleteSubscribe(deleteInfo);	
+	 		brandService.minusSubscribeCount(brandNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,7 +92,9 @@ public class BrandsController {
 	public String getBrandPage(@PathVariable int brandNo, Model model, HttpSession session) {
 		try {
 			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
+			ArrayList<CategoryDTO> categoryProductDTO = categoryService.getProductCategory();
 			model.addAttribute("brandInfo", brandDTO);
+			model.addAttribute("categoryProductInfo", categoryProductDTO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

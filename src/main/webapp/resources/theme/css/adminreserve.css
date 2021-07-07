@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.curpg {
+	background-color: #36b9cc;
+	color: white;
+}
+
+.btn-waiting {
+	border: 1px solid #ff8080;
+	background-color: white;
+	color: #ff8080;
+	border-radius: 0 0 0 0;
+	width: 50px;
+	font-size: 9pt;
+	
+}
+
+.hidden-col {
+	display: none;
+}
+
+.detail-head {
+	display: inline-block;
+	width: 100px;
+	color: #4e73df;
+}
+
+.card {
+	height: 500px;
+}
+
+#calendar {
+	font-family: Arial;
+    font-size: 10px;
+    height: 100%;
+}

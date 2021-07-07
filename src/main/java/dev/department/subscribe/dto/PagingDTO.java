@@ -1,5 +1,8 @@
 package dev.department.subscribe.dto;
 
+import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -16,6 +19,7 @@ public class PagingDTO {
 	long endPage;
 	String search;
 	int brandNo;
+	List<ReserveListDTO> list1;
 
 	public PagingDTO() {
 	}

@@ -1,64 +1,15 @@
-<%@page import="dev.department.subscribe.dto.MemberDTO"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="notSubscribedBrands" value="${notSubscribedBrands}" />
-<c:set var="subscribedBrands" value="${subscribedBrands}" />
+
 <!DOCTYPE html>
 <html lang="zxx">
-<%
-MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
-%>
 
 <head>
-<script type="text/javascript">
-	function brandPage(brandNo){
-		location.href="brands/brandpage/"+brandNo;
-	}
-	
-	function drag(target, brand) { //드래그 시작시 호출 할 함수
-		brand.dataTransfer.setData('Text', target.id);
-	};
-	
-	function drop(target, brand) { //드롭시 호출 할 함수
-		var id = brand.dataTransfer.getData('Text');
-		
-		
-		if(target.getAttribute('id')=="allBrands"){
-			$.ajax({
-				url : '${context}/brands/delete/subscribe',
-		        type : 'POST',
-		        data : 
-		        	{
-		        	'brandNo' : id
-		       		},
-		        success : function(data) {
-		        	target.appendChild(document.getElementById(id));
-		    		brand.preventDefault();
-		        }
-			});
-		}
-		
-		if(target.getAttribute('id')=="subscribedBrands"){
-			$.ajax({
-				url : '${context}/brands/insert/subscribe',
-		        type : 'POST',
-		        data : 
-		        	{
-		        	'brandNo' : id
-		       		},
-		        success : function(data) {
-		        	target.appendChild(document.getElementById(id));
-		    		brand.preventDefault();
-		        }
-			});
-		}
-	};
-</script>
-
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +29,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
-    <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
+	<link rel="stylesheet" href="${context}/resources/custom/css/sidebar.css" type="text/css">
 </head>
 
 <body>
@@ -105,7 +56,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
             </div>
         </div>
         <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="${context}/resources/theme/img/icon/search.png" alt=""></a>
+            <a href="#" class="search-switch"><img src="${context}/resources/img/icon/search.png" alt=""></a>
             <a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a>
             <a href="#"><img src="${context}/resources/theme/img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
@@ -116,7 +67,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
         </div>
     </div>
     <!-- Offcanvas Menu End -->
-    
+
     <!-- Header Section Begin -->
     <header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
@@ -124,50 +75,59 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     </header>
     <!-- Header Section End -->
 
-    
-    <!-- Product Section Begin -->
-	<section class="brands spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="row justify-content-center">
-						<span class="h4">전체 브랜드</span>
-						<div class="col-lg-12 all-brand mt-3" id="allBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
-								<c:forEach items="${notSubscribedBrands}" var="brand">
-									<div class="brand-list" id="${brand.no}" draggable="true" ondragstart="drag(this, event)">
-										<div class="brand-image"  onclick="brandPage(${brand.no})">
-											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.jpg">
-										</div>	
-										<div class="brand-logo">
-											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brand.engname}.jpg">
-										</div>	
-									</div>
-								</c:forEach>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="row justify-content-center">
-						<span class="h4">구독중</span>
-						<div class="col-lg-12 subs-brand mt-3" id="subscribedBrands" ondrop="drop(this, event);" ondragenter="return false;" ondragover="return false;">
-							<c:forEach items="${subscribedBrands}" var="brand">
-								<div class="brand-list" id="${brand.no}" draggable="true" ondragstart="drag(this, event)">
-										<div class="brand-image"  onclick="brandPage(${brand.no})">
-											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${brand.engname}.jpg">
-										</div>	
-										<div class="brand-logo">
-											<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brand.engname}.jpg">
-										</div>	
-									</div>	
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>MY 현대 </h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">Shop</a>
+                            <span>MY 현대</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+	<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4 pt-5">
+	        <ul class="list-unstyled components mb-5">
+	          <li>
+	           <a href="memberInfo" style="color: #8C8C8C; margin-left: 30px">회원 정보 변경</a>
+	          </li>
+	          <li>
+	           <a href="orderedlist" style="color: #8C8C8C; margin-left: 30px">주문 확인 / 배송 조회</a>
+	          </li>
+	          <li>
+              <a href="like" style="color: #8C8C8C; margin-left: 30px">내가 찜한 상품</a>
+	          </li>
+	          <li>
+              <a href="coupon" style="color: #8C8C8C; margin-left: 30px">쿠폰</a>
+	          </li>
+	          <li>
+              <a href="hpoint" style="color: #8C8C8C; margin-left: 30px">H.Point</a>
+	          </li>
+	        </ul>
+	      </div>
+    	</nav>
 
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
+        
+        <!-- 여기 채우기 -->
 		</div>
-	</section>
-	<!-- Product Section End -->
+		</div>
+	
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -197,6 +157,9 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
+    <script src="${context}/resources/theme/js/jquery.min.js"></script>
+    <script src="${context}/resources/theme/js/popper.js"></script>
+    <script src="${context}/resources/theme/js/sidebar.js"></script>
 </body>
 
 </html>

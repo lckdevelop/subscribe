@@ -11,6 +11,8 @@ public interface PurprocessDAO {
 	void updatedecQty(CartListDTO cartlistDTO) throws Exception;
 
 	void updatePrice(CartListDTO cartlistDTO) throws Exception;
+	
+	void updateDCPrice(CartListDTO cartlistDTO) throws Exception;
 
 	void updateincQty(CartListDTO cartlistDTO) throws Exception;
 
@@ -21,5 +23,17 @@ public interface PurprocessDAO {
 	List<MemberDTO> checkoutUserInfo(MemberDTO memberDTO) throws Exception;
 
 	CartListDTO checkoutTotalInfo(CartListDTO cartlistDTO) throws Exception;
+
+	List<CouponDTO> getCouponList(CouponDTO couponDTO) throws Exception;
+
+	CouponDTO getCouponCard(CouponDTO couponDTO) throws Exception;
+
+	CartListDTO selectDcproduct(CartListDTO cartlistDTO) throws Exception;
+
+	CartListDTO selectDcproductPrice(CartListDTO dcproduct) throws Exception;
+
+	void applyDiscount(CartListDTO cartlistDTO) throws Exception;
+
+	PointDTO getPointAmount(CouponDTO couponDTO) throws Exception;
 
 }

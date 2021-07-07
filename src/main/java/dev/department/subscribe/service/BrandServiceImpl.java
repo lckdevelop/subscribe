@@ -52,5 +52,22 @@ public class BrandServiceImpl implements BrandService{
 	public ArrayList<BrandNewsDTO> brandNewsList() throws Exception {
 		return indexDAO.brandNewsList();
 	}
+	
+	public void plusSubscribeCount(int brandNo) throws Exception {
+		// TODO Auto-generated method stub
+		brandDAO.plusSubscribeCount(brandNo);
+	}
+
+	@Override
+	public void minusSubscribeCount(int brandNo) throws Exception {
+		// TODO Auto-generated method stub
+		brandDAO.minusSubscribeCount(brandNo);
+	}
+
+	@Override
+	public ArrayList<BrandDTO> getAllBrands() throws Exception {
+		// TODO Auto-generated method stub
+		return brandDAO.getAllBrands();
+	}
 
 }

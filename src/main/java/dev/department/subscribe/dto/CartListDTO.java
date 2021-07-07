@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @ToString
 public class CartListDTO {
+	int couponNo;
 	int productNo;
 	int memberNo;
 	String name;
