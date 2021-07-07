@@ -1,9 +1,11 @@
 package dev.department.subscribe.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import dev.department.subscribe.dto.BrandDTO;
+import dev.department.subscribe.dto.BrandNewsDTO;
 
 public interface BrandService {
 
@@ -16,6 +18,8 @@ public interface BrandService {
 	void insertSubscribe(Map<String, Integer> insertInfo) throws Exception;
 
 	BrandDTO getBrandInfo(int brandNo) throws Exception;
+	
+	ArrayList<BrandNewsDTO> brandNewsList() throws Exception;
 
 	void plusSubscribeCount(int brandNo) throws Exception;
 

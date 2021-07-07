@@ -53,4 +53,11 @@
 		set subscount = subscount + 1
 		where no = #{brandNo}
 	</update>
+	
+	<select id="brandNewsList" resultType="BrandNewsDTO">
+		SELECT b.no, b.name, bn.title, bn.uploaddate, bn.content
+		FROM BRANDNEWS bn
+		JOIN BRAND b
+		ON bn.brand_no = b.no
+	</select>
 </mapper>
