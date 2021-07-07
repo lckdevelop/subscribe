@@ -2,9 +2,11 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="branSubsList" value="${branSubsList}" />
+<c:set var="newsList" value="${newsList}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,13 +40,16 @@
         // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
         $(".brand_spread").click(function(){
             var submenu = $("#brand_no_show");
- 
+ 			
             // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
             if( submenu.is(":visible") ){
                 submenu.slideUp();
+                $(".brand_spread").html("<strong>브랜드 더보기</strong>");
             }else{
                 submenu.slideDown();
+                $(".brand_spread").html("<strong>브랜드 접기</strong>");
             }
+            
         });
         
     });
@@ -55,11 +60,11 @@
 	        url:"${context}/simplesubs/"+brandNo+"/"+subsed,
 	        success:function (data){
 	        	if (data == "취소완료") {
-	        		$(".subtext"+brandNo).text("구독가능");
+	        		$(".subtext"+brandNo).html("<strong>빠른구독</strong>");
 	        		$("#flag"+brandNo).val("0");
 		        	alert(data);
 	        	} else if (data == "구독완료") {
-	        		$(".subtext"+brandNo).text("구독완료");
+	        		$(".subtext"+brandNo).html("<strong>구독완료</strong>");
 	        		$("#flag"+brandNo).val("1");
 		        	alert(data);
 	        	}
@@ -183,7 +188,7 @@
 						         </c:when>
 						         <c:otherwise>
 							         <div class="subtextBox">
-							            <h6 class="subtext${branSubsList[i].no}"><strong>구독가능</strong></h6>
+							            <h6 class="subtext${branSubsList[i].no}"><strong>빠른구독</strong></h6>
 						            </div>
 						         </c:otherwise>
 						    </c:choose>	
@@ -216,41 +221,24 @@
                 <div class="col-lg-12">
                     <div class="section-title">
                         <span>Latest News</span>
-                        <h2>Brand New Trends</h2>
+                        <h2>브랜드 소식</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-1.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 16 February 2020</span>
-                            <h5>What Curling Irons Are The Best Ones</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 21 February 2020</span>
-                            <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-3.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 28 February 2020</span>
-                            <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
+            	<c:forEach var="news" items="${newsList}">
+					<div class="col-lg-4 col-md-6 col-sm-6">
+	                    <div class="blog__item">
+	                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-2.jpg"></div>
+	                        <div class="blog__item__text">
+	                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""><fmt:formatDate value="${news.uploaddate}" pattern="yyyy-MM-dd"/></span>
+	                            <h5>${news.name}</h5>
+	                            <h6>${news.title}</h6>
+	                            <a href="${context}/brands/brandpage/${news.no}">Read More</a>
+	                        </div>
+	                    </div>
+	                </div>	
+				</c:forEach>
             </div>
         </div>
     </section>
