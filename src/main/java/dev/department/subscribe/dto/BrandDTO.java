@@ -13,4 +13,5 @@ public class BrandDTO {
 	String engname;
 	int subscount;
 	int categorybrandNo;
+	int subsed;
 }

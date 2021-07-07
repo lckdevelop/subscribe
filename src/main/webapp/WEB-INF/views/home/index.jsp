@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="branSubsList" value="${branSubsList}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,15 +28,16 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/index/css/index.css" type="text/css">
     
     <!-- js -->
     <script type="text/javascript" src="${context}/resources/index/js/jquery-3.6.0.min.js" ></script>
-<script type="text/javascript">
+	<script type="text/javascript">
     // html dom 이 다 로딩된 후 실행된다.
     $(document).ready(function(){
         // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
         $(".brand_spread").click(function(){
-            var submenu = $(".brand_no_show");
+            var submenu = $("#brand_no_show");
  
             // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
             if( submenu.is(":visible") ){
@@ -43,54 +47,38 @@
             }
         });
         
-        // restful로 구독 추가 해야함 (필요정보 : 브랜드 이름, 회원 이름)
-        $(".brand_show>a").click(function(){
-        	var brand = $(".brand_show>a>img").attr('src');
-        	alert(brand);
-        });
-        
-     // restful로 구독 추가 해야함
-        $(".brand_no_show>a").click(function(){
-        	alert("hi");
-        });
     });
-</script>
+    
+    function subBtn(brandNo, subsed) {
+    	$.ajax({
+	        type:"get",
+	        url:"${context}/simplesubs/"+brandNo+"/"+subsed,
+	        success:function (data){
+	        	if (data == "취소완료") {
+	        		$(".subtext"+brandNo).text("구독가능");
+	        		$("#flag"+brandNo).val("0");
+		        	alert(data);
+	        	} else if (data == "구독완료") {
+	        		$(".subtext"+brandNo).text("구독완료");
+	        		$("#flag"+brandNo).val("1");
+		        	alert(data);
+	        	}
+	        	
+	       },
+	      error:function(data,textStatus){
+	         alert("에러가 발생했습니다.");
+	      },
+	      complete:function(data,textStatus){
+	      }
+	   });
+    }
+	</script>
 </head>
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="${context}/resources/theme/img/icon/search.png" alt=""></a>
-            <a href="#"><img src="${context}/resources/theme/img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="${context}/resources/theme/img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
     <header class="header">
@@ -137,77 +125,137 @@
     <!-- Hero Section End -->
 	
 	<!-- 브랜드 아이콘 Start-->
-	<div class="container">
-		<div class="row  mb-4">
-			<div class="col-md-1"></div>
-			<h2 class="col-md-8">BRAND STORE</h2>
-			<a href="#" style="margin-top:10px;" class="col-md-3">브랜드스토어 전체보기</a>
-		</div>
-		<div class="row">
-			<div class="brand_show col-md-12 text-center">
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
+	<sec:authorize access="isAuthenticated()">
+		<div class="container">
+			<div class="row  mt-3 mb-4">
+				<div class="col-md-1"></div>
+				<h2 class="col-md-8">BRAND STORE</h2>
+				<a href="./brands" style="margin-top:10px;" class="col-md-3">브랜드스토어 전체보기</a>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10 text-center">
+					<c:forEach var="i" begin="0" end="6">
+						<a class="brand-image brand-list" id="${branSubsList[i].no}" onClick="subBtn(${branSubsList[i].no}, flag${branSubsList[i].no}.value)">
+							<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${branSubsList[i].engname}.jpg" />
+							<input id="flag${branSubsList[i].no}" value="${branSubsList[i].subsed}" type="hidden"/> <!-- 구독 여부 flag -->
+							<c:choose>
+						         <c:when test = "${branSubsList[i].subsed == 1}">
+						         	<div class="subtextBox">
+						            	<h6 class="subtext${branSubsList[i].no}"><strong>구독완료</strong></h6>
+						            </div>
+						         </c:when>
+						         <c:otherwise>
+							         <div class="subtextBox">
+							            <h6 class="subtext${branSubsList[i].no}"><strong>빠른구독</strong></h6>
+						            </div>
+						         </c:otherwise>
+						    </c:choose>
+						</a>
+						<!-- </div> -->
+					</c:forEach>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-1"></div>
+				<div class="col-md-10 text-center">
+					<c:forEach var="i" begin="0" end="6">
+						<img class="brand_logo" src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${branSubsList[i].engname}.jpg" />
+					</c:forEach>
+				</div>
+			</div>
+			<c:set var="line" value="7"/>
+			<div id="brand_no_show" style="display:none;">
+			<c:forEach var="j" begin="0" end="1">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10 text-center">
+					<c:forEach var="i" begin="${line}" end="${line  + 6}">
+						<a class="brand-image brand-list" id="${branSubsList[i].no}" onClick="subBtn(${branSubsList[i].no}, flag${branSubsList[i].no}.value)">
+							<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand/${branSubsList[i].engname}.jpg" />
+							<input id="flag${branSubsList[i].no}" value="${branSubsList[i].subsed}" type="hidden"/> <!-- 구독 여부 flag -->
+							<c:choose>
+						         <c:when test = "${branSubsList[i].subsed == 1}">
+						         	<div class="subtextBox">
+						            	<h6 class="subtext${branSubsList[i].no}"><strong>구독완료</strong></h6>
+						            </div>
+						         </c:when>
+						         <c:otherwise>
+							         <div class="subtextBox">
+							            <h6 class="subtext${branSubsList[i].no}"><strong>구독가능</strong></h6>
+						            </div>
+						         </c:otherwise>
+						    </c:choose>	
+						</a>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="row  mb-3">
+				<div class="col-md-1"></div>
+				<div class="col-md-10 text-center">
+					<c:forEach var="i" begin="${line}" end="${line  + 6}">
+						<img class="brand_logo" src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${branSubsList[i].engname}.jpg" />
+					</c:forEach>
+				</div>
+			</div>
+			<c:set var="line" value="14"/>
+			</c:forEach>
+			</div>
+			<div class="col-md-12 text-center mt-5">
+				<a class="brand_spread"><strong>브랜드 더보기</strong></a>
 			</div>
 		</div>
-		<div class="row">
-			<div class="brand_no_show col-md-12 text-center" style="display:none;">
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="brand_no_show col-md-12 text-center" style="display:none;">
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="brand_no_show col-md-12 text-center" style="display:none;">
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-				<a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-			</div>
-		</div>
-		<div class="col-md-12 text-center mt-3">
-			<a class="brand_spread">브랜드 더보기</a>
-		</div>
-			 <%-- <ul>
-		        <li class="menu">
-		            <a><img src="${context}/resources/index/images/brand/cos.PNG" alt="상위메뉴이미지1"/></a>
-		            <ul class="hide" style="display:none;">
-		                <li>메뉴1-1</li>
-		                <li>메뉴1-2</li>
-		                <li>메뉴1-3</li>
-		                <li>메뉴1-4</li>
-		                <li>메뉴1-5</li>
-		                <li>메뉴1-6</li>
-		            </ul>
-		        </li>
-		    </ul> --%>
-		
-	</div>
+	</sec:authorize>
 	<!-- 브랜드 아이콘 end-->
 	
-	
+	<!-- Latest Blog Section Begin -->
+    <section class="latest spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Latest News</span>
+                        <h2>Brand New Trends</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-1.jpg"></div>
+                        <div class="blog__item__text">
+                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 16 February 2020</span>
+                            <h5>What Curling Irons Are The Best Ones</h5>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-2.jpg"></div>
+                        <div class="blog__item__text">
+                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 21 February 2020</span>
+                            <h5>Eternity Bands Do Last Forever</h5>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-3.jpg"></div>
+                        <div class="blog__item__text">
+                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 28 February 2020</span>
+                            <h5>The Health Benefits Of Sunglasses</h5>
+                            <a href="#">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Latest Blog Section End -->
+    
     <!-- Banner Section Begin -->
     <section class="banner spad">
         <div class="container">
@@ -617,53 +665,6 @@
     </section>
     <!-- Instagram Section End -->
 
-    <!-- Latest Blog Section Begin -->
-    <section class="latest spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <span>Latest News</span>
-                        <h2>Fashion New Trends</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-1.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 16 February 2020</span>
-                            <h5>What Curling Irons Are The Best Ones</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 21 February 2020</span>
-                            <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="${context}/resources/theme/img/blog/blog-3.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="${context}/resources/theme/img/icon/calendar.png" alt=""> 28 February 2020</span>
-                            <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Latest Blog Section End -->
-
     <!-- Footer Section Begin -->
     <footer class="footer">
         <jsp:include page="/WEB-INF/views/home/footer.jsp" flush="false" />
@@ -694,3 +695,6 @@
     <script src="${context}/resources/theme/js/main.js"></script>
 </body>
 </html>
+
+
+
