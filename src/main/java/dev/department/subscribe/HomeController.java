@@ -41,5 +41,19 @@ public class HomeController {
 
 		return "home/index";
 	}
+	
+	// 알림 전송 테스트 폼
+	@RequestMapping("alarmtest")
+	public String alarmtest(Authentication authentication) {
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		return "admin/alarmtest";
+	}
 
 }

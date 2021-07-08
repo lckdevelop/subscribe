@@ -28,6 +28,7 @@
     <!-- Calendar js -->
 	<script src="${context}/resources/fullcalendar/main.min.js"></script>
 	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
+    <link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <script>
     	window.search = '${search}';
     </script>
@@ -486,7 +487,8 @@
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
     <script src="${context}/resources/theme/js/admin-pickup.js"></script>
-
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 
 </html>

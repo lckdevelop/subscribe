@@ -22,7 +22,9 @@
 
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+   	
+	
 </head>
 
 <body id="page-top">
@@ -704,14 +706,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <!-- Page level plugins -->
-	<!--     
-	<script src="vendor/chart.js/Chart.min.js"></script>
-    Page level custom scripts
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script> 
-    -->
 
 </body>
 

@@ -12,7 +12,7 @@
 		INNER JOIN PRODUCT P
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
-		       AND OP.STORE_NO = #{storeNo}
+		       AND O.STORE_NO = #{storeNo}
 		       AND TO_CHAR(O.RESERVEDATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
 	</select>
 	
@@ -21,7 +21,7 @@
 		           O.NO          AS ORDERNO               ,
 		           M.NAME        AS MEMBERNAME            ,
 		           M.PHONE                                ,
-		           OP.STORE_NO   AS STORENO               ,
+		           O.STORE_NO   AS STORENO               ,
 		           P.BRAND_NO    AS BRANDNO               ,
 		           OP.PRODUCT_NO AS PRODUCTNO             ,
 		           P.NAME        AS PRODUCTNAME           ,
@@ -44,7 +44,7 @@
 		INNER JOIN PRODUCT P
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
-		       AND OP.STORE_NO = #{storeNo}
+		       AND O.STORE_NO = #{storeNo}
 		       AND O.RECIEVE = 1
 		       AND TO_CHAR(O.RESERVEDATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
 		  ORDER BY NO DESC
@@ -59,7 +59,7 @@
 		INNER JOIN PRODUCT P
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
-		       AND OP.STORE_NO = #{storeNo}
+		       AND O.STORE_NO = #{storeNo}
 	</select>
 	
 	<select id="getPickupList" parameterType="PagingDTO" resultType="PickupListDTO">
@@ -67,7 +67,7 @@
 		           O.NO          AS ORDERNO               ,
 		           M.NAME        AS MEMBERNAME            ,
 		           M.PHONE                                ,
-		           OP.STORE_NO   AS STORENO               ,
+		           O.STORE_NO   AS STORENO               ,
 		           P.BRAND_NO    AS BRANDNO               ,
 		           OP.PRODUCT_NO AS PRODUCTNO             ,
 		           P.NAME        AS PRODUCTNAME           ,
@@ -90,7 +90,7 @@
 		INNER JOIN PRODUCT P
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
-		       AND OP.STORE_NO = #{storeNo}
+		       AND O.STORE_NO = #{storeNo}
 		       AND O.RECIEVE = 1
 		  ORDER BY NO DESC
 		    OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
@@ -100,7 +100,6 @@
 		UPDATE ORDEREDPRODUCT
        	   SET STATUS = 1
      	 WHERE NO = #{no}
-     	   AND STORE_NO = #{storeNo}
 	</update>
 	
 	<select id="getPickupCalendarData" parameterType="CalendarParamDTO" resultType="FullCalendarDTO">
@@ -111,7 +110,7 @@
 		        ON O.NO = OP.ORDERED_NO
 		INNER JOIN MEMBER M
 		        ON O.MEMBER_NO = M.NO
-		     WHERE OP.STORE_NO = #{storeNo}
+		     WHERE O.STORE_NO = #{storeNo}
 		       AND TO_CHAR(O.RESERVEDATE, 'YYYY-MM') = #{date}
 	</select>
 	

@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
 	<link rel="stylesheet"
     	  href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css"/>
-	
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
 </head>
 
@@ -421,6 +421,8 @@
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
     <script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
     <script src="${context}/resources/theme/js/mailform.js"></script>
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>
 

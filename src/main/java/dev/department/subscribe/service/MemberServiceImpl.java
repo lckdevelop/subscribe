@@ -80,4 +80,9 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public MemberDTO getAdminIdentifier(String id) throws Exception {
+		return memberDAO.getAdminIdentifier(id);
+	}
+
 }
