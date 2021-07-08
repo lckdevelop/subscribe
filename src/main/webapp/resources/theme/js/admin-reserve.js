@@ -30,6 +30,7 @@ window.onload = function() {
 	let curDate = calendar.getDate();
 	let prevBtn = document.querySelector('.fc-prev-button');
 	let nextBtn = document.querySelector('.fc-next-button');
+	let todayBtn = document.querySelector('.fc-today-button');
 	
 	prevBtn.onclick = function() {
 		curDate = calendar.getDate();
@@ -43,6 +44,17 @@ window.onload = function() {
 	}
 	
 	nextBtn.onclick = function() {
+		curDate = calendar.getDate();
+		let arr = getCalendarData(getYearMonth(curDate));
+		let removeEvents = calendar.getEventSources();
+		removeEvents.forEach(event => {
+		     event.remove();
+		});
+		calendar.addEventSource(arr);
+		calendar.refetchEvents();
+	}
+	
+	todayBtn.onclick = function() {
 		curDate = calendar.getDate();
 		let arr = getCalendarData(getYearMonth(curDate));
 		let removeEvents = calendar.getEventSources();
@@ -311,8 +323,6 @@ function getCalendarData(date) {
 		data: {'date': date},
 		success: function(res) {
 			events = res;
-			console.log('ajax');
-			console.log(events);
 		},
 		 error: function(error) {
 			alert('getCalendarData Error');

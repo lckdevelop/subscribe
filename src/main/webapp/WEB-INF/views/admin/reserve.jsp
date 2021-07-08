@@ -28,7 +28,6 @@
     <!-- Calendar js -->
 	<script src="${context}/resources/fullcalendar/main.min.js"></script>
 	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script>
     	window.search = '${search}';
     </script>
@@ -127,6 +126,7 @@
                 <div id="collapseReservation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="./reserve">예약 관리</a>
+                        <a class="collapse-item" href="./pickup">픽업 관리</a>
                     </div>
                 </div>
             </li>

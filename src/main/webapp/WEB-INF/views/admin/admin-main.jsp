@@ -26,9 +26,10 @@
 </head>
 
 <body id="page-top">
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
-		
+
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -90,6 +91,7 @@
                 </div>
             </li>
             
+            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscribe"
@@ -116,6 +118,7 @@
                 <div id="collapseReservation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="./reserve">예약 관리</a>
+                        <a class="collapse-item" href="./pickup">픽업 관리</a>
                     </div>
                 </div>
             </li>
@@ -127,7 +130,7 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            
+
         </ul>
         <!-- End of Sidebar -->
 
@@ -145,12 +148,12 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-					<!-- Topbar Search -->
+                    <!-- Topbar Search -->
                     <form action="reserve" method="POST"
                           class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="예약 현황 검색..."
-                                aria-label="search" aria-describedby="basic-addon2" name="search">
+                                aria-label="search" aria-describedby="basic-addon2" id="searchbar" name="search" value="${search}">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>

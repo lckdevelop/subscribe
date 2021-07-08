@@ -2,7 +2,6 @@ package dev.department.subscribe.web;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -27,11 +26,13 @@ import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.MailFormDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.PickupListDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.MailService;
+import dev.department.subscribe.service.PickupService;
 import dev.department.subscribe.service.ReserveService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +49,9 @@ public class AdminController {
 	
 	@Autowired
 	private ReserveService reserveService;
+	
+	@Autowired
+	private PickupService pickupService;
 	
 	@GetMapping("")
 	public String adminMain() {
@@ -352,7 +356,7 @@ public class AdminController {
 	@GetMapping("/reserve/getCalendarData")
 	@ResponseBody
 	public List<FullCalendarDTO> getCalendarData(@RequestParam("date") String date, Authentication authentication) {
-		log.info(date);
+
 		int brandNo = 0;
 		int storeNo = 0;
 		
@@ -365,9 +369,135 @@ public class AdminController {
 		List<FullCalendarDTO> list = new ArrayList<>();
 		
 		try {
-			log.info("date: {"+date+"} brandNo: {"+brandNo+"} storeNo: {"+storeNo+"}");
 			list = reserveService.getCalendarData(new CalendarParamDTO(date, brandNo, storeNo));
-			log.info(list.toString() + " ");
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 픽업 관리 페이지
+	@RequestMapping("/pickup")
+	public String pickup(Authentication authentication) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		return "admin/pickup";
+	}
+	
+	// 금일 픽업 목록 AJAX
+	@GetMapping("/reserve/getTodayPickupList")
+	@ResponseBody
+	public PagingDTO getTodayPickupList(Authentication authentication,
+									@RequestParam("pg") int pg) {
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<PickupListDTO> pickupList = new ArrayList<>();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int todayPickupCnt = pickupService.getTodayPickupCnt(new ReserveCntParamDTO(null, brandNo, storeNo));
+			pagingDTO = new PagingDTO(pg, 5, 5, todayPickupCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
+			pagingDTO = pickupService.getTodayPickupList(pagingDTO);
+		} catch (Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
+	}
+	
+	// 전체 픽업 목록 AJAX
+	@GetMapping("/reserve/getPickupList")
+	@ResponseBody
+	public PagingDTO getPickupList(Authentication authentication,
+									@RequestParam("pg") int pg) {
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<PickupListDTO> pickupList = new ArrayList<>();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int pickupCnt = pickupService.getPickupCnt(new ReserveCntParamDTO(null, brandNo, storeNo));
+			pagingDTO = new PagingDTO(pg, 5, 5, pickupCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
+			pagingDTO = pickupService.getPickupList(pagingDTO);
+		} catch (Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
+	}
+	
+	// 픽업 수령 확정하기
+	@GetMapping("/reserve/pickuppermit")
+	@ResponseBody
+	public void pickupPermit(@RequestParam("no") int no, Authentication authentication) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			pickupService.pickupPermit(new ReservePermitDTO(no, brandNo, storeNo));
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	// 픽업수령 FullCalendar 이벤트 띄우기
+	@GetMapping("/reserve/getPickupCalendarData")
+	@ResponseBody
+	public List<FullCalendarDTO> getPickupCalendarData(@RequestParam("date") String date, Authentication authentication) {
+
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<FullCalendarDTO> list = new ArrayList<>();
+		
+		try {
+			list = pickupService.getPickupCalendarData(new CalendarParamDTO(date, brandNo, storeNo));
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 			e.printStackTrace();

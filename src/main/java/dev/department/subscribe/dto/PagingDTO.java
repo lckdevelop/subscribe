@@ -21,6 +21,7 @@ public class PagingDTO {
 	int brandNo;
 	int storeNo;
 	List<ReserveListDTO> list1;
+	List<PickupListDTO> list2;
 
 	public PagingDTO() {
 	}

@@ -131,8 +131,17 @@
 		class="org.mybatis.spring.mapper.MapperFactoryBean"
 		p:sqlSessionFactory-ref="reserveSession"
 		p:mapperInterface="dev.department.subscribe.dao.ReserveDAO" />
+	
+	<bean id="pickupSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
 		
-		<!-- CategoryDAO start -->
+	<bean id="pickupDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="pickupSession"
+		p:mapperInterface="dev.department.subscribe.dao.PickupDAO" />
+		
+	<!-- CategoryDAO start -->
 	<bean
 		id="categorySqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
 		p:dataSource-ref="dataSource"
