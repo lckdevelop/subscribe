@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="dev.department.subscribe.dao.ProductDAO">
+
+	<select id="getAllProducts" parameterType="int" resultType="ProductDTO">
+		select no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+		from product
+		where brand_no=#{brandNo}
+		order by no desc
+	</select>
+	
+	<select id="getAllProductsCount" parameterType="int" resultType="int">
+		select count(*)
+		from product
+		where brand_no=#{brandNo}
+	</select>
+	
+	<select id="getAllProductsWithPage" parameterType="PagingDTO" resultType="ProductDTO">
+		select *
+		from (select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from product
+				where brand_no=24
+				order by no desc
+        		)
+		where num between 1+#{pageSize}*(#{page}-1) and #{pageSize}+#{pageSize}*(#{page}-1)
+	</select>
+	
+	<select id="getCategoryProducts" parameterType="hashMap" resultType="ProductDTO">
+		select no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+		from product
+		where brand_no=#{brandNo} and categoryproduct_no=#{categoryNo}
+		order by no desc
+	</select>
+	
+	<select id="getCategoryProductsCount" parameterType="hashMap" resultType="int">
+		select count(*)
+		from product
+		where brand_no=#{brandNo} and categoryproduct_no=#{categoryNo}
+	</select>
+	
+	<select id="getCategoryProductsWithPage" parameterType="hashMap" resultType="ProductDTO">
+		select *
+		from(select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from product
+				where brand_no=#{brandNo} and categoryproduct_no=#{categoryNo}
+				order by no desc)
+		where num between 1+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1) and #{pagingDTO.pageSize}+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1)
+	</select>
+	
+	<select id="getMainCategoryProductsWithPage" parameterType="hashMap" resultType="ProductDTO">
+		select *
+		from (select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from (select p.no, p.name, p.content, p.price, p.thumbnail, p.views, p.zzimcount, p.brand_no, p.categoryproduct_no
+						from brand b inner join product p
+						on b.no=p.brand_no
+						where categorybrand_no=#{categoryBrandNo}
+						order by p.no desc
+						)
+                )
+        where num between 1+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1) and #{pagingDTO.pageSize}+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1)
+	</select>
+	
+	<select id="getAllMainCategoryProductsCount" parameterType="int" resultType="int">
+		select count(*)
+		from (select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from (select p.no, p.name, p.content, p.price, p.thumbnail, p.views, p.zzimcount, p.brand_no, p.categoryproduct_no
+						from brand b inner join product p
+						on b.no=p.brand_no
+						where b.categorybrand_no=#{categoryBrandNo}
+						order by p.no desc
+						)
+                )
+	</select>
+	
+	<select id="getSubCategoryProductsWithPage" parameterType="hashMap" resultType="ProductDTO">
+		select *
+		from (select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from (select p.no, p.name, p.content, p.price, p.thumbnail, p.views, p.zzimcount, p.brand_no, p.categoryproduct_no
+						from brand b inner join product p
+						on b.no=p.brand_no
+						where categorybrand_no=#{categoryBrandNo}
+						order by p.no desc
+						)
+                where categoryproduct_no=#{categoryProductNo}
+                )
+        where num between 1+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1) and #{pagingDTO.pageSize}+#{pagingDTO.pageSize}*(#{pagingDTO.page}-1)
+	</select>
+	
+	<select id="getAllSubCategoryProductsCount" parameterType="hashMap" resultType="int">
+		select count(*)
+		from (select rownum num, no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+				from (select p.no, p.name, p.content, p.price, p.thumbnail, p.views, p.zzimcount, p.brand_no, p.categoryproduct_no
+						from brand b inner join product p
+						on b.no=p.brand_no
+						where categorybrand_no=#{categoryBrandNo}
+						order by p.no desc
+						)
+                where categoryproduct_no=#{categoryProductNo}
+                )	
+	</select>
+</mapper>

@@ -9,4 +9,6 @@ public interface CategoryDAO {
 
 	ArrayList<CategoryDTO> getProductCategory() throws SQLException;
 
+	int getCategoryBrandNo(String categoryBrand) throws SQLException;
+
 }

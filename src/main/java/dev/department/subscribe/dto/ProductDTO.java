@@ -13,9 +13,6 @@ public class ProductDTO {
 	String thumbnail;
 	int views;
 	int zzimCount;
-	int cartNo;
-	int zzimNo;
-	int subsboardproNo;
 	int brandNo;
 	int categoryproductNo;
 	int qtysum;
