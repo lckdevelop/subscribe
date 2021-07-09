@@ -107,7 +107,7 @@
                 <div id="collapseSubscribe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">구독자 목록</a>
-                        <a class="collapse-item" href="#">쿠폰 발급</a>
+                        <a class="collapse-item" href="./coupon">쿠폰 관리</a>
                         <a class="collapse-item" href="./mailform">메일 발송</a>
                     </div>
                 </div>

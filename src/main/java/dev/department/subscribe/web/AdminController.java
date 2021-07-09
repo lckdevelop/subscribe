@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.CalendarParamDTO;
+import dev.department.subscribe.dto.CouponDTO;
 import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.MailFormDTO;
 import dev.department.subscribe.dto.MemberDTO;
@@ -31,6 +33,8 @@ import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import dev.department.subscribe.sec.SecurityMember;
+import dev.department.subscribe.service.BrandService;
+import dev.department.subscribe.service.CouponService;
 import dev.department.subscribe.service.MailService;
 import dev.department.subscribe.service.PickupService;
 import dev.department.subscribe.service.ReserveService;
@@ -52,6 +56,12 @@ public class AdminController {
 	
 	@Autowired
 	private PickupService pickupService;
+	
+	@Autowired
+	private CouponService couponService;
+	
+	@Autowired
+	private BrandService brandService;
 	
 	@GetMapping("")
 	public String adminMain() {
@@ -78,8 +88,6 @@ public class AdminController {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
 		}
-		
-		
 		
 		try {
 			int subsCnt = mailService.getSubsCount(brandNo);
@@ -504,6 +512,60 @@ public class AdminController {
 		}
 		
 		return list;
+	}
+	
+	// 쿠폰 관리 페이지
+	@GetMapping("/coupon")
+	public String coupon(Authentication authentication, Model model) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			int subsCnt = mailService.getSubsCount(brandNo);
+			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
+			model.addAttribute("subsCnt", subsCnt);
+			model.addAttribute("brand", brandDTO);
+		} catch (Exception e) {
+			log.warn(e.getMessage());
+		}
+		
+		return "admin/coupon";
+	}
+	
+	// 쿠폰 발급 완료 페이지
+	@PostMapping("/coupon")
+	public String couponComplete(Authentication authentication, CouponDTO couponDTO, Model model) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		log.info(couponDTO.toString());
+		log.info(couponDTO.getTitle());
+		log.info(couponDTO.getType() + " ");
+		
+		
+		try {
+			couponService.insertCoupon(couponDTO, brandNo);
+			
+		} catch (Exception e) {
+			log.warn(e.getMessage());
+			model.addAttribute("errMsg", "쿠폰 발급 에러!");
+		}
+		
+		return "admin/coupon-complete";
 	}
 
 }

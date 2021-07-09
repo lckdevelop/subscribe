@@ -14,28 +14,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>현대백화점 브랜드 관리자 예약 관리</title>
+    <title>현대백화점 브랜드 관리자 메일 전송 완료</title>
 
     <!-- Custom fonts for this template-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" 
+          rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="${context}/resources/theme/css/adminreserve.css" rel="stylesheet">
-    
-	<!-- Calendar css -->
-    <link rel="stylesheet" type="text/css" href="${context}/resources/fullcalendar/main.min.css" />
-    
-    <!-- Calendar js -->
-	<script src="${context}/resources/fullcalendar/main.min.js"></script>
-	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
-    <link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-    <script>
-    	window.search = '${search}';
-    </script>
+    <link href="${context}/resources/theme/css/admin-coupon.css" rel="stylesheet">
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+	
 </head>
 
 <body id="page-top">
-	
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -334,85 +326,46 @@
                 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">픽업 관리</h1>
+                        <h1 class="h3 mb-0 text-gray-800">쿠폰 관리</h1>
                     </div>
                     
                     <div class="row">
-                    
-                    	<div class="col-xl-7 col-lg-7">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">금일 픽업 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>#</th>
-	                                    		<th>제품명</th>
-	                                    		<th>픽업날짜</th>
-	                                    		<th>상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="tplist">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination1" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    
-                    	<div class="col-xl-5 col-lg-5">
-	                    	<div class="card shadow mb-4">
-	                    		<div class="card-body">
-		                    		<div id="calendar">
-		                    		
-		                    		</div>
-	                    		</div>
-	                    	</div>
-                    	</div>
-                    	
-                    	
+						
+						<c:if test="${errMsg == null}">
+							<div class="col-md-3"></div>
+							<div class="col-md-6 card shadow mt-5 mb-4">
+								<div class="card-body">
+									<div class="text-center">
+										<img class="img-fluid px-3 px-sm-4 mt-4 mb-4" style="width: 15rem;"
+	                                            src="${context}/resources/theme/img/admin/coupon.png" alt="Send Success">
+									</div>
+									<p class="text-center font-weight-bold">쿠폰 발급이 완료되었습니다.</p>
+									<div class="d-flex flex-row align-items-center justify-content-center">
+										<button class="btn btn-primary mb-4" onclick="location.href='./coupon'">추가 발급</button>
+									</div>
+								</div>
+							</div>
+						</c:if>
+						
+						<c:if test="${errMsg != null}">
+							<div class="col-md-3"></div>
+							<div class="col-md-6 card shadow mt-5 mb-4">
+								<div class="card-body">
+									<div class="text-center">
+										<img class="img-fluid px-3 px-sm-4 mt-4 mb-4" style="width: 15rem;"
+	                                            src="${context}/resources/theme/img/admin/fail.png" alt="Send Fail">
+									</div>
+									<p class="text-center font-weight-bold">쿠폰 발급에 실패했습니다..</p>
+									<p class="text-center font-weight-bold">${errMsg}</p>
+									<div class="d-flex flex-row align-items-center justify-content-center">
+										<button class="btn btn-primary mb-4" onclick="history.back(-1)">다시 보내기</button>
+									</div>
+								</div>
+							</div>
+						</c:if>
+						
                     </div>
 
-                    <div class="row">
-
-	                    <div class="col-xl-12 col-lg-12">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">전체 픽업 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>#</th>
-	                                    		<th>성함</th>
-	                                    		<th>제품명</th>
-	                                    		<th>CS</th>
-	                                    		<th>SS</th>
-	                                    		<th>픽업날짜</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="aplist">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination2" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-					</div>
-					
-					
                 </div>
                 <!-- /.container-fluid -->
 
@@ -440,55 +393,15 @@
         <i class="fas fa-angle-up"></i>
     </a>
     
-    <!-- Approve Modal-->
-    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약 확정</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="approve-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
-                    <button id="approve-modal-btn" class="btn btn-success" data-dismiss="modal">승인</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- UPVDetail Modal-->
-    <div class="modal fade" id="pickupdetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">픽업 상세 정보</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="pickup-modal-body" class="modal-body">
-
-                </div>
-				<div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Core plugin JavaScript-->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     <script src="${context}/resources/theme/js/bootstrap.min.js"></script>
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
-    <script src="${context}/resources/theme/js/admin-pickup.js"></script>
     <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="${context}/resources/theme/js/admin-coupon.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </body>
 
 </html>
