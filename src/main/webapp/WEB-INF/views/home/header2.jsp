@@ -45,9 +45,9 @@ function test(ths){
 	        <nav class="header__menu mobile-menu">
 	            <ul>
 	                <li><a href="${context}">홈</a></li>
-	                <li class="mainCategory"><a href="${context}/product/category?main='여성패션'&sub=''">여성패션</a>
+	                <li class="mainCategory"><a href="${context}/product/category?main=여성패션&sub=&page=1">여성패션</a>
 	                    <ul class="dropdown">
-	                        <li><a href="${context}/product/category?main='여성패션'&sub='아우터'">아우터</a></li>
+	                        <li><a href="${context}/product/category?main=여성패션&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main='여성패션'&sub='상의'">상의</a></li>
 	                        <li><a href="${context}/product/category?main='여성패션'&sub='하의'">하의</a></li>
 	                        <li><a href="${context}/product/category?main='여성패션'&sub='정장'">정장</a></li>

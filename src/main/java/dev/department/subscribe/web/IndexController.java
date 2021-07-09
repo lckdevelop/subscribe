@@ -104,14 +104,7 @@ public class IndexController {
 		return result;
 	}
 	
-	@GetMapping("/product/category")
-	public String productCategory(@RequestParam String main, @RequestParam String sub) {
-		log.info(main);
-		log.info(sub);
 		
-		return "category/categoryList";
-	}
-	
 	
 	@GetMapping("/admin/hi")
 	public String adminTest() {

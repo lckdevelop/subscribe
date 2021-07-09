@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+.pagination{
+  padding: 1rem;
+  text-align: center;
+}
+.prev{
+	margin-right: 12px;
+	cursor: pointer;
+}
+
+.next{
+	margin-left: 12px;
+	cursor: pointer;
+}
+
+.page-block{
+	margin-left: 3px;
+	margin-right: 3px;
+	cursor: pointer;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.xlarge {
+  width: 65rem;
+}
+
+.large {
+  width: 45rem;
+}
+
+.middle {
+  width: 32rem;
+}
+
+.small {
+  width: 22rem;
+}
+
+.xsmall {
+  width: 14rem;
+}
+
+.pagination ul, .pagination li {
+  list-style: none;
+  display: inline;
+  padding-left: 0px;
+}
+
+.pagination li {
+  counter-increment: pagination;
+}
+.pagination li:hover a {
+  color: #fdfdfd;
+  background-color: #1d1f20;
+  border: solid 1px #1d1f20;
+}
+.pagination li.active a {
+  color: #fdfdfd;
+  background-color: #1d1f20;
+  border: solid 1px #1d1f20;
+}
+
+.pagination li a {
+  border: solid 1px #d7d7d7;
+  border-radius: 0.2rem;
+  color: #7d7d7d;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  padding: 0.5rem 0.9rem;
+}
+

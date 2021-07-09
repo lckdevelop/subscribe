@@ -1,3 +1,6 @@
+<%@page import="dev.department.subscribe.dto.BrandDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dev.department.subscribe.dto.ProductDTO"%>
 <%@page import="dev.department.subscribe.dto.MemberDTO"%>
 <%@page import="dev.department.subscribe.dto.PagingDTO"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -8,9 +11,12 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="brandInfo" value="${brandInfo}" />
 <c:set var="pagingDTO" value="${pagingDTO}" />
-<c:set var="categoryNo" value="${categoryNo}" />
-<c:set var="categoryProductInfo" value="${categoryProductInfo}" />
+<c:set var="main" value="${main}" />
+<c:set var="sub" value="${sub}" />
 <c:set var="productInfo" value="${productInfo}" />
+<c:set var="brandInfo" value="${brandInfo}" />
+
+$brandInfo[23].engName
 <!DOCTYPE html>
 <%
 	PagingDTO pagingDTO = (PagingDTO)pageContext.getAttribute("pagingDTO");
@@ -56,13 +62,11 @@
 	<script>
     	$(document).ready(function(){
     		makePage(${pagingDTO.page}, ${pagingDTO.pageSize}, ${pagingDTO.pageBlock}, ${pagingDTO.startPage}, ${pagingDTO.endPage}, ${pagingDTO.totalPage});
-    		if(${pagingDTO.page}!=0){
-    			moveScroll();
-    		}
+    		
     	});
     	
-    	function movePage(categoryNo, page){
-    		location.href="${context}/brands/brandpage/${brandInfo.no}/${categoryNo}/"+page;
+    	function movePage(page){
+    		location.href="${context}/product/category?main=${main}&sub=${sub}&page="+page;
     	}
     	
     	function makePage(page, pageSize, pageBlock, startPage, endPage, totalPage){
@@ -77,21 +81,21 @@
     		if (startPage == 1 && page==1) {
     			select_page += '';
 			} else {
-				select_page += '<li class="prev"><a onclick="movePage(${categoryNo}, '+(page-1)+')">< 이전</a></li>';
+				select_page += '<li class="prev"><a onclick="movePage('+(page-1)+')">< 이전</a></li>';
 			}
 			
 			for (let i = startPage; i < endPage + 1; i++) {
 				if (page == i) {
-					select_page += '<li class="active page-block"><a onclick="movePage(${categoryNo}, '+i+')">'+i+'</a></li>';
+					select_page += '<li class="active page-block"><a onclick="movePage('+i+')">'+i+'</a></li>';
 				} else {
-					select_page += '<li class="page-block"><a onclick="movePage(${categoryNo}, '+i+')">'+i+'</a></li>';
+					select_page += '<li class="page-block"><a onclick="movePage('+i+')">'+i+'</a></li>';
 				}
 			}
 			
 			if (endPage == totalPage && page == totalPage) {
 				select_page += '';
 			} else {
-				select_page += '<li class="next"><a onclick="movePage(${categoryNo}, '+(page+1)+')">다음 ></a></li>';
+				select_page += '<li class="next"><a onclick="movePage('+(page+1)+')">다음 ></a></li>';
 			} 	
 			
 			$('.page-num').html(select_page);
@@ -145,21 +149,13 @@
     <!-- Header Section Begin -->
     <header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
+    	<jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" />
     </header>
     <!-- Header Section End -->
     
-    <!-- Brand logo IMG Begin -->
-    <div class="brandpage-logo text-center">
-    	<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brandInfo.engname}.jpg">
-    </div>
-    <!-- Brand logo IMG End -->
-
+   
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-blog set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-background/${brandInfo.engname}.jpg">
-        <div class="brandpage-buttons">
-        	<button class="brandpage-button">방문예약</button>
-        	<button class="brandpage-button ml-3">브랜드 뉴스</button>
-        </div>
+    <section class="breadcrumb-blog set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-background/jillstuartnewyork.jpg">
     </section>
     <!-- Breadcrumb Section End -->
     
@@ -167,9 +163,9 @@
 	<div class="container">
 		<div id="product-category" class="product-category text-center">
 			<ul>
-				<li><a href="${context}/brands/brandpage/${brandInfo.no}/all/1">전체</a></li>
+				<li><a href="${context}/product/category?main=${main}&sub=${sub}&page=1">전체</a></li>
 				<c:forEach items="${categoryProductInfo}" var="categoryProduct">
-					<li><a href="${context}/brands/brandpage/${brandInfo.no}/${categoryProduct.no}/1">${categoryProduct.name}</a></li>
+					<li><a href="${context}/product/category?main=${main}&sub=${categoryProduct.name}&page=1">${categoryProduct.name}</a></li>
 				</c:forEach>
 			</ul>
 			<hr>
@@ -209,10 +205,16 @@
 					<div class="row">
 
 						<c:forEach items="${productInfo}" var="product">
+							<%
+								ProductDTO productInfo = (ProductDTO)pageContext.getAttribute("product");
+								ArrayList<BrandDTO> brandsInfo= (ArrayList<BrandDTO>)pageContext.getAttribute("brandInfo");
+								int brandNo = productInfo.getBrandNo();
+								String brandName = brandsInfo.get(brandNo-1).getEngname();
+							%>
 							<div class="col-lg-3 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
-										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${brandInfo.engname}/${product.categoryproductNo}/${product.thumbnail}.jpg">
+										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg">
 										<ul class="product__hover">
 											<li><a href="#"><img
 													src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>

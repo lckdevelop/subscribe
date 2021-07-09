@@ -14,4 +14,16 @@
 		select *
 		from categorybrand
 	</select>
+	
+	<select id="getCategoryBrandNo" parameterType="String" resultType="int">
+		select no
+		from categorybrand
+		where name=#{categoryName}
+	</select>
+	
+	<select id="getCategoryProductNo" parameterType="String" resultType="int">
+		select no
+		from categoryproduct
+		where name=#{categoryName}
+	</select>
 </mapper>
