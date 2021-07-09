@@ -70,14 +70,25 @@
   opacity: 0.2;
 }
 
-.subtextBox{
+.subtextBox1{
 	position: absolute;
-	top:45px;
-	padding-left:24px;
+	top:25px;
+	padding-left:12px;
 	opacity: 0; 
-} 
+}
 
-.brand-image:hover .subtextBox{
+.subtextBox2{
+	position: absolute;
+	top:60px;
+	padding-left:12px;
+	opacity: 0; 
+}
+
+.brand-image:hover .subtextBox1{
+  opacity: 1; 
+}
+
+.brand-image:hover .subtextBox2{
   opacity: 1; 
 }
 
@@ -88,8 +99,22 @@
 	/* height: 100px; */
 }
 
+.brand_action1:hover {
+	color:red;
+}
 
-/* .brand-image:hover {
-	background-color : #fdfdfd;
-} */
+.brand_action2 {
+	color:black;
+}
+
+.brand_action2:hover {
+	color:black;
+}
+
+.newstitle {
+	font-size:16px;
+}
+.newscontent{
+	font-size:14px;
+}
 

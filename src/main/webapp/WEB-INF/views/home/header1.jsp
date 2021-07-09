@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Css Styles -->
+	<!-- Css -->
     <link rel="stylesheet" href="${context}/resources/theme/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/elegant-icons.css" type="text/css">
@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/index/css/header.css" type="text/css">
+    
+    <!-- js -->
+    <script src="https://kit.fontawesome.com/fd670bf7a0.js"></script>
 </head>
 <body>
 
@@ -55,35 +59,49 @@ function btnClick(formName) {
 <div class="header__top">
 	<div class="container">
 	    <div class="row">
-	        <div class="col-lg-6 col-md-7">
+	        <div class="col-lg-3 col-md-7">
 	            <div class="header__top__left">
 	                <a href="${context}">THE HYUNDAI</a>
 	            </div>
 	        </div>
-	        <div class="col-lg-6 col-md-5">
+	        <div class="col-lg-9 col-md-5">
 	            <div class="header__top__right">
 	                <div class="header__top__links">
-	                <sec:authorize access="isAuthenticated()">
-						<a class="disableLink" style="pointer-events: none;"><sec:authentication property="principal.name" />님 환영합니다</a>
+                	<sec:authorize access="hasAuthority('ROLE_ADMIN')">
+						<a class="disableLink" style="pointer-events: none;">
+							<i class="far fa-user pr-2 mt-2"></i><sec:authentication property="principal.brandName" />매니저님 환영합니다
+						</a>
+						<i class="fas fa-store pr-2 mt-2"></i><a href="${context}/admin">매장관리</a>
+						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
+					</sec:authorize>
+					<sec:authorize access="hasAuthority('ROLE_USER')">
+						<i class="far fa-user pr-2 mt-2"></i><a class="disableLink" style="pointer-events: none;"><sec:authentication property="principal.name" />님 환영합니다</a>
+						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
+	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
+	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff"></i><a href="${context}/brands">구독</a>
+						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
-						<a href="login">로그인|회원가입</a>
+						<i class="far fa-user pr-2 mt-2"></i><a href="login">로그인|회원가입</a>
+						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
+	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
+	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff"></i><a href="${context}/brands">구독</a>
 					</sec:authorize>
-	                <sec:authorize access="isAuthenticated()">
+	                <%-- <sec:authorize access="isAuthenticated()">
 						<a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
-					</sec:authorize>    
-	                    <a href="#">마이페이지</a>
+					</sec:authorize> --%>    
+	                    <!-- <a href="#">마이페이지</a>
 	                    <a href="#">장바구니</a>
-	                    <a href="#">구독</a>
+	                    <a href="#">구독</a> -->
 	                </div>
-	                <div class="header__top__hover">
+	                <!-- <div class="header__top__hover">
 	                    <span>Usd <i class="arrow_carrot-down"></i></span>
 	                    <ul>
 	                        <li><a href="#">fgfgdgfgdfgdfg</a></li>
 	                        <li>EUR</li>
 	                        <li>USD</li>
 	                    </ul>
-	                </div>
+	                </div> -->
 	            </div>
 	        </div>
 	    </div>

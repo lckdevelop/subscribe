@@ -1,5 +1,7 @@
 package dev.department.subscribe.web;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.department.subscribe.dto.MemberDTO;
+import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.sec.SecurityMember;
+import dev.department.subscribe.service.IndexService;
 import dev.department.subscribe.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,11 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class IndexController {
 	@Autowired
 	private MemberService memberService;
-	
-//	@GetMapping("/index")
-//	public String index() {
-//		return "home/index";
-//	}
+	@Autowired
+	private IndexService indexService;
 	
 	// 로그인 창
 	@RequestMapping("/login")
@@ -96,7 +97,7 @@ public class IndexController {
 		}
 		
 		try {
-			result = memberService.brandSubsAction(brandNo, subsed, memberNo);
+			result = indexService.brandSubsAction(brandNo, subsed, memberNo);
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -104,7 +105,20 @@ public class IndexController {
 		return result;
 	}
 	
+	// 상품 검색창(링크 오면 수정 필요함)
+	@GetMapping("/product/search")
+	public String searchProduct(String search, Model model) {
+		log.info(search + ": 상품");
 		
+		try {
+			ArrayList<ProductDTO> searchList = indexService.selectByKeyword(search);
+			model.addAttribute("searchList", searchList);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		
+		return "category/cagegoryList"; // 바꿔야 함
+	}
 	
 	@GetMapping("/admin/hi")
 	public String adminTest() {
