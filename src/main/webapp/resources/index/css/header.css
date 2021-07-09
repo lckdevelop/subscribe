@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* header2.jsp */
+
+.search-box{
+  width: 280px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  height: 30px;
+  border: 2px solid #5185cf;
+  border-radius: 30px;
+  transition: 0.4s;
+}
+
+.search-btn{
+  float: right;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5185cf;
+  border:0px;
+}
+
+.search-txt{
+  display: flex;
+  padding: 0 0 0 10px;
+  width: 0px;
+  border:none;
+  background: none;
+  outline: none;
+  float: left;
+  font-size: 1rem;
+  line-height: 30px;
+  transition: .4s;
+  color:#5185cf;
+  width: 240px;
+}
+/* .search-box:hover > .search-txt{
+  width: 240px;
+  padding: 0px 6px;
+} */
+
+.fa-cart-arrow-down, 
+.fa-power-off, .fa-file-alt, .fa-user,
+.fa-store {
+	color:#fff;
+	font-size:12px;
+}

@@ -83,13 +83,13 @@
 	</script>
 	<header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
-        <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" />
+        <%-- <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" /> --%>
     </header>
     
     <div class="container">
      	<div class="wrap">
     		<div class="inner_wrap">
-			   	<div class="col-md-12 mt-3">
+			   	<div class="col-md-12 mt-5">
 			    	<h3>회원가입</h3>
 			    </div>
 			    <div class="row">

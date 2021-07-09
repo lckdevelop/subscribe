@@ -2,21 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.department.subscribe.sec.MemberInfoDAO">
+	<select id="divisionMember" parameterType="String" resultType="String" >
+		select decode(role, 'ROLE_ADMIN', 'admin', 'ROLE_USER', 'user')
+		from member
+		where id = #{id}
+	</select>
 	<select id="memberInfo" parameterType="String" resultType="MemberDTO" >		
-		select no			,
-		       name			,
-		       id			,
-		       password		,
-		       enabled		,
-		       email		,
-		       birthdate	,
-		       phone		,
-		       address		,
-		       point		,
-		       role			,
-		       brand_no as brandNo
+		select  no       ,
+		        name	 ,
+		        id		 ,
+		        password ,
+		        enabled	 ,
+		        email	 ,
+		        birthdate,
+		        phone	 ,
+		        address	 ,
+		        point    ,
+		        role		
 		  from member
-		 where id = #{id}
+		  where id = #{id}
 	</select>
 	
+	<select id="managerInfo" parameterType="String" resultType="MemberDTO" >
+		select m.no,
+		       m.name				,
+		       m.id					,
+		       m.password			,
+		       m.enabled			,
+		       m.email				,
+		       m.birthdate			,
+		       m.phone				,
+		       m.address			,
+		       m.point				,
+		       m.role				,
+		       m.brand_no as brandNo,
+               b.name as brandName	,
+               s.no as storeNo
+		  from brand b
+          join member m
+          on m.brand_no = b.no
+          join store s
+          on s.no = m.store_no
+          where m.id = #{id}
+	</select>
 </mapper>

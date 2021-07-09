@@ -8,7 +8,54 @@
 		left outer join subs s
 		on b.no = s.brand_no
 	</select>
-
+	
+	<select id="getBestSellers" resultType="ProductDTO"> 
+		select B.*
+		from (select rownum as rnum, A.*
+		      from (select  p.no,
+	        				p.name,
+	        				p.price,
+	        				p.thumbnail,
+	        				p.views,
+	        				p.zzimcount,
+	        				p.brand_no as brandNo,
+	        				p.categoryproduct_no as categoryproductNo,
+	        				q.qtysum,
+        					b.engname
+					from brand b
+					join product p
+					on b.no = p.brand_no
+					join (select
+   								product_no, 
+   								sum(qty) as qtysum
+             			  from orderedproduct
+             			  group by product_no
+             			  order by sum(qty) desc) q
+             			  on p.no = q.product_no) A
+	  	) B 
+		where rnum between 1 and 4
+	</select>
+	
+	<select id="getNewProducts" resultType="ProductDTO">
+		select B.*
+		from (select rownum as rnum, A.*
+			  from (select p.no, 
+			               p.name,
+        				   p.price,
+        				   p.thumbnail,
+        				   p.views,
+			               p.zzimcount,
+			               p.brand_no as brandNo,
+			               p.categoryproduct_no as categoryproductNo,
+			               b.engname
+					from brand b
+					join product p
+					on b.no = p.brand_no
+					order by no desc) A
+		) B 
+		where rnum between 1 and 4
+	</select>
+	
 	<select id="getMemSubs" parameterType="int" resultType="BrandDTO" >		
 		select b.no, b.name, b.engname
 		from subs s
@@ -28,6 +75,20 @@
 		where member_no = #{memNo}) subsed
 		on b.no = subsed.brandno
 		where subsed.brandno is null	
+	</select>
+	
+	<select id="brandNewsList" resultType="BrandNewsDTO">
+		SELECT b.no, b.name, b.engname, bn.title, bn.uploaddate, bn.content
+		FROM BRANDNEWS bn
+		JOIN BRAND b
+		ON bn.brand_no = b.no
+		ORDER BY bn.no desc
+	</select>
+	
+	<select id="selectByKeyword" resultType="ProductDTO">
+		select *
+		from product
+		where name like '%' || #{name} || '%'
 	</select>
 	
 	<delete id="brandSubsCancel" parameterType="SubsDTO">
@@ -54,10 +115,4 @@
 		where no = #{brandNo}
 	</update>
 	
-	<select id="brandNewsList" resultType="BrandNewsDTO">
-		SELECT b.no, b.name, bn.title, bn.uploaddate, bn.content
-		FROM BRANDNEWS bn
-		JOIN BRAND b
-		ON bn.brand_no = b.no
-	</select>
 </mapper>
