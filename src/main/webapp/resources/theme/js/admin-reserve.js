@@ -13,23 +13,57 @@ window.onload = function() {
    		headerToolbar: {
     		left: 'prev,next,today',
     		center: 'title',
-    		right: 'dayGridMonth,listDay,listWeek'
+    		right: 'dayGridMonth,listWeek'
     	},
     	initialView: 'dayGridMonth',
 		initialDate: new Date(),
 		locale: 'ko',
+		dayMaxEvents: true
 
-    	events: [
-		    {
-		    title: '강현구 방문',
-		    start: new Date(),
-		    }
-    	]
     });
+	
+	let arr = getCalendarData(getYearMonth(new Date()));
 
-    calendar.render();
-
-	let prevBtn = document.queryselector('.fc-prev-button');
+	calendar.addEventSource(arr);
+	calendar.render();
+	
+	let curDate = calendar.getDate();
+	let prevBtn = document.querySelector('.fc-prev-button');
+	let nextBtn = document.querySelector('.fc-next-button');
+	let todayBtn = document.querySelector('.fc-today-button');
+	
+	prevBtn.onclick = function() {
+		curDate = calendar.getDate();
+		let arr = getCalendarData(getYearMonth(curDate));
+		let removeEvents = calendar.getEventSources();
+		removeEvents.forEach(event => {
+		     event.remove();
+		});
+		calendar.addEventSource(arr);
+		calendar.refetchEvents();
+	}
+	
+	nextBtn.onclick = function() {
+		curDate = calendar.getDate();
+		let arr = getCalendarData(getYearMonth(curDate));
+		let removeEvents = calendar.getEventSources();
+		removeEvents.forEach(event => {
+		     event.remove();
+		});
+		calendar.addEventSource(arr);
+		calendar.refetchEvents();
+	}
+	
+	todayBtn.onclick = function() {
+		curDate = calendar.getDate();
+		let arr = getCalendarData(getYearMonth(curDate));
+		let removeEvents = calendar.getEventSources();
+		removeEvents.forEach(event => {
+		     event.remove();
+		});
+		calendar.addEventSource(arr);
+		calendar.refetchEvents();
+	}
 
 };
 
@@ -142,12 +176,31 @@ function getTodayReserveList() {
 			let plusMsg = '';
 			for (let i = 0; i < pagingDTO.list1.length; i++) {
 				plusMsg += `<tr data-toggle="modal" data-target="#upvdetailModal" onclick="trdetail(${pagingDTO.list1[i].no})">`
-						+  `	<td class='trname'>${pagingDTO.list1[i].name}</td>`
+						+  `	<td class='trname upvname'>${pagingDTO.list1[i].name}</td>`
 						+  `	<td class='trphone'>${pagingDTO.list1[i].phone}</td>`
 						+  `	<td class='trdate'>${dateFormat(new Date(pagingDTO.list1[i].restime))}</td>`
-						+  `	<td class='trmemo hidden-col'>${pagingDTO.list1[i].memo}</td>`
-						+  `	<td class='trstatus'>${getStatus(pagingDTO.list1[i].status)}</td>`
-						+  '</tr>';
+						+  `	<td class='trmemo hidden-col'>${pagingDTO.list1[i].memo}</td>`;
+						
+				if (pagingDTO.list1[i].status == 0) {
+					
+					plusMsg += `<td><button class='btn btn-waiting btn-danger trstatus'`
+						    +  `	onclick='approve(${pagingDTO.list1[i].no})'`
+						    +  `   >대기</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 1){
+					plusMsg += `<td><button class='btn btn-reserved btn-success trstatus'`
+						    +  `	onclick='visitcheck(${pagingDTO.list1[i].no})'`
+						    +  `    >예약</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 2){
+					plusMsg += `<td><button class='btn btn-fin btn-dark trstatus'`
+						    +  `    >완료</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 3){
+					plusMsg += `<td><button class='btn btn-fin btn-dark trstatus'`
+						    +  `    >취소</button></td></tr>`;
+				}
+				
 			}
 
 			let pagination = '';
@@ -197,12 +250,30 @@ function getReserveList() {
 			let plusMsg = '';
 			for (let i = 0; i < pagingDTO.list1.length; i++) {
 				plusMsg += `<tr data-toggle="modal" data-target="#upvdetailModal" onclick="reservedetail(${pagingDTO.list1[i].no})">`
-						+  `	<td class='rname'>${pagingDTO.list1[i].name}</td>`
+						+  `	<td class='rname upvname'>${pagingDTO.list1[i].name}</td>`
 						+  `	<td class='rphone'>${pagingDTO.list1[i].phone}</td>`
 						+  `	<td class='rdate'>${dateFormat(new Date(pagingDTO.list1[i].restime))}</td>`
-						+  `	<td class='rmemo hidden-col'>${pagingDTO.list1[i].memo}</td>`
-						+  `	<td class='rstatus'>${getStatus(pagingDTO.list1[i].status)}</td>`
-						+  '</tr>';
+						+  `	<td class='rmemo hidden-col'>${pagingDTO.list1[i].memo}</td>`;
+						
+				if (pagingDTO.list1[i].status == 0) {
+					
+					plusMsg += `<td><button class='btn btn-waiting btn-danger rstatus'`
+						    +  `	onclick='approve(${pagingDTO.list1[i].no})'`
+						    +  `   >대기</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 1){
+					plusMsg += `<td><button class='btn btn-reserved btn-success rstatus'`
+						    +  `	onclick='visitcheck(${pagingDTO.list1[i].no})'`
+						    +  `    >예약</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 2){
+					plusMsg += `<td><button class='btn btn-fin btn-dark rstatus'`
+						    +  `    >완료</button></td></tr>`;
+				} 
+				else if (pagingDTO.list1[i].status == 3){
+					plusMsg += `<td><button class='btn btn-fin btn-dark rstatus'`
+						    +  `    >취소</button></td></tr>`;
+				}
 			}
 
 			let pagination = '';
@@ -240,6 +311,27 @@ function getReserveList() {
 	});
 }
 
+function getCalendarData(date) {
+	
+	let events;
+	
+	$.ajax({
+		url: './reserve/getCalendarData',
+		type: 'get',
+		dataType: 'json',
+		async: false,
+		data: {'date': date},
+		success: function(res) {
+			events = res;
+		},
+		 error: function(error) {
+			alert('getCalendarData Error');
+		}
+	});
+	
+	return events;
+}
+
 function approve(no) {
 	
 	$('#approveModal').modal('show');
@@ -247,6 +339,18 @@ function approve(no) {
 	let targetName = myTarget.parentNode.parentNode.querySelector('.upvname').innerHTML;
 	document.getElementById('approve-modal-body').innerHTML = targetName + '님의 예약을 확정하시겠습니까?';
 	document.getElementById('approve-modal-btn').setAttribute('onclick', 'permit(' + no + ')');
+	document.getElementById('refuse-modal-btn').setAttribute('onclick', 'refuse(' + no + ')');
+	event.stopPropagation();
+	
+}
+
+function visitcheck(no) {
+	
+	$('#approveModal').modal('show');
+	let myTarget = event.target;
+	let targetName = myTarget.parentNode.parentNode.querySelector('.upvname').innerHTML;
+	document.getElementById('approve-modal-body').innerHTML = targetName + '님의 방문을 확정하시겠습니까?';
+	document.getElementById('approve-modal-btn').setAttribute('onclick', 'visit(' + no + ')');
 	document.getElementById('refuse-modal-btn').setAttribute('onclick', 'refuse(' + no + ')');
 	event.stopPropagation();
 	
@@ -314,6 +418,7 @@ function permit(no) {
 		success: function() {
 			getUnpermittedVisitList();
 			getReserveList();
+			getTodayReserveList();
 		},
 		error: function(error) {
 		}
@@ -331,6 +436,7 @@ function refuse(no) {
 		success: function() {
 			getUnpermittedVisitList();
 			getReserveList();
+			getTodayReserveList();
 		},
 		error: function(error) {
 		}
@@ -338,6 +444,23 @@ function refuse(no) {
 	
 }
 
+function visit(no) {
+	
+	$.ajax({
+		url: './reserve/visit',
+		type: 'get',
+		dataType: 'text',
+		data: {'no': no},
+		success: function() {
+			getUnpermittedVisitList();
+			getReserveList();
+			getTodayReserveList();
+		},
+		error: function(error) {
+		}
+	});
+	
+}
 
 // 날짜 포매팅 함수
 function dateFormat(date) {
@@ -352,6 +475,16 @@ function dateFormat(date) {
     minute = minute >= 10 ? minute : '0' + minute;
 
     return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+};
+
+function getYearMonth(date) {
+    let month  = date.getMonth() + 1;
+
+
+    month  = month >= 10 ? month : '0' + month;
+
+
+    return date.getFullYear() + '-' + month;
 };
 
 

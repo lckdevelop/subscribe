@@ -22,7 +22,8 @@
           rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="${context}/resources/theme/css/mailform.css" rel="stylesheet">
-
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+	
 </head>
 
 <body id="page-top">
@@ -91,6 +92,7 @@
                 </div>
             </li>
             
+            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscribe"
@@ -101,7 +103,7 @@
                 <div id="collapseSubscribe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">구독자 목록</a>
-                        <a class="collapse-item" href="#">쿠폰 발급</a>
+                        <a class="collapse-item" href="./coupon">쿠폰 관리</a>
                         <a class="collapse-item" href="./mailform">메일 발송</a>
                     </div>
                 </div>
@@ -117,6 +119,7 @@
                 <div id="collapseReservation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="./reserve">예약 관리</a>
+                        <a class="collapse-item" href="./pickup">픽업 관리</a>
                     </div>
                 </div>
             </li>
@@ -147,13 +150,13 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form action="reserve" method="POST"
+                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="예약 현황 검색..."
+                                aria-label="search" aria-describedby="basic-addon2" id="searchbar" name="search" value="${search}">
                             <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
+                                <button class="btn btn-secondary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -162,30 +165,6 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-secondary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -434,6 +413,8 @@
     <script src="${context}/resources/theme/js/bootstrap.min.js"></script>
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>
 

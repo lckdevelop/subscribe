@@ -22,13 +22,16 @@
 
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+   	
+	
 </head>
 
 <body id="page-top">
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
-		
+
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -90,6 +93,7 @@
                 </div>
             </li>
             
+            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscribe"
@@ -100,7 +104,7 @@
                 <div id="collapseSubscribe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="#">구독자 목록</a>
-                        <a class="collapse-item" href="#">쿠폰 발급</a>
+                        <a class="collapse-item" href="./coupon">쿠폰 관리</a>
                         <a class="collapse-item" href="./mailform">메일 발송</a>
                     </div>
                 </div>
@@ -116,6 +120,7 @@
                 <div id="collapseReservation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="./reserve">예약 관리</a>
+                        <a class="collapse-item" href="./pickup">픽업 관리</a>
                     </div>
                 </div>
             </li>
@@ -127,7 +132,7 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            
+
         </ul>
         <!-- End of Sidebar -->
 
@@ -145,12 +150,12 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-					<!-- Topbar Search -->
+                    <!-- Topbar Search -->
                     <form action="reserve" method="POST"
                           class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="예약 현황 검색..."
-                                aria-label="search" aria-describedby="basic-addon2" name="search">
+                                aria-label="search" aria-describedby="basic-addon2" id="searchbar" name="search" value="${search}">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
@@ -701,14 +706,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <!-- Page level plugins -->
-	<!--     
-	<script src="vendor/chart.js/Chart.min.js"></script>
-    Page level custom scripts
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script> 
-    -->
 
 </body>
 

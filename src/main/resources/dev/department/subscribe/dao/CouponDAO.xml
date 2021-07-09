@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.department.subscribe.dao.CouponDAO">
+
+	<insert id='insertCoupon' parameterType="CouponDTO">
+		INSERT INTO COUPON
+		VALUES(COUPON_ID_SEQ.NEXTVAL, #{title}, 0, #{amount}, #{duetime},
+		       #{type}, NULL, #{memberNo}, #{brandNo})
+	</insert>
+	
+	
+</mapper>

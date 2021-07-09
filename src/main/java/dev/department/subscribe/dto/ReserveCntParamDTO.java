@@ -7,9 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ReservePermitDTO {
+public class ReserveCntParamDTO {
 
-	int no;
-	int brandNo;
-	int storeNo;
+	private String search;
+	private int brandNo;
+	private int storeNo;
+	
 }

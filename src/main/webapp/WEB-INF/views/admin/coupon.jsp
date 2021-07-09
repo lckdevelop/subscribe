@@ -14,28 +14,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>현대백화점 브랜드 관리자 예약 관리</title>
+    <title>현대백화점 브랜드 관리자 메일 전송 완료</title>
 
     <!-- Custom fonts for this template-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" 
+          rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="${context}/resources/theme/css/adminreserve.css" rel="stylesheet">
-    
-	<!-- Calendar css -->
-    <link rel="stylesheet" type="text/css" href="${context}/resources/fullcalendar/main.min.css" />
-    
-    <!-- Calendar js -->
-	<script src="${context}/resources/fullcalendar/main.min.js"></script>
-	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
-    <link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-    <script>
-    	window.search = '${search}';
-    </script>
+    <link href="${context}/resources/theme/css/admin-coupon.css" rel="stylesheet">
+	<link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+	
 </head>
 
 <body id="page-top">
-	
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -334,105 +326,71 @@
                 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">예약 관리</h1>
+                        <h1 class="h3 mb-0 text-gray-800">쿠폰 관리</h1>
+                        <p><i class="fas fa-address-book"></i> 구독자 <b>${subsCnt}명</b>에게 발급</p>
                     </div>
                     
                     <div class="row">
-                    	<div class="col-xl-5 col-lg-5">
-	                    	<div class="card shadow mb-4">
-	                    		<div class="card-body">
-		                    		<div id="calendar">
-		                    		
-		                    		</div>
-	                    		</div>
-	                    	</div>
-                    	</div>
-                    	
-                    	<div class="col-xl-7 col-lg-7">
+                    	<div class="col-xl-3"></div>
+                    	<div class="col-xl-5">
 							<div class="card shadow mb-4">
 	                            <!-- Card Header - Dropdown -->
 	                            <div
 	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">전체 예약 현황</h6>
+	                                <h6 class="m-0 font-weight-bold text-primary">쿠폰 발급</h6>
 	                            </div>
 	                            <!-- Card Body -->
 	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="rlist">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination3" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
+	                            
+	                            	<div class="coupon-img-box shadow d-flex flex-row align-items-center mb-4 mt-4 ml-5 mr-5" >
+	                            		
+	                            		<div class="col-lg-5 coupon-img-left d-flex">
+	                            			<img class="coupon-img" src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/${brand.engname}.jpg">
+	                            		</div>
+	                            		
+	                            		<div class="col-lg-5 coupon-img-right" >
+	                            			<div class="coupon-img-title">----- 할인 쿠폰</div>
+	                            			<span class="coupon-img-amount">00</span><span class="coupon-img-type">-</span>
+	                            			<div class="coupon-img-duetime">~ 0000-00-00</div>
+	                            		</div>
+	                            	
+	                            	</div>
+	                            
+		                        	<form method="POST">
+		                        		<div class="form-group">
+		                        			<label for="title">쿠폰 이름</label>
+		                        			<input type="text" class="form-control" id="title" name="title" onblur="titleOut()" required="true" placeholder="ex) 전 고객 10% 할인 쿠폰">
+		                        		</div>
+		                        		<div class="form-group">
+	                        				<label for="type">할인 구분</label><br>
+			                        		<div class="form-check form-check-inline">
+			                        			<input type="radio" class="form-check-input" id="type1" name="type" value="0" onclick="typeOut(this.value)" required="true">
+			                        			<label class="form-check-label" for="type1">퍼센트(%) 할인</label>
+			                        		</div>
+			                        		<div class="form-check form-check-inline">
+			                        			<input type="radio" class="form-check-input" id="type2" name="type" value="1" onclick="typeOut(this.value)" required="true">
+			                        			<label class="form-check-label" for="type2">금액 할인</label>
+			                        		</div>
+		                        		</div>
+		                        		<div class="form-group">	
+		                        			<label for="amount">할인액</label>
+		                        			<input type="number" class="form-control" id="amount" name="amount" onblur="amountOut()" placeholder="ex) 10" required="true">
+		                        		</div>
+		                        		<div class="form-group">	
+		                        			<label for="duetime">유효기간</label>
+		                        			<input type="date" class="form-control" id="duetime" name="duetime" onblur="dateOut()" required="true">
+		                        		</div>
+		                        		<div class="btn-group">
+			                        		<button type="submit" class="btn btn-success">발급</button>
+		                        		</div>
+		                        	</form>
+		                            
 	                            </div>
 	                        </div>
 	                    </div>
+                    	
                     </div>
 
-                    <div class="row">
-	                    <div class="col-xl-6 col-lg-6">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">미승인 매장 방문 예약</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="upv-list">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination1" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="col-xl-6 col-lg-6">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">금일 예약 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="today-list">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination2" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    
-					</div>
-					
-					
                 </div>
                 <!-- /.container-fluid -->
 
@@ -460,74 +418,13 @@
         <i class="fas fa-angle-up"></i>
     </a>
     
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Approve Modal-->
-    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약 확정</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="approve-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
-                    <button id="refuse-modal-btn" class="btn btn-danger" data-dismiss="modal">거절</button>
-                    <button id="approve-modal-btn" class="btn btn-success" data-dismiss="modal">승인</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- UPVDetail Modal-->
-    <div class="modal fade" id="upvdetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약 상세 정보</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="upv-modal-body" class="modal-body">
-
-                </div>
-				<div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Core plugin JavaScript-->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     <script src="${context}/resources/theme/js/bootstrap.min.js"></script>
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
-	<script src="${context}/resources/theme/js/receive-notice.js"></script>
-    <script src="${context}/resources/theme/js/admin-reserve.js"></script>
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
+    <script src="${context}/resources/theme/js/admin-coupon.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>

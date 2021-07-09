@@ -223,6 +223,14 @@
     <artifactId>aws-java-sdk-s3</artifactId>
     <version>1.12.14</version>
 </dependency>
+
+		<!-- 스프링 웹소켓 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
 		<!-- 암호화 -->
 		<dependency>
 			<groupId>commons-codec</groupId>
