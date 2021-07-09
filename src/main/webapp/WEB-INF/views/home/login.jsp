@@ -71,7 +71,7 @@
 					<c:if test="${param.fail == 'true'}">
 						<p class="mt-3" style="text-align:center;color:'red';"><strong>아이디와 암호가 일치하지 않습니다.</strong></p>
 					</c:if>
-					<div class="text-right p-t-8 p-b-31">
+					<div class="text-right p-t-15 p-b-31">
 						<a href="#">
 							Forgot password?
 						</a>
@@ -86,27 +86,25 @@
 							</button>
 						</div>
 					</div>
+					
+					<div class="flex-c-m p-t-20">
+						<!-- <a href="#" class="login100-social-item bg1">
+							<i class="fa fa-facebook"></i>
+						</a> -->
 
-					<div class="txt1 text-center p-t-54 p-b-20">
+						
+
+						<!-- <a href="javascript:kakaoLogin();" class="login100-social-item bg3">
+							<i class="fa fa-google"></i>
+						</a> -->
+					</div>
+					
+					<div class="text-center p-t-40 p-b-20">
 						<a href="signup" class="txt2">
 							<strong>회원가입</strong>
 						</a>
 					</div>
-
-					<div class="flex-c-m">
-						<a href="#" class="login100-social-item bg1">
-							<i class="fa fa-facebook"></i>
-						</a>
-
-						<a href="#" class="login100-social-item bg2">
-							<img src="${context}/resources/index/images/kakaoLogin.png" alt="">
-						</a>
-
-						<a href="javascript:kakaoLogin();" class="login100-social-item bg3">
-							<i class="fa fa-google"></i>
-						</a>
-					</div>
-
+					
 					<div class="flex-col-c p-t-100">
 					</div>
 				</form>

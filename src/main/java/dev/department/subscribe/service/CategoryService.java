@@ -8,4 +8,6 @@ public interface CategoryService {
 
 	ArrayList<CategoryDTO> getProductCategory() throws Exception;
 
+	int getCategoryBrandNo(String categoryBrand) throws Exception;
+
 }

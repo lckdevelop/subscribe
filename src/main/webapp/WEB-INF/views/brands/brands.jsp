@@ -15,7 +15,7 @@ MemberDTO userInfo = (MemberDTO) session.getAttribute("userInfo");
 <head>
 <script type="text/javascript">
 	function brandPage(brandNo){
-		location.href="brands/brandpage/"+brandNo;
+		location.href="brands/brandpage/"+brandNo+"/all";
 	}
 	
 	function drag(target, brand) { //드래그 시작시 호출 할 함수

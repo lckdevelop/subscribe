@@ -49,6 +49,20 @@
 		/>
 	<!-- MemberDAO end -->
 	
+	<!-- ProductDAO start -->
+	<bean
+		id="productSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/> 
+	<bean
+		id="productDAO" 
+		class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="productSqlSession"
+		p:mapperInterface="dev.department.subscribe.dao.ProductDAO"
+		/>
+	<!-- ProductDAO end -->
+	
 	<!-- secMemberInfoDAO start -->
 	<bean
 		id="memberSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
