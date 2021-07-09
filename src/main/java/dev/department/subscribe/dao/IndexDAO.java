@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.BrandNewsDTO;
+import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.SubsDTO;
 
 public interface IndexDAO {
@@ -23,4 +24,10 @@ public interface IndexDAO {
 	int subsCntPlusUpdate(int brandNo) throws SQLException;
 	
 	ArrayList<BrandNewsDTO> brandNewsList() throws SQLException;
+	
+	ArrayList<ProductDTO> getBestSellers() throws SQLException;
+	
+	ArrayList<ProductDTO> getNewProducts() throws SQLException;
+	
+	ArrayList<ProductDTO> selectByKeyword(String keyWord) throws SQLException;
 }

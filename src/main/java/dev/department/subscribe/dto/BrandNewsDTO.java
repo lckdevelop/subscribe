@@ -12,6 +12,7 @@ import lombok.ToString;
 public class BrandNewsDTO {
 	private int no;
 	private String name;
+	private String engname;
 	private String title;
 	private String content;
 	private Date uploaddate;

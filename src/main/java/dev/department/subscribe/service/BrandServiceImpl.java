@@ -48,11 +48,6 @@ public class BrandServiceImpl implements BrandService{
 		return brandDAO.getBrandInfo(brandNo);
 	}
 
-	@Override
-	public ArrayList<BrandNewsDTO> brandNewsList() throws Exception {
-		return indexDAO.brandNewsList();
-	}
-	
 	public void plusSubscribeCount(int brandNo) throws Exception {
 		// TODO Auto-generated method stub
 		brandDAO.plusSubscribeCount(brandNo);

@@ -18,4 +18,6 @@ public class ProductDTO {
 	int subsboardproNo;
 	int brandNo;
 	int categoryproductNo;
+	int qtysum;
+	String engname;
 }
