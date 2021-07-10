@@ -7,7 +7,6 @@
 <html>
 <head>
 	<!-- Css -->
-    <link rel="stylesheet" href="${context}/resources/theme/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/magnific-popup.css" type="text/css">
@@ -69,23 +68,23 @@ function btnClick(formName) {
 	                <div class="header__top__links">
                 	<sec:authorize access="hasAuthority('ROLE_ADMIN')">
 						<a class="disableLink" style="pointer-events: none;">
-							<i class="far fa-user pr-2 mt-2"></i><sec:authentication property="principal.brandName" />매니저님 환영합니다
+							<i class="far fa-user pr-2 mt-2" style="color:#fff;"></i><sec:authentication property="principal.brandName" />매니저님 환영합니다
 						</a>
 						<i class="fas fa-store pr-2 mt-2"></i><a href="${context}/admin">매장관리</a>
 						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>
 					<sec:authorize access="hasAuthority('ROLE_USER')">
-						<i class="far fa-user pr-2 mt-2"></i><a class="disableLink" style="pointer-events: none;"><sec:authentication property="principal.name" />님 환영합니다</a>
+						<i class="far fa-user pr-2 mt-2"></i><a class="disableLink" style="pointer-events: none;color:#fff;"><sec:authentication property="principal.name" />님 환영합니다</a>
 						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
 	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
-	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff"></i><a href="${context}/brands">구독</a>
+	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff; font-size:12px;"></i><a href="${context}/brands">구독</a>
 						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
-						<i class="far fa-user pr-2 mt-2"></i><a href="login">로그인|회원가입</a>
+						<i class="far fa-user pr-2 mt-2"></i><a href="${context}/login">로그인|회원가입</a>
 						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
 	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
-	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff"></i><a href="${context}/brands">구독</a>
+	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff; font-size:12px;"></i><a href="${context}/brands">구독</a>
 					</sec:authorize>
 	                <%-- <sec:authorize access="isAuthenticated()">
 						<a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>

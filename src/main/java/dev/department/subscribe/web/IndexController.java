@@ -59,8 +59,6 @@ public class IndexController {
 	@PostMapping(value="/idcheck", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String idDuplicateCheck(@RequestParam String id) {
-		log.info(id);
-		
 		boolean idDuplBool = false;
 		String idDuplStr = null;
 		
@@ -105,6 +103,30 @@ public class IndexController {
 		return result;
 	}
 	
+	// 상품 찜
+	@GetMapping(value="/zzimAction/{productNo}", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String simpleSubsAction(@PathVariable int productNo,
+									Authentication authentication) {
+		int memberNo = 0;
+		
+		String result = "실패";
+		log.info(productNo + ": productNo");
+		
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			memberNo = sMember.getNo();
+		}
+		
+		try {
+			result = indexService.ZzimAction(productNo, memberNo);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		
+		return result;
+	}
+	
 	// 상품 검색창(링크 오면 수정 필요함)
 	@GetMapping("/product/search")
 	public String searchProduct(String search, Model model) {
@@ -120,9 +142,9 @@ public class IndexController {
 		return "category/cagegoryList"; // 바꿔야 함
 	}
 	
-	@GetMapping("/admin/hi")
+	@GetMapping("/signup2")
 	public String adminTest() {
-		return "home/adminMain";
+		return "home/signup2";
 	}
 	
 	@GetMapping("/manager/hi")

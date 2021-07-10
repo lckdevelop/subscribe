@@ -7,6 +7,7 @@ import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.BrandNewsDTO;
 import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.SubsDTO;
+import dev.department.subscribe.dto.ZzimDTO;
 
 public interface IndexDAO {
 	ArrayList<BrandDTO> getBranSubsList(int memNo) throws SQLException;
@@ -29,5 +30,15 @@ public interface IndexDAO {
 	
 	ArrayList<ProductDTO> getNewProducts() throws SQLException;
 	
+	ArrayList<ProductDTO> getBestSellersFromSubs(int memNo) throws SQLException;
+	
+	ArrayList<ProductDTO> getNewProductsFromSubs(int memNo) throws SQLException;
+	
 	ArrayList<ProductDTO> selectByKeyword(String keyWord) throws SQLException;
+	
+	int zzimCheck(ZzimDTO zzimDTO) throws SQLException;
+	
+	int updateZzimCnt(int productNo) throws SQLException;
+	
+	int insertZzim(ZzimDTO zzimDTO) throws SQLException;
 }
