@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.department.subscribe.dao.SalesDAO">
+
+	<select id='getMonthlyEarn' parameterType="SalesParamDTO" resultType="int">
+    		SELECT NVL(SUM(P.PRICE * QTY), 0) AS PRICE
+		      FROM ORDERED O
+		INNER JOIN ORDEREDPRODUCT OP
+		        ON O.NO = OP.ORDERED_NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE O.STORE_NO = #{storeNo}
+		       AND P.BRAND_NO = #{brandNo}
+		       AND TO_CHAR(O.ORDERDATE, 'YYYY/MM') = TO_CHAR(#{date}, 'YYYY/MM')
+	</select>
+	
+	<select id='getDailyEarn' parameterType="SalesParamDTO" resultType="int">
+    		SELECT NVL(SUM(P.PRICE * QTY), 0) AS PRICE
+		      FROM ORDERED O
+		INNER JOIN ORDEREDPRODUCT OP
+		        ON O.NO = OP.ORDERED_NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE O.STORE_NO = #{storeNo}
+		       AND P.BRAND_NO = #{brandNo}
+		       AND TO_CHAR(O.ORDERDATE, 'YYYY/MM/DD') = TO_CHAR(#{date}, 'YYYY/MM/DD')
+	</select>
+	
+	<select id='getAnnualEarnData' parameterType='SalesParamDTO' resultType='int'>
+	<![CDATA[
+			SELECT D.PRICE
+			  FROM (    SELECT TO_CHAR(ADD_MONTHS(SYSDATE, 1 - LEVEL), 'YYYY/MM') AS MONTH
+			              FROM DUAL
+			        CONNECT BY LEVEL <= 12
+			          ORDER BY MONTH) M
+			  JOIN (    SELECT TO_CHAR(O.ORDERDATE, 'YYYY/MM') AS MONTH, 
+			                   NVL(SUM(P.PRICE * QTY), 0) AS PRICE
+			              FROM ORDERED O
+			        INNER JOIN ORDEREDPRODUCT OP
+			                ON O.NO = OP.ORDERED_NO
+			        INNER JOIN PRODUCT P
+			                ON OP.PRODUCT_NO = P.NO
+			             WHERE O.STORE_NO = #{storeNo}
+			               AND P.BRAND_NO = #{brandNo}
+			          GROUP BY TO_CHAR(O.ORDERDATE, 'YYYY/MM')) D
+			    ON M.MONTH = D.MONTH
+			 ORDER BY M.MONTH
+	]]>
+	</select>
+	
+	<select id='getCurrentTwelveMonth' resultType='String'>
+	<![CDATA[
+		    SELECT TO_CHAR(ADD_MONTHS(SYSDATE, 1 - LEVEL), 'YYYY/MM') AS MONTH
+		      FROM DUAL
+		CONNECT BY LEVEL <= 12
+		  ORDER BY MONTH
+	]]>
+	</select>
+	
+	<select id='getSubsDistribution' parameterType='SalesParamDTO' resultType='int'>
+	<![CDATA[
+		  SELECT COUNT(*) AS CNT
+		    FROM (
+		          SELECT CASE WHEN AGE < 20               THEN 1
+		                      WHEN AGE >= 20 AND AGE < 30 THEN 2
+		                      WHEN AGE >= 30 AND AGE < 40 THEN 3
+		                      WHEN AGE >= 40 AND AGE < 50 THEN 4
+		                      WHEN AGE >= 50              THEN 5
+		                  END AGE
+		            FROM (
+		                        SELECT TO_CHAR(SYSDATE, 'YYYY') - TO_CHAR(M.BIRTHDATE, 'YYYY') AS AGE
+		                          FROM SUBS S
+		                    INNER JOIN MEMBER M
+		                            ON S.MEMBER_NO = M.NO
+		                         WHERE S.BRAND_NO = #{brandNo}
+		                  ) A
+		         )
+		GROUP BY AGE
+		ORDER BY AGE
+	]]>
+	</select>
+	
+	
+</mapper>
