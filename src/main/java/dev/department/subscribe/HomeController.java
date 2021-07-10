@@ -1,24 +1,19 @@
 package dev.department.subscribe;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Locale;
+import java.io.*;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.core.io.*;
+import org.springframework.security.core.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
-import dev.department.subscribe.dto.BrandDTO;
-import dev.department.subscribe.dto.BrandNewsDTO;
-import dev.department.subscribe.dto.ProductDTO;
-import dev.department.subscribe.sec.SecurityMember;
-import dev.department.subscribe.service.IndexService;
-import lombok.extern.slf4j.Slf4j;
+import dev.department.subscribe.dto.*;
+import dev.department.subscribe.sec.*;
+import dev.department.subscribe.service.*;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 @Controller
@@ -27,7 +22,7 @@ public class HomeController {
 	private ResourceLoader resourceLoader;
 	@Autowired
 	private IndexService indexService;
-	
+	 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, Authentication authentication) throws IOException {
 		int memNo = 0;

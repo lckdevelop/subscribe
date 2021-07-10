@@ -1,10 +1,8 @@
 package dev.department.subscribe.dto;
 
-import java.sql.Date;
+import java.sql.*;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,11 +10,13 @@ import lombok.ToString;
 public class OrderedDTO {
 	int no;
 	int memberNo;
+	int storeNo;
 	Date orderDate;
 	int status;
 	int delivery;
 	int price;
 	int usedPoint;
 	int recieve;
-	Date reserveDate;
+	String address;
+	String reserveDate;
 }
