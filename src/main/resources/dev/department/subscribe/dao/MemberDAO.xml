@@ -20,7 +20,8 @@
 		(member_id_seq.nextval, #{name}, #{id}, #{password}, 1, #{email}, #{birthdate}, #{phone})
 	</insert>
 	<select id="getAdminIdentifier" parameterType="String" resultType="MemberDTO">
-		SELECT NO                 , 
+		SELECT NO                 ,
+			   NAME				  , 
 		       BRAND_NO AS BRANDNO,
 		       STORE_NO AS STORENO
 		  FROM MEMBER

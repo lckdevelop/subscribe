@@ -21,7 +21,7 @@
 	</select>
 	
 	<insert id="insertReservation" parameterType="ReservationDTO">
-		INSERT INTO reservation values(reservation_id_seq.nextval, #{brandNo}, #{memberNo}, TO_DATE(#{restime}, 'yyyy/mm/dd hh:mi:ss'),
+		INSERT INTO reservation values(reservation_id_seq.nextval, #{brandNo}, #{memberNo}, TO_DATE(#{restime}, 'yyyy/mm/dd hh24:mi:ss'),
 		0, #{memo}, 0, #{storeNo})
 	</insert>
 	

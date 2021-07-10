@@ -45,6 +45,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="${context}/resources/theme/js/send-notice.js"></script>
 	
 	<script type="text/javascript">
 	
@@ -74,6 +75,7 @@
 	function clickTarEvent() {
 		$('.selecttar').click(function(){
 			console.log($(this).attr('myval'));
+			document.getElementById('storeNo').value = $(this).attr('myval');
 			$.ajax({
 				method : 'GET',
 				url : '${pageContext.request.contextPath}/checkout/depttarget/'+ $(this).attr('myval')
@@ -210,6 +212,7 @@
 			method : 'GET',
 			url : '${pageContext.request.contextPath}/cart/cartinfo', 
 		}).done(function( data ) {
+			window.sendlist = data;
 		 	displayContentList(data);
 		});
 	}
@@ -297,6 +300,7 @@
 				method : 'GET',
 				url : '${pageContext.request.contextPath}/checkout/selectdeliver', 
 			});
+			window.direct = false;
 			$('.selectdirect').hide();
 		    $('.selectdelivery').show();
 		  });
@@ -305,6 +309,7 @@
 				method : 'GET',
 				url : '${pageContext.request.contextPath}/checkout/selectdirect', 
 			});
+	    	window.direct = true;
 			$('.selectdelivery').hide();
 		    $('.selectdirect').show();
 		});
@@ -339,6 +344,7 @@
 	                //msg += '상점 거래ID : ' + rsp.merchant_uid;
 	                //msg += '결제 금액 : ' + rsp.paid_amount;
 	                //msg += '카드 승인번호 : ' + rsp.apply_num;
+	            	if (window.direct == true) sendToAdminPickup();
 	            } else {
 	                var msg = '결제에 실패하였습니다.';
 	            }
@@ -370,6 +376,7 @@
 			    	}).done(function(data) {
 			    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 			    		if ( everythings_fine ) {
+			    			
 			    			var msg = '결제가 완료되었습니다.';
 			    			location.href="/subscribe/checkoutcomplete";
 			    			alert(msg);
@@ -577,7 +584,7 @@
 					var time = $(this).attr('myval');
 					var result = year + "-" + month + "-" + o.innerHTML + "-" + time;
 					console.log(result);
-					
+					document.getElementById('reserveDate').value = result;
 					$.ajax({
 						method : 'GET',
 						url : '${pageContext.request.contextPath}/checkout/selecttime/' + result 
@@ -1107,7 +1114,8 @@
 				            </div>
 				        </div>
 				    </div>
-				    
+				    	<input type="hidden" id="reserveDate" name="reserveDate">
+				    	<input type="hidden" id="storeNo" name="storeNo">
 			            <h6 class="checkout__title" style="margin-top: 100px">결제 수단</h6>
 			            <div style="text-align: center; margin-top: 30px">
 			             <button id="check_module" class="btn btn-outline-dark" style="border-radius: 20px">카드 결제</button>

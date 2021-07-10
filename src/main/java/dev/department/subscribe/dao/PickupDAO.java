@@ -24,4 +24,6 @@ public interface PickupDAO {
 
 	List<FullCalendarDTO> getPickupCalendarData(CalendarParamDTO calendarParamDTO) throws SQLException;
 
+	int getBrandNo(int parseInt) throws SQLException;
+
 }

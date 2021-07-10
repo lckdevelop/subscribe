@@ -22,4 +22,6 @@ public interface PickupService {
 
 	List<FullCalendarDTO> getPickupCalendarData(CalendarParamDTO calendarParamDTO) throws Exception;
 
+	int getBrandNo(int parseInt) throws Exception;
+
 }
