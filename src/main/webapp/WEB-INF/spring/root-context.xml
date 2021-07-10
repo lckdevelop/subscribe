@@ -164,6 +164,15 @@
 		p:sqlSessionFactory-ref="couponSession"
 		p:mapperInterface="dev.department.subscribe.dao.CouponDAO" />
 		
+	<bean id="salesSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
+		
+	<bean id="salesDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="couponSession"
+		p:mapperInterface="dev.department.subscribe.dao.SalesDAO" />
+		
 	<!-- CategoryDAO start -->
 	<bean
 		id="categorySqlSession" class="org.mybatis.spring.SqlSessionFactoryBean" 

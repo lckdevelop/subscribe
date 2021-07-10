@@ -2,6 +2,7 @@ package dev.department.subscribe.web;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -32,12 +33,14 @@ import dev.department.subscribe.dto.PickupListDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
+import dev.department.subscribe.dto.SalesParamDTO;
 import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.BrandService;
 import dev.department.subscribe.service.CouponService;
 import dev.department.subscribe.service.MailService;
 import dev.department.subscribe.service.PickupService;
 import dev.department.subscribe.service.ReserveService;
+import dev.department.subscribe.service.SalesService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -63,16 +66,43 @@ public class AdminController {
 	@Autowired
 	private BrandService brandService;
 	
+	@Autowired
+	private SalesService salesService;
+	
 	@GetMapping("")
 	public String adminMain() {
 		return "redirect:admin/";
 	}
 	
 	@GetMapping("/")
-	public String adminMain(Authentication authentication) {
+	public String adminMain(Authentication authentication, Model model) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
 		
 		if  (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			
+			int subsCnt = mailService.getSubsCount(brandNo);
+			int reserveCnt = reserveService.getTodayReserveCnt(new ReserveCntParamDTO("", brandNo, storeNo));
+			int pickupCnt = pickupService.getTodayPickupCnt(new ReserveCntParamDTO("", brandNo, storeNo));
+			int todayCnt = reserveCnt + pickupCnt;
+			int monthlyEarn = salesService.getMothlyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
+			int dailyEarn = salesService.getDailyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
+			
+			model.addAttribute("monthlyEarn", monthlyEarn);
+			model.addAttribute("dailyEarn", dailyEarn);
+			model.addAttribute("subsCnt", subsCnt);
+			model.addAttribute("todayCnt", todayCnt);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			log.warn(e.getMessage());
 		}
 		
 		return "admin/admin-main";
@@ -566,6 +596,75 @@ public class AdminController {
 		}
 		
 		return "admin/coupon-complete";
+	}
+	
+	// 최근 12달 날짜 가져오기
+	@GetMapping("/reserve/getCurrentTwelveMonth")
+	@ResponseBody
+	public List<String> getCurrentTwelveMonth() {
+
+		List<String> list = new ArrayList<>();
+		
+		try {
+			list = salesService.getCurrentTwelveMonth();
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 최근 12달 판매실적 가져오기
+	@GetMapping("/reserve/getAnnualEarnData")
+	@ResponseBody
+	public List<Integer> getAnnualEarnData(Authentication authentication) {
+
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<Integer> list = new ArrayList<>();
+		
+		try {
+			list = salesService.getAnnualEarnData(new SalesParamDTO(brandNo, storeNo, null));
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 구독자 연령대 분포 데이터 가져오기
+	@GetMapping("/reserve/getSubsDistribution")
+	@ResponseBody
+	public List<Integer> getSubsDistribution(Authentication authentication) {
+
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<Integer> list = new ArrayList<>();
+		
+		try {
+			list = salesService.getSubsDistribution(new SalesParamDTO(brandNo, storeNo, null));
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 }
