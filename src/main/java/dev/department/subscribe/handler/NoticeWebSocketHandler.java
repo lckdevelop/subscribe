@@ -15,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import dev.department.subscribe.dto.AdminIdentifierDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.service.MemberService;
+import dev.department.subscribe.service.PickupService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +24,9 @@ public class NoticeWebSocketHandler extends TextWebSocketHandler {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	PickupService pickupService;
 	
 	private Map<AdminIdentifierDTO, WebSocketSession> receivers = new ConcurrentHashMap<>();
 	private Map<AdminIdentifierDTO, String> test = new ConcurrentHashMap<>();
@@ -56,24 +60,32 @@ public class NoticeWebSocketHandler extends TextWebSocketHandler {
 		log.info("메시지:{}", msg);
 		
 		String command = (String) data.get("command");
-		int brandNo = Integer.parseInt((String) data.get("brandNo"));
-		int storeNo = Integer.parseInt((String) data.get("storeNo"));
 		
 		JSONObject sendNotice = new JSONObject();
 		
 		if (command.equals("예약 요청")) {
+			
+			int brandNo = Integer.parseInt((String) data.get("brandNo"));
+			int storeNo = Integer.parseInt((String) data.get("storeNo"));
 
 			sendNotice.put("command", command);
-			sendNotice.put("content1", (String) data.get("name"));
+			sendNotice.put("content1", memberService.getAdminIdentifier(session.getPrincipal().getName()).getName());
 			sendNotice.put("content2", (String) data.get("reserveDate"));
 					
-		} else if (command.equals("픽업 주문")){
+			WebSocketSession receiver  = getReceiver(new AdminIdentifierDTO(brandNo, storeNo));
+			receiver.sendMessage(new TextMessage(sendNotice.toJSONString()));
 			
+		} else if (command.equals("픽업 주문")){
+			int storeNo = Integer.parseInt((String) data.get("storeNo"));
+			sendNotice.put("command", command);
+			int brandNo = pickupService.getBrandNo(Integer.parseInt((String) data.get("productNo")));
+			sendNotice.put("content1", (String) data.get("productNo") + "번 제품");
+			sendNotice.put("content2", (String) data.get("reserveDate"));
+			WebSocketSession receiver  = getReceiver(new AdminIdentifierDTO(brandNo, storeNo));
+			receiver.sendMessage(new TextMessage(sendNotice.toJSONString()));
 		}
 		
-		WebSocketSession receiver  = getReceiver(new AdminIdentifierDTO(brandNo, storeNo));
-		receiver.sendMessage(new TextMessage(sendNotice.toJSONString()));
-		log.info(receiver.toString());
+
 	}
 	
 	@Override

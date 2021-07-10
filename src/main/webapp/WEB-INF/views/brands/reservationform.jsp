@@ -359,7 +359,7 @@ thead tr:nth-child(3) th {
 	              <div  class="col-md-12 form-group mb-5">
 	              <div class="row justify-content-center mx-0">
 	                <div style="text-align: center">
-	                   <button class="btn btn-outline-dark" data-toggle="modal" data-target="#reservebtn">예약하기</button>
+	                   <button class="btn btn-outline-dark" data-toggle="modal" data-target="#reservebtn" onclick="sendToAdminReserve()">예약하기</button>
 	                </div>
 	              </div>
 	              </div>
@@ -419,7 +419,7 @@ thead tr:nth-child(3) th {
         </div>
     </div>
     <!-- Search End -->
-    
+    <input type="hidden" id="brandNo" name="brandNo" value="${brandInfo.no}">
 
 <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
 <script type='text/javascript'>
@@ -453,5 +453,6 @@ $.ajax({
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
+    <script src="${context}/resources/theme/js/send-notice.js"></script>
 </body>
 </html>

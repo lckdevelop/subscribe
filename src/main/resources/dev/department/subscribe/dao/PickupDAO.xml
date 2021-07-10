@@ -118,4 +118,10 @@
 
 	</select>
 	
+	<select id="getBrandNo" parameterType="int" resultType="int">
+		SELECT BRAND_NO
+		  FROM PRODUCT
+		 WHERE NO = #{no}
+	</select>
+	
 </mapper>

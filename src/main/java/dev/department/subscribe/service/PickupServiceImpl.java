@@ -52,4 +52,9 @@ public class PickupServiceImpl implements PickupService {
 		return pickupDAO.getPickupCalendarData(calendarParamDTO);
 	}
 
+	@Override
+	public int getBrandNo(int parseInt) throws Exception {
+		return pickupDAO.getBrandNo(parseInt);
+	}
+
 }
