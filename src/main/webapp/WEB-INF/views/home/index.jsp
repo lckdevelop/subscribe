@@ -63,11 +63,33 @@
 	        	if (data == "취소완료") {
 	        		$(".subtext"+brandNo).html('<i class="fas fa-paper-plane"></i><strong>빠른구독</strong>');
 	        		$("#flag"+brandNo).val("0");
-		        	alert(data);
+		        	/* alert(data); */
 	        	} else if (data == "구독완료") {
 	        		$(".subtext"+brandNo).html('<i class="fas fa-paper-plane"></i><strong>구독완료</strong>');
 	        		$("#flag"+brandNo).val("1");
-		        	alert(data);
+		        	/* alert(data); */
+	        	}
+	        	
+	       },
+	      error:function(data,textStatus){
+	         alert("에러가 발생했습니다.");
+	      },
+	      complete:function(data,textStatus){
+	      }
+	   });
+    }
+    
+    function zzimBtn(productNo, productName) {
+    	$.ajax({
+	        type:"get",
+	        url:"${context}/zzimAction/"+productNo,
+	        success:function (data){
+	        	if (data == "성공") {
+		        	alert(productName + " 찜 하였습니다.");
+	        	} else if (data == "이미 존재") {
+	        		alert(productName + " 이미 찜 상품입니다.");
+	        	} else {
+	        		alert("실패");
 	        	}
 	        	
 	       },
@@ -96,30 +118,29 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="${context}/resources/theme/img/hero/hero-1.jpg">
+            <div class="hero__items set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/main-banner/banner1.png">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-5 col-lg-7 col-md-8">
+                    	<div class="col-xl-9 col-lg-7 col-md-8"></div>
+                        <div class="col-xl-3 col-lg-5 col-md-4">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                                <h6>여름 Cheat-Key</h6>
+                                <h2>Summer Collections 2030</h2>
+                                <p>이 계절엔 바로 이거지!<br> 선글라스, 라탄백 등 필수 구비 아이템</p>
                                 <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hero__items set-bg" data-setbg="${context}/resources/theme/img/hero/hero-2.jpg">
+            <div class="hero__items set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/main-banner/banner2.png">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
+                                <h6>24시간 즐기는 캠핑존</h6>
                                 <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                                <p>트렌디한 아웃도어 매장<br> 온라인 쇼룸으로 만나요</p>
                                 <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             </div>
                         </div>
@@ -289,16 +310,23 @@
     <!-- Latest Blog Section End -->
     
     <!-- Banner Section Begin -->
-    <section class="banner spad">
+    <section class="banner">
         <div class="container">
+        	<div class="row text-center">
+        		<div class="section-title col-lg-12">
+	                <span>Preview</span>
+	                <h3><strog>스페셜 브랜드</strog></h3>
+                </div>
+        	</div> 
             <div class="row">
-                <div class="col-lg-7 offset-lg-4">
+                <div class="col-lg-7 offset-lg-5">
                     <div class="banner__item">
                         <div class="banner__item__pic">
                             <img src="${context}/resources/theme/img/banner/banner-1.jpg" alt="">
+                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg1.jpg" alt=""> --%>
                         </div>
                         <div class="banner__item__text">
-                            <h2>Clothing Collections 2030</h2>
+                            <h2>DKNY</h2>
                             <a href="#">Shop now</a>
                         </div>
                     </div>
@@ -307,9 +335,10 @@
                     <div class="banner__item banner__item--middle">
                         <div class="banner__item__pic">
                             <img src="${context}/resources/theme/img/banner/banner-2.jpg" alt="">
+                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg2.jpg" alt=""> --%>
                         </div>
                         <div class="banner__item__text">
-                            <h2>Accessories</h2>
+                            <h2>COS</h2>
                             <a href="#">Shop now</a>
                         </div>
                     </div>
@@ -318,9 +347,10 @@
                     <div class="banner__item banner__item--last">
                         <div class="banner__item__pic">
                             <img src="${context}/resources/theme/img/banner/banner-3.jpg" alt="">
+                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg3.jpg" alt=""> --%>
                         </div>
                         <div class="banner__item__text">
-                            <h2>Shoes Spring 2030</h2>
+                            <h2>HAZZYS</h2>
                             <a href="#">Shop now</a>
                         </div>
                     </div>
@@ -331,8 +361,14 @@
     <!-- Banner Section End -->
     
     <!-- Product Section Begin -->
-    <section class="product spad">
-        <div class="container">
+    <section class="product">
+        <div class="container spad">
+        	<div class="row text-center">
+        		<div class="section-title col-lg-12">
+	                <span>Preview</span>
+	                <h3>상품 미리보기</h3>
+                </div>
+        	</div> 
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="filter__controls">
@@ -344,59 +380,90 @@
             </div>
             
             <div class="row product__filter">
-            	<c:forEach var="item" items="${bestList}">
-					<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix best-seller">
-                    	<div class="product__item">
-            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
-	                            <span class="label">Best</span>
-	                            <ul class="product__hover">
-	                                <li><a href="${context}/mypage/like"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
-	                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-	                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
-	                            </ul>
-                        	</div>
-            				<div class="product__item__text">
-	                            <h6>${item.name}</h6>
-	                            <a href="#" class="add-cart">+ 장바구니에 담기</a>
-	                            <div class="rating">
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                            </div>
-	                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
-	                        </div>
-            			</div>
-                	</div>
-            	</c:forEach>
-            	
-            	<c:forEach var="item" items="${newProList}">
-					<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    	<div class="product__item">
-            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
-	                            <span class="label">New</span>
-	                            <ul class="product__hover">
-	                                <li><a href="${context}/mypage/like"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
-	                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-	                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
-	                            </ul>
-                        	</div>
-            				<div class="product__item__text">
-	                            <h6>${item.name}</h6>
-	                            <a href="#" class="add-cart">+ 장바구니에 담기</a>
-	                            <div class="rating">
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                                <i class="fa fa-star-o"></i>
-	                            </div>
-	                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
-	                        </div>
-            			</div>
-                	</div>
-            	</c:forEach>
+            	<c:choose>
+					<c:when test="${fn:length(subsBestList) != 0}">
+						<c:forEach var="item" items="${subsBestList}">
+							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix best-seller">
+		                    	<div class="product__item">
+		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <span class="label">Best</span>
+			                            <ul class="product__hover">
+			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                            </ul>
+		                        	</div>
+		            				<div class="product__item__text">
+			                            <h6>${item.name}</h6>
+			                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
+			                        </div>
+		            			</div>
+		                	</div>
+		            	</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="item" items="${bestList}">
+							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix best-seller">
+		                    	<div class="product__item">
+		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <span class="label">Best</span>
+			                            <ul class="product__hover">
+			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                            </ul>
+		                        	</div>
+		            				<div class="product__item__text">
+			                            <h6>${item.name}</h6>
+			                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
+			                        </div>
+		            			</div>
+		                	</div>
+		            	</c:forEach>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${fn:length(subsNewProList) != 0}">
+						<c:forEach var="item" items="${subsNewProList}">
+							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+		                    	<div class="product__item">
+		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <span class="label">New</span>
+			                            <ul class="product__hover">
+			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                            </ul>
+		                        	</div>
+		            				<div class="product__item__text">
+			                            <h6>${item.name}</h6>
+			                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
+			                        </div>
+		            			</div>
+		                	</div>
+		            	</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="item" items="${newProList}">
+							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+		                    	<div class="product__item">
+		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <span class="label">New</span>
+			                            <ul class="product__hover">
+			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
+			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                            </ul>
+		                        	</div>
+		            				<div class="product__item__text">
+			                            <h6>${item.name}</h6>
+			                            <h5><fmt:formatNumber value="${item.price}" pattern="#,###" />원</h5>
+			                        </div>
+		            			</div>
+		                	</div>
+		            	</c:forEach>
+					</c:otherwise>
+				</c:choose>
             </div>
         </div>
     </section>
@@ -456,12 +523,12 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="instagram__pic">
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-1.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-2.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-3.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-4.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-5.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/theme/img/instagram/instagram-6.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg1.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg2.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg3.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg4.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg5.jpg"></a>
+                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg6.jpg"></a>
                     </div>
                 </div>
                 <div class="col-lg-4">

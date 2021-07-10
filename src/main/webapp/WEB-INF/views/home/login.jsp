@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/vendor/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/vendor/daterangepicker/daterangepicker.css">
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/css/util.css">
-<link rel="stylesheet" type="text/css" href="${context}/resources/login/css/main.css">	
+<link rel="stylesheet" type="text/css" href="${context}/resources/login/css/main.css">
 <title>현대백화점 | 로그인</title>
 </head>
 <body>
@@ -46,8 +46,7 @@
 	
 	<header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
-        <%-- <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" /> --%>
-    </header>
+ 	</header>
 	<div class="limiter">
 		<div class="container-login100">
 <%-- 		<div class="container-login100" style="background-image: url('${context}/resources/login/images/bg-01.jpg');"> --%>
