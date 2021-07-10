@@ -5,10 +5,14 @@
 
 	<select id="selectCartList" parameterType="CartListDTO" resultType="CartListDTO">
 		select b.name, a.qty, b.price as productPrice, a.price as memberPrice, b.thumbnail, b.no as productNo,
-		c.name as memberName, c.email as email, c.phone as phone
+        b.categoryproduct_no as categoryproductNo, f.engname as brandengname, 
+		c.name as memberName, c.email as email, c.phone as phone, d.productsize as shoesize, e.productsize as clothsize
 		from cart a
 		JOIN product b on a.product_no = b.no 
 		JOIN member c on a.member_no = c.no
+        JOIN brand f on b.brand_no = f.no
+        LEFT OUTER JOIN shoesize d on a.shoesize_no = d.no
+        LEFT OUTER JOIN clothsize e on a.clothsize_no = e.no
 		where a.member_no = #{memberNo}
 	</select>
 	
@@ -88,14 +92,86 @@
 		from coupon where no = #{couponNo}
 	</select>
 	
-	<select id="applyDiscount" parameterType="CartListDTO">
+	<update id="applyDiscount" parameterType="CartListDTO">
 		update cart set dcprice = (select 
 		case when type = 0 then (select price from cart where product_no = #{productNo}) * (100 - amount) / 100
 		when type = 1 then (select price from cart where product_no = #{productNo}) - amount end
 		from coupon where no = #{couponNo}) where product_no = #{productNo} and member_no = #{memberNo}
-	</select>
+	</update>
 	
 	<select id="getPointAmount" parameterType="CouponDTO" resultType="PointDTO">
 		select sum(amount) as amount from point where member_no = #{memberNo}
+	</select>
+	
+	<select id="applyPoint" parameterType="PointDTO" resultType="CartListDTO">
+		select distinct (select sum(price) from cart where member_no = 1) as memberPrice, 
+       (select sum(dcprice) from cart where member_no = 1) - #{amount} as productPrice
+		from cart
+	</select>
+	
+	<insert id="usePoint" parameterType="PointDTO">
+		Insert Into point values (point_id_seq.nextval, -#{amount}, to_date(sysdate,'yyyy.mm.dd hh24:mi'),
+		'결제 페이지 포인트 사용', 1)
+	</insert>
+	
+	<select id="getStoreInfo" parameterType="StoreDTO" resultType="StoreDTO">
+		select no, name, adderss as address from store where no = #{no}
+	</select>
+	
+	<insert id="insertInitialCheck" parameterType="OrderedDTO">
+		INSERT INTO ordered (no, orderdate, status, price, usedpoint, member_no) values (ordered_id_seq.nextval, to_date(sysdate,'yyyy.mm.dd hh24:mi'),
+		1, 0, 0, #{memberNo})
+	</insert>
+	
+	<select id="getOrderno" parameterType="OrderedDTO" resultType="OrderedDTO">
+		select no from ordered where status = 1 and member_no = #{memberNo}
+	</select>
+	
+	<insert id="insertOrderedProduct" parameterType="OrderedDTO">
+		INSERT INTO orderedproduct (no, ordered_no, status, product_no, clothsize_no, shoesize_no, qty)
+		select orderedproduct_id_seq.nextval, #{no}, 0, a.no, a.clothsize_no, a.shoesize_no, a.qty
+		from cart a
+		where member_no = #{memberNo}
+	</insert>
+	
+	<update id="updateDelivery" parameterType="OrderedDTO">
+		update ordered set recieve = 0 where no = #{no}
+	</update>
+	
+	<update id="updateDirect" parameterType="OrderedDTO">
+		update ordered set recieve = 1 where no = #{no}
+	</update>
+	
+	<update id="updateDeliveradd" parameterType="OrderedDTO">
+		update ordered set address = #{address} where no = #{no}
+	</update>
+	
+	<update id="updateDirectStore" parameterType="OrderedDTO">
+		update ordered set store_no = #{storeNo} where no = #{no}
+	</update>
+	
+	<update id="updateReserveDate" parameterType="OrderedDTO">
+		update ordered set reservedate = to_date(#{reserveDate}, 'yyyy/mm/dd hh24:mi:ss') where no = #{no}
+	</update>
+	
+	<update id="saveorderedPoint" parameterType="OrderedDTO">
+		update ordered set usedpoint = #{price} where no = #{no}
+	</update>
+	
+	<update id="updatepointPrice" parameterType="OrderedDTO">
+		update ordered set price = (select sum(dcprice) from cart where member_no = 1) - #{price} where no = #{no}
+	</update>
+	
+	<update id="updatestatus" parameterType="OrderedDTO">
+		update ordered set status = 2 where no = #{no}
+	</update>
+	
+	<delete id="deleteMemberCart" parameterType="OrderedDTO">
+		delete from cart where member_no = #{memberNo}
+	</delete>
+	
+	<select id="selectOrderedList" parameterType="CartListDTO" resultType="OrderedDTO">
+		select no, orderdate as orderDate, recieve, usedpoint as usedPoint, price from ordered
+		where member_no = #{memberNo} and status = 1
 	</select>
 </mapper>

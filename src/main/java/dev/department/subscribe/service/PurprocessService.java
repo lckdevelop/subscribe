@@ -36,4 +36,36 @@ public interface PurprocessService {
 
 	PointDTO getPointAmount(CouponDTO couponDTO) throws Exception;
 
+	CartListDTO applyPoint(PointDTO pointDTO) throws Exception;
+
+	void usePoint(PointDTO pointDTO) throws Exception;
+
+	StoreDTO getStoreInfo(StoreDTO storeDTO) throws Exception;
+
+	void insertInitialCheck(OrderedDTO orderedDTO) throws Exception;
+
+	OrderedDTO getOrderno(OrderedDTO orderedDTO) throws Exception;
+
+	void insertOrderedProduct(OrderedDTO savecheck) throws Exception;
+
+	void updateDelivery(OrderedDTO savecheck) throws Exception;
+
+	void updateDirect(OrderedDTO savecheck) throws Exception;
+
+	void updateDeliveradd(OrderedDTO savecheck) throws Exception;
+
+	void updateDirectStore(OrderedDTO savecheck) throws Exception;
+
+	void updateReserveDate(OrderedDTO savecheck) throws Exception;
+
+	void saveorderedPoint(OrderedDTO savecheck) throws Exception;
+
+	void updatepointPrice(OrderedDTO savecheck) throws Exception;
+
+	void updatestatus(OrderedDTO savecheck) throws Exception;
+
+	void deleteMemberCart(OrderedDTO orderedDTO) throws Exception;
+
+	OrderedDTO selectOrderedList(CartListDTO cartlistDTO) throws Exception;
+
 }

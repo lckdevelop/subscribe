@@ -19,7 +19,7 @@ import lombok.extern.slf4j.*;
 public class PurprocessController {
 	
 	@Autowired
-	private PurprocessService purprocessService;
+	private PurprocessService purprocessService; 
 	
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public ModelAndView cart() throws Exception {
@@ -35,6 +35,14 @@ public class PurprocessController {
 	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 	         cartlistDTO.setMemberNo(sMember.getNo());
 	         cartlist = purprocessService.selectCartList(cartlistDTO);
+	         
+	         for(int i = 0; i < cartlist.size(); i++) {
+	        	 if(cartlist.get(i).getShoesize() == null) {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getClothsize());
+	        	 }else {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getShoesize());
+	        	 }
+	         }
 	         log.info(cartlist.toString());
 		}
 		return cartlist;
@@ -99,8 +107,23 @@ public class PurprocessController {
 		}
 		return cartlist;
 	}
-
 	
+	@GetMapping(value = "/cart/savecheckout", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void savecheckout(@ModelAttribute OrderedDTO orderedDTO, Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			purprocessService.insertInitialCheck(orderedDTO);
+			
+			//주문 번호 받아옴
+		    savecheck = purprocessService.getOrderno(orderedDTO);
+		    savecheck.setMemberNo(sMember.getNo());
+		    purprocessService.insertOrderedProduct(savecheck);
+		}
+	}
+
 	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
 	public ModelAndView checkout(Model model, Authentication authentication) throws Exception {
 		if (authentication != null) {
@@ -112,13 +135,130 @@ public class PurprocessController {
 			couponlist = purprocessService.getCouponList(couponDTO);
 			log.info(couponlist.toString());
 			
-			//포인트 총액
-			PointDTO pointamount = new PointDTO();
-			pointamount = purprocessService.getPointAmount(couponDTO);
 			model.addAttribute("couponlist", couponlist);
-			model.addAttribute("pointamount", pointamount);
 			 }
 		return new ModelAndView("/home/checkout");
+	}
+	
+	@GetMapping(value = "/checkout/selectdeliver", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void selectdeliver(@ModelAttribute OrderedDTO orderedDTO,  Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			
+		    savecheck = purprocessService.getOrderno(orderedDTO);
+		    purprocessService.updateDelivery(savecheck);
+		}
+	}
+	
+	
+	@GetMapping(value = "/checkout/selectdirect", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void selectdirect(@ModelAttribute OrderedDTO orderedDTO,  Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			
+		    savecheck = purprocessService.getOrderno(orderedDTO);
+		    purprocessService.updateDirect(savecheck);
+		}
+	}
+	
+	@GetMapping(value = "/checkout/applypoint/{amount}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public CartListDTO applypoint(@ModelAttribute PointDTO pointDTO, Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		CartListDTO applyPointAmount = new CartListDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			pointDTO.setMemberNo(sMember.getNo());
+			//포인트 테이블에 -amount insert
+			purprocessService.usePoint(pointDTO);
+			
+			savecheck.setMemberNo(sMember.getNo());
+			savecheck = purprocessService.getOrderno(savecheck);
+			savecheck.setPrice(pointDTO.getAmount());
+			purprocessService.saveorderedPoint(savecheck);
+			purprocessService.updatepointPrice(savecheck);
+			
+			//포인트 적용된 총합 리턴(productPrice) + 전체 제품 총합(memberPrice)
+			applyPointAmount = purprocessService.applyPoint(pointDTO);
+			//log.info(applyPointAmount.toString());
+		}
+		return applyPointAmount;
+	}
+	
+	@GetMapping(value = "/checkout/savedeliveradd/{address}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void savedeliveradd(@ModelAttribute OrderedDTO orderedDTO,  Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			
+		    savecheck = purprocessService.getOrderno(orderedDTO);
+		    savecheck.setAddress(orderedDTO.getAddress());
+		    purprocessService.updateDeliveradd(savecheck);
+		} 
+	}
+	
+	@GetMapping(value = "/checkout/depttarget/{no}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public StoreDTO clickTarEvent(@ModelAttribute StoreDTO storeDTO, Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		StoreDTO storeinfo = new StoreDTO();
+		if (authentication != null) {
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		savecheck.setMemberNo(sMember.getNo());
+		savecheck = purprocessService.getOrderno(savecheck);
+		storeinfo = purprocessService.getStoreInfo(storeDTO);
+		savecheck.setStoreNo(storeinfo.getNo());
+		purprocessService.updateDirectStore(savecheck);
+		} 
+		return storeinfo;
+	}
+	 
+	@GetMapping(value = "/checkout/selecttime/{reserveDate}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void selecttime(@ModelAttribute OrderedDTO orderedDTO,  Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			
+		    savecheck = purprocessService.getOrderno(orderedDTO); 
+		    String arr[] = orderedDTO.getReserveDate().split("-");
+		    
+		    if(arr[1].length() == 1) {
+		    	arr[1] = "0" + arr[1];
+		    }
+		    if(arr[2].length() == 1) {
+		    	arr[2] = "0" + arr[2];
+		    }
+		   
+		    String temp = arr[0] + "-" + arr[1] + "-" + arr[2] + " " + arr[3];
+
+		    //java.sql.Date to = Date.valueOf(temp);
+		    log.info(temp);
+		    savecheck.setReserveDate(temp); 
+		    purprocessService.updateReserveDate(savecheck);
+		}
+	}
+	
+	@GetMapping(value = "/checkout/selectpoint", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public PointDTO selectpoint(@ModelAttribute CouponDTO userInfo,  Authentication authentication) throws Exception {
+		PointDTO pointamount = new PointDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();	
+			userInfo.setMemberNo(sMember.getNo());
+			pointamount = purprocessService.getPointAmount(userInfo);
+			log.info(pointamount.toString());
+		}
+		return pointamount;
 	}
 	
 	@GetMapping(value = "/checkout/userInfo", produces="application/json;charset=UTF-8")
@@ -189,9 +329,11 @@ public class PurprocessController {
 		if (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			cartlistDTO.setMemberNo(sMember.getNo());
+			
 			//couponNo, memberNo 넘김 --> 할인 적용할 productNo, productName 받아옴
 			dcproduct = purprocessService.selectDcproduct(cartlistDTO);
 			dcproduct.setCouponNo(cartlistDTO.getCouponNo());
+			
 			//prodcutNo, couponNo 넘김 --> 할인 적용된 가격 (productPrice) select
 			dcproductprice = purprocessService.selectDcproductPrice(dcproduct);
 			cartlistDTO.setProductNo(dcproduct.getProductNo());
@@ -205,11 +347,53 @@ public class PurprocessController {
 	@GetMapping(value = "/checkout/applyDiscount/{productNo}/{couponNo}", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public void applyDiscount(@ModelAttribute CartListDTO cartlistDTO, Authentication authentication) throws Exception {
-		CartListDTO totalInfo = new CartListDTO();
 		if (authentication != null) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			cartlistDTO.setMemberNo(sMember.getNo());
 			purprocessService.applyDiscount(cartlistDTO);
 		}
 	}
-}
+	
+	@GetMapping(value = "/checkout/updatestatusFin", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void updatestatusfunc(@ModelAttribute OrderedDTO orderedDTO,  Authentication authentication) throws Exception {
+		OrderedDTO savecheck = new OrderedDTO();
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			orderedDTO.setMemberNo(sMember.getNo());
+			
+		    savecheck = purprocessService.getOrderno(orderedDTO);
+		    log.info("확인" + savecheck.toString());
+		    purprocessService.updatestatus(savecheck);
+		    purprocessService.deleteMemberCart(orderedDTO);
+		}
+	}
+	
+	@RequestMapping(value = "/checkoutcomplete", method = RequestMethod.GET)
+	public ModelAndView checkoutcomplete(Model model, @ModelAttribute CartListDTO cartlistDTO, Authentication authentication) throws Exception {
+		List<CartListDTO> cartlist = new ArrayList<>();
+		OrderedDTO orderedDTO = new OrderedDTO();
+		if (authentication != null) {
+	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+	         cartlistDTO.setMemberNo(sMember.getNo());
+	         cartlist = purprocessService.selectCartList(cartlistDTO);
+	         
+	         for(int i = 0; i < cartlist.size(); i++) {
+	        	 if(cartlist.get(i).getShoesize() == null) {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getClothsize());
+	        	 }else {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getShoesize());
+	        	 }
+	         }
+	         
+	         orderedDTO = purprocessService.selectOrderedList(cartlistDTO);
+	         log.info(cartlist.toString());
+	         log.info(orderedDTO.toString());
+	         
+	         model.addAttribute("orderedDTO", orderedDTO);
+	         model.addAttribute("cartlist", cartlist);
+		}
+		return new ModelAndView("/home/checkoutcomplete");
+	}
+
+} 

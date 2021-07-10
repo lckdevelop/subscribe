@@ -10,4 +10,6 @@ public interface MypageService {
 
 	List<CartListDTO> getLikeList(MemberDTO memberDTO) throws Exception;
 
+	void insertReservation(ReservationDTO reservation) throws Exception;
+
 }
