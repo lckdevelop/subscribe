@@ -29,102 +29,26 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
     <script type="text/javascript">
-    //1로 표시된 파라미터 값(memberNo) 이후에 수정
-    
     $(document).ready(function(){
-		selectContent();
-		selectTotal();
-		saveCheckoutInfo();
+		admitresult();
 	});
-	
-    function selectTotal() {
-		$.ajax({
-			method : 'GET',
-			url : '${pageContext.request.contextPath}/cart/totalinfo', 
-		}).done(function( data ) {
-			var mytable = '<ul><li>Total <span>' + data + '</span></li>';
-			$('#displayTotal').html(mytable);
-		});
-	}
-	
-	function selectContent() {
-		$.ajax({
-			method : 'GET',
-			url : '${pageContext.request.contextPath}/cart/cartinfo', 
-		}).done(function( data ) {
-		 	displayContentList(data);
-		});
-	}
-	
-	function displayContentList(data) {
-		var mytable = "";
-	  	$.each( data, function( key, val ) {
-	    	mytable += '<tr><td class="product__cart__item">';
-	    	mytable += '<div class="product__cart__item__pic"><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/'+ val['brandengname'] +'/'+ val['categoryproductNo'] +'/'+ val['thumbnail'] +'.jpg" style="width: 200px; height: 200px"><div>';
-	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><p>사이즈: ' + val['productsize'] + '</p></div></td>';
-	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
-	    	mytable += '<span class="fa fa-angle-left decqtybtn" myval ="'+ val['productNo'] +'"></span>';
-	    	mytable += '<input type="text" value="' + val['qty'] + '">';
-	    	mytable += '<span class="fa fa-angle-right incqtybtn" myval ="'+ val['productNo'] +'"></span></div></div></td>';
-	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
-	    	mytable += '<td class="cart__close"><i class="deletebtn fa fa-close" myval ="'+ val['productNo'] +'"></i></td></tr>';
-			});
-	 
-			$('#contentdisplay').html(mytable);
-			selectTotal();
-			changedecQTY();
-			changeincQTY();
-			deleteProduct();
-	}
-	
-	function deleteProduct(){
-		$(".deletebtn").click(function () {
-			$.ajax({
-				method : 'DELETE',
-				url : '${pageContext.request.contextPath}/cart/deletepro/'+ $(this).attr('myval')
-			}).done(function( data ) {
-				displayContentList(data);
-			});
-		});
-	}
-	
-	function changedecQTY(){
-		$(".decqtybtn").click(function () {
-			$.ajax({
-				method : 'POST',
-				url : '${pageContext.request.contextPath}/cart/decqty/'+ $(this).attr('myval')
-			}).done(function( data ) {
-				displayContentList(data);
-			});
-		});
-	}
-	
-	function changeincQTY(){
-		$(".incqtybtn").click(function () {
-			$.ajax({
-				method : 'POST',
-				url : '${pageContext.request.contextPath}/cart/incqty/'+ $(this).attr('myval')
-			}).done(function( data ) {
-				displayContentList(data);
-			});
-		});
-	}
-	
-	function saveCheckoutInfo() {
-		$("#saveCheckout").click(function () {
+    
+    function admitresult() {
+		$('.admitbtn').click(function(){
 			$.ajax({
 				method : 'GET',
-				url : '${pageContext.request.contextPath}/cart/savecheckout', 
+				url : '${pageContext.request.contextPath}/checkout/updatestatusFin', 
 			});
+			location.href="/subscribe/mypage/orderedlist";
 		});
 	}
-		
+    
     </script>
 </head>
 
@@ -177,11 +101,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>장바구니</h4>
+                        <h4>MY 현대 </h4>
                         <div class="breadcrumb__links">
                             <a href="./index.html">Home</a>
                             <a href="./shop.html">Shop</a>
-                            <span>장바구니</span>
+                            <span>MY 현대</span>
                         </div>
                     </div>
                 </div>
@@ -189,48 +113,91 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-
-    <!-- Shopping Cart Section Begin -->
-    <section class="shopping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="shopping__cart__table">
-                        <table>
-                            <thead>
+	 <div class="row d-flex justify-content-center" style="margin-top: 40px; margin-bottom: 40px">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="text-left logo p-2 px-5"> <img src="${context}/resources/index/images/mainLogo.PNG" width="150" style="margin-top: 40px"> </div>
+                <div class="invoice p-5">
+                    <h5>주문이 완료되었습니다!</h5><br><span>주문 접수 후 최대 3일 이내에 배송이 시작됩니다.</span>
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
                                 <tr>
-                                    <th>상품</th>
-                                    <th>수량</th>
-                                    <th>가격</th>
-                                    <th></th>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">주문 날짜</span> <span>${orderedDTO.orderDate}</span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">주문 번호</span> <span>${orderedDTO.no}</span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">결제 방식</span> <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> </div>
+                                    </td>
+                         <c:choose>
+							<c:when test="${orderedDTO.recieve eq 0}">           
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">수령 방법</span> <span>택배 배송</span> </div>
+                                    </td>
+                            </c:when>
+                            <c:otherwise>
+                            		<td>
+                                        <div class="py-2"> <span class="d-block text-muted">수령 방법</span> <span>직접 수령</span> </div>
+                                    </td>
+                            </c:otherwise>
+                        </c:choose>
                                 </tr>
-                            </thead>
-                            <tbody id = "contentdisplay">
-                            
-                                
-                             
                             </tbody>
                         </table>
                     </div>
-                    <div style="text-align : center">
-                            <div class="continue__btn">
-                                <a href="#">쇼핑 계속하기</a>
-                            </div>
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                             <c:forEach items="${cartlist}" var="dto">
+                                <tr>
+                                    <td width="20%"> <img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${dto.brandengname}/${dto.categoryproductNo}/${dto.thumbnail}.jpg" width="90"> </td>
+                                    <td width="60%"> <span class="font-weight-bold">${dto.name}</span>
+                                        <div class="product-qty"> <span class="d-block">수량 : ${dto.qty}</span> <span>Size: ${dto.productsize}</span> </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right"> <span class="font-weight-bold">${dto.memberPrice}원</span> </div>
+                                    </td>
+                                </tr>
+                               </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="col-lg-4" style="margin-top: 60px">
-                    <div class="cart__total">
-                        <h6>총 상품 금액</h6>
-                        <div id="displayTotal">
-                       
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-5">
+                            <table class="table table-borderless">
+                                <tbody class="totals">
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">포인트 사용</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span class="text-success">${orderedDTO.usedPoint}P</span> </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left"> <span class="font-weight-bold">결제 가격</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span class="font-weight-bold">${orderedDTO.price}원</span> </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <a href="/subscribe/checkout" id="saveCheckout" class="primary-btn">결제하러 가기</a>
                     </div>
+                    <div style="text-align: center; margin-top: 40px">
+					   <button type="button" class="admitbtn btn btn-outline-dark" style="user-select: auto;">주문 확인</button>
+		      		</div>
                 </div>
+                <div class="d-flex justify-content-between footer p-3"> </div>
             </div>
         </div>
-    </section>
-    <!-- Shopping Cart Section End -->
+    </div>
+	
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -260,7 +227,9 @@
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
-    
+    <script src="${context}/resources/theme/js/jquery.min.js"></script>
+    <script src="${context}/resources/theme/js/popper.js"></script>
+    <script src="${context}/resources/theme/js/sidebar.js"></script>
 </body>
 
 </html>

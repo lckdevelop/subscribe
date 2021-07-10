@@ -2,6 +2,8 @@ package dev.department.subscribe.web;
 
 import java.util.*;
 
+import javax.servlet.http.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
@@ -20,6 +22,32 @@ public class MypageController {
 	
 	@Autowired
 	private MypageService mypageService;
+	
+	@Autowired
+	private BrandService brandService;
+	
+	@RequestMapping(value = "/brands/reservationform/{brandNo}", method = RequestMethod.GET)
+	public ModelAndView getBrandPage(@PathVariable int brandNo, Model model, HttpSession session) {
+		try {
+			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
+			model.addAttribute("brandInfo", brandDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("/brands/reservationform");
+	}
+	
+	@GetMapping(value = "/brands/reservationform/action/{storeNo}/{memo}/{restime}/{brandNo}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void reserve(@ModelAttribute ReservationDTO reservation, Authentication authentication) throws Exception {
+		if (authentication != null) {
+	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+	         reservation.setMemberNo(sMember.getNo());
+	         log.info(reservation.toString());
+	         mypageService.insertReservation(reservation);
+		}
+	}
 
 	@RequestMapping(value = "/mypage/coupon", method = RequestMethod.GET)
 	public ModelAndView coupon(Model model, Authentication authentication) throws Exception {
@@ -29,7 +57,6 @@ public class MypageController {
 	         log.info(sMember.getName() + ": 겟 네임입니다~" );
 	         log.info(sMember.getNo() + ": 겟 넘버입니다~" );
 	         
-	       //나중에 수정 (멤버 넘버 제대로 넘기기)
 	 		MemberDTO memberDTO = new MemberDTO();
 	 		memberDTO.setNo(sMember.getNo());
 	 		
@@ -59,12 +86,6 @@ public class MypageController {
 	public ModelAndView hpoint() throws Exception {
 		
 		return new ModelAndView("/home/hpoint");
-	}
-	
-	@RequestMapping(value = "/mypage/memberInfo", method = RequestMethod.GET)
-	public ModelAndView memberInfo() throws Exception {
-		
-		return new ModelAndView("/home/memberInfo");
 	}
 	
 	@RequestMapping(value = "/mypage/orderedlist", method = RequestMethod.GET)

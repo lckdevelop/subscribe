@@ -10,11 +10,15 @@ public class CartListDTO {
 	int productNo;
 	int memberNo;
 	String name;
+	int categoryproductNo;
 	int qty;
 	int productPrice;
 	int memberPrice;
 	int totalPrice;
 	int views;
+	String shoesize;
+	String clothsize;
+	String productsize;
 	String brandname;
 	String brandengname;
 	String thumbnail;
