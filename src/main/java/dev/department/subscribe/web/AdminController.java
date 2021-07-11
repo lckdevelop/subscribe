@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,7 @@ import dev.department.subscribe.service.MailService;
 import dev.department.subscribe.service.PickupService;
 import dev.department.subscribe.service.ReserveService;
 import dev.department.subscribe.service.SalesService;
+import dev.department.subscribe.validator.CouponValidator;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 
@@ -653,7 +655,16 @@ public class AdminController {
 	
 	// 쿠폰 발급 완료 페이지
 	@PostMapping("/coupon")
-	public String couponComplete(Authentication authentication, CouponDTO couponDTO, Model model) {
+	public String couponComplete(Authentication authentication, CouponDTO couponDTO, Model model, BindingResult result) {
+		
+		CouponValidator validator = new CouponValidator();
+		validator.validate(couponDTO, result);
+		
+		if (result.hasErrors()) {
+			log.warn(result.getErrorCount() + "개의 에러 발생");
+			model.addAttribute("errMsg", "입력이 잘못되었습니다!.\n 쿠폰 발급 양식을 잘 확인해주세요");
+			return "admin/coupon-complete";
+		}
 		
 		int brandNo = 0;
 		int storeNo = 0;
@@ -663,11 +674,6 @@ public class AdminController {
 			brandNo = sMember.getBrandNo();
 			storeNo = sMember.getStoreNo();
 		}
-		
-		log.info(couponDTO.toString());
-		log.info(couponDTO.getTitle());
-		log.info(couponDTO.getType() + " ");
-		
 		
 		try {
 			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
