@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.department.subscribe.dao.SalesDAO;
+import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.SalesParamDTO;
 
@@ -48,6 +49,27 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<Integer> getDailyEarnData(SalesParamDTO salesParamDTO) throws Exception {
 		return salesDAO.getDailyEarnData(salesParamDTO);
+	}
+
+	@Override
+	public int getAccumListCnt(ReserveCntParamDTO reserveCntParamDTO) throws Exception {
+		return salesDAO.getAccumListCnt(reserveCntParamDTO);
+	}
+
+	@Override
+	public PagingDTO getAccumList(PagingDTO pagingDTO) throws Exception {
+		pagingDTO.setList3(salesDAO.getAccumList(pagingDTO));
+		return pagingDTO;
+	}
+
+	@Override
+	public int getLastMonthEarn(SalesParamDTO salesParamDTO) throws Exception {
+		return salesDAO.getLastMonthEarn(salesParamDTO);
+	}
+
+	@Override
+	public int getLastDayEarn(SalesParamDTO salesParamDTO) throws Exception {
+		return salesDAO.getLastDayEarn(salesParamDTO);
 	}
 	
 }

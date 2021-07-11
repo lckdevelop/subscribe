@@ -88,7 +88,7 @@ public class AdminController {
 		}
 		
 		try {
-			
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
 			int subsCnt = mailService.getSubsCount(brandNo);
 			int reserveCnt = reserveService.getTodayReserveCnt(new ReserveCntParamDTO("", brandNo, storeNo));
 			int pickupCnt = pickupService.getTodayPickupCnt(new ReserveCntParamDTO("", brandNo, storeNo));
@@ -96,6 +96,7 @@ public class AdminController {
 			int monthlyEarn = salesService.getMothlyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
 			int dailyEarn = salesService.getDailyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
 			
+			model.addAttribute("brandInfo", brandInfo);
 			model.addAttribute("monthlyEarn", monthlyEarn);
 			model.addAttribute("dailyEarn", dailyEarn);
 			model.addAttribute("subsCnt", subsCnt);
@@ -121,7 +122,10 @@ public class AdminController {
 		}
 		
 		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
 			int subsCnt = mailService.getSubsCount(brandNo);
+			
+			model.addAttribute("brandInfo", brandInfo);
 			model.addAttribute("subsCnt", subsCnt);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
@@ -144,6 +148,12 @@ public class AdminController {
 			brandNo = sMember.getBrandNo();
 		}
 		
+		BrandDTO brandInfo;
+		try {
+			brandInfo = brandService.getBrandInfo(brandNo);
+		} catch (Exception e1) {
+			brandInfo = null;
+		}
 		try {
 			ArrayList<MemberDTO> receiverInfo = new ArrayList<>();
 			receiverInfo = mailService.getReceiverInfo(brandNo); // 수신자 정보 가져오기
@@ -161,24 +171,29 @@ public class AdminController {
 			message.setRecipients(RecipientType.CC, address); // 수신자 지정
 			mailSender.send(message);
 			model.addAttribute("sendFlag", sendFlag);
+			model.addAttribute("brandInfo", brandInfo);
 			
 		} catch (MessagingException e) {
 			log.warn(e.getMessage());
 			sendFlag = false;
 			model.addAttribute("sendFlag", sendFlag);
+			model.addAttribute("brandInfo", brandInfo);
 		} catch (UnsupportedEncodingException e) {
 			log.warn(e.getMessage());
 			sendFlag = false;
 			model.addAttribute("sendFlag", sendFlag);		
+			model.addAttribute("brandInfo", brandInfo);
 		} catch(RuntimeException e) {
 			log.warn(e.getMessage());
 			sendFlag = false;
 			model.addAttribute("errmsg", "전송 가능한 구독자가 없습니다!");
 			model.addAttribute("sendFlag", sendFlag);
+			model.addAttribute("brandInfo", brandInfo);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
 			sendFlag = false;
 			model.addAttribute("sendFlag", sendFlag);
+			model.addAttribute("brandInfo", brandInfo);
 		}
 		
 		return "admin/mailsendcomplete";
@@ -197,6 +212,13 @@ public class AdminController {
 			storeNo = sMember.getStoreNo();
 		}
 		
+		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
+			model.addAttribute("brandInfo", brandInfo);
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+		}
+		
 		return "admin/reserve";
 	}
 	
@@ -211,6 +233,13 @@ public class AdminController {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
 			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
+			model.addAttribute("brandInfo", brandInfo);
+		} catch(Exception e) {
+			log.warn(e.getMessage());
 		}
 				
 		model.addAttribute("search", (String) request.getParameter("search"));
@@ -419,7 +448,7 @@ public class AdminController {
 	
 	// 픽업 관리 페이지
 	@RequestMapping("/pickup")
-	public String pickup(Authentication authentication) {
+	public String pickup(Authentication authentication, Model model) {
 		
 		int brandNo = 0;
 		int storeNo = 0;
@@ -428,6 +457,13 @@ public class AdminController {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			brandNo = sMember.getBrandNo();
 			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
+			model.addAttribute("brandInfo", brandInfo);
+		} catch(Exception e) {
+			log.warn(e.getMessage());
 		}
 		
 		return "admin/pickup";
@@ -562,7 +598,7 @@ public class AdminController {
 			int subsCnt = mailService.getSubsCount(brandNo);
 			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
 			model.addAttribute("subsCnt", subsCnt);
-			model.addAttribute("brand", brandDTO);
+			model.addAttribute("brandInfo", brandDTO);
 		} catch (Exception e) {
 			log.warn(e.getMessage());
 		}
@@ -589,7 +625,9 @@ public class AdminController {
 		
 		
 		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
 			couponService.insertCoupon(couponDTO, brandNo);
+			model.addAttribute("brandInfo", brandInfo);
 			
 		} catch (Exception e) {
 			log.warn(e.getMessage());
@@ -682,11 +720,17 @@ public class AdminController {
 		}
 		
 		try {
+			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);
 			int monthlyEarn = salesService.getMothlyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
 			int dailyEarn = salesService.getDailyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
+			int lastMonthEarn = salesService.getLastMonthEarn(new SalesParamDTO(brandNo, storeNo, null));
+			int lastDayEarn = salesService.getLastDayEarn(new SalesParamDTO(brandNo, storeNo, null));
 			
+			model.addAttribute("brandInfo", brandInfo);
 			model.addAttribute("monthlyEarn", monthlyEarn);
 			model.addAttribute("dailyEarn", dailyEarn);
+			model.addAttribute("lastMonthEarn", lastMonthEarn);
+			model.addAttribute("lastDayEarn", lastDayEarn);
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 		}
@@ -736,6 +780,39 @@ public class AdminController {
 		}
 		
 		return list;
+	}
+	
+	// 전체 예약 목록 AJAX
+	@GetMapping("/reserve/getAccumList")
+	@ResponseBody
+	public PagingDTO getAccumList(Authentication authentication,
+									@RequestParam("pg") int pg) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<ReserveListDTO> reserveList = new ArrayList<>();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int productCnt = salesService.getAccumListCnt(new ReserveCntParamDTO(null, brandNo, storeNo));
+			pagingDTO = new PagingDTO(pg, 10, 5, productCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setStoreNo(storeNo);
+			pagingDTO = salesService.getAccumList(pagingDTO);
+		} catch (Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
 	}
 
 }
