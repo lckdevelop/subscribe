@@ -18,4 +18,8 @@ public interface SalesDAO {
 
 	List<Integer> getSubsDistribution(SalesParamDTO salesParamDTO) throws SQLException;
 
+	List<String> getCurrentTenDays() throws SQLException;
+
+	List<Integer> getDailyEarnData(SalesParamDTO salesParamDTO) throws SQLException;
+
 }

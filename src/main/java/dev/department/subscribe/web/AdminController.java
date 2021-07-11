@@ -74,6 +74,7 @@ public class AdminController {
 		return "redirect:admin/";
 	}
 	
+	// 관리자 대쉬보드
 	@GetMapping("/")
 	public String adminMain(Authentication authentication, Model model) {
 		
@@ -659,6 +660,76 @@ public class AdminController {
 		
 		try {
 			list = salesService.getSubsDistribution(new SalesParamDTO(brandNo, storeNo, null));
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 매출관리 페이지 이동
+	@GetMapping("/sales")
+	public String sales(Authentication authentication, Model model) {
+		
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		try {
+			int monthlyEarn = salesService.getMothlyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
+			int dailyEarn = salesService.getDailyEarn(new SalesParamDTO(brandNo, storeNo, new Date()));
+			
+			model.addAttribute("monthlyEarn", monthlyEarn);
+			model.addAttribute("dailyEarn", dailyEarn);
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+		}
+		
+		
+		return "admin/sales";
+	}
+	
+	// 최근 10일 날짜 가져오기
+	@GetMapping("/reserve/getCurrentTenDays")
+	@ResponseBody
+	public List<String> getCurrentTenDays() {
+
+		List<String> list = new ArrayList<>();
+		
+		try {
+			list = salesService.getCurrentTenDays();
+		} catch(Exception e) {
+			log.warn(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 최근 10일 판매실적 가져오기
+	@GetMapping("/reserve/getDailyEarnData")
+	@ResponseBody
+	public List<Integer> getDailyEarnData(Authentication authentication) {
+
+		int brandNo = 0;
+		int storeNo = 0;
+		
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			brandNo = sMember.getBrandNo();
+			storeNo = sMember.getStoreNo();
+		}
+		
+		List<Integer> list = new ArrayList<>();
+		
+		try {
+			list = salesService.getDailyEarnData(new SalesParamDTO(brandNo, storeNo, null));
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 			e.printStackTrace();

@@ -23,25 +23,25 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
+var dctx = document.getElementById("DailyChart");
+var dmyLineChart = new Chart(dctx, {
   type: 'line',
   data: {
-    labels: getCurrentTwelveMonth(),
+    labels: getCurrentTenDays(),
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
-      backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
+      backgroundColor: "rgba(231, 250, 230, 1)",
+      borderColor: "rgba(48, 186, 38, 1)",
       pointRadius: 3,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
+      pointBackgroundColor: "rgba(48, 186, 38, 1)",
+      pointBorderColor: "rgba(48, 186, 38, 1)",
       pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+      pointHoverBackgroundColor: "rgba(48, 186, 38, 1)",
+      pointHoverBorderColor: "rgba(48, 186, 38, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: getAnnualEarnData(),
+      data: getDailyEarnData(),
     }],
   },
   options: {
@@ -111,10 +111,10 @@ var myLineChart = new Chart(ctx, {
   }
 });
 
-function getAnnualEarnData() {
+function getDailyEarnData() {
 	let data;
 	$.ajax({
-		url: './reserve/getAnnualEarnData',
+		url: './reserve/getDailyEarnData',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -123,16 +123,16 @@ function getAnnualEarnData() {
 			console.log(data);
 		},
 		error : function(err) {
-			alert('getAnnualEarnData Error!')
+			alert('getDailyEarnData Error!')
 		}
 	});
 	return data;
 }
 
-function getCurrentTwelveMonth() {
+function getCurrentTenDays() {
 	let label;
 	$.ajax({
-		url: './reserve/getCurrentTwelveMonth',
+		url: './reserve/getCurrentTenDays',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -141,7 +141,7 @@ function getCurrentTwelveMonth() {
 			console.log(label);
 		},
 		error : function(err) {
-			alert('getCurrentTwelveMonth Error!')
+			alert('getCurrentTenDays Error!')
 		}
 	});
 	return label;
