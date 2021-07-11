@@ -6,6 +6,7 @@ import java.util.List;
 import dev.department.subscribe.dto.CalendarParamDTO;
 import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.ReservationDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
@@ -31,5 +32,9 @@ public interface ReserveDAO {
 	List<FullCalendarDTO> getCalendarData(CalendarParamDTO calendarParamDTO) throws SQLException;
 
 	void reserveVisit(ReservePermitDTO reservePermitDTO) throws SQLException;
+
+	String getPhoneNumber(int no) throws SQLException;
+
+	ReservationDTO getReserveInfo(int no) throws SQLException;
 
 }
