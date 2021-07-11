@@ -82,5 +82,36 @@
 	]]>
 	</select>
 	
+	<select id='getDailyEarnData' parameterType='SalesParamDTO' resultType='int'>
+	<![CDATA[
+		   SELECT NVL(D.PRICE, 0) AS PRICE
+		     FROM (    SELECT TO_CHAR((SYSDATE + (1 - LEVEL)), 'YYYY/MM/DD') AS MONTH
+		                 FROM DUAL
+		           CONNECT BY LEVEL <= 10
+		             ORDER BY MONTH) M
+		LEFT JOIN (    SELECT TO_CHAR(O.ORDERDATE, 'YYYY/MM/DD') AS MONTH, 
+		                      NVL(SUM(P.PRICE * QTY), 0) AS PRICE
+		                 FROM ORDERED O
+		           INNER JOIN ORDEREDPRODUCT OP
+		                   ON O.NO = OP.ORDERED_NO
+		           INNER JOIN PRODUCT P
+		                   ON OP.PRODUCT_NO = P.NO
+		                WHERE O.STORE_NO = #{storeNo}
+		                  AND P.BRAND_NO = #{brandNo}
+		             GROUP BY TO_CHAR(O.ORDERDATE, 'YYYY/MM/DD')) D
+		       ON M.MONTH = D.MONTH
+		 ORDER BY M.MONTH
+	]]>
+	</select>
+	
+	<select id='getCurrentTenDays' resultType='String'>
+	<![CDATA[
+		    SELECT TO_CHAR((SYSDATE + (1 - LEVEL)), 'YYYY/MM/DD') AS DAYS
+		      FROM DUAL
+		CONNECT BY LEVEL <= 10
+		  ORDER BY DAYS
+	]]>
+	</select>
+	
 	
 </mapper>

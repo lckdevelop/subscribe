@@ -39,5 +39,15 @@ public class SalesServiceImpl implements SalesService {
 	public List<Integer> getSubsDistribution(SalesParamDTO salesParamDTO) throws Exception {
 		return salesDAO.getSubsDistribution(salesParamDTO);
 	}
+
+	@Override
+	public List<String> getCurrentTenDays() throws Exception {
+		return salesDAO.getCurrentTenDays();
+	}
+
+	@Override
+	public List<Integer> getDailyEarnData(SalesParamDTO salesParamDTO) throws Exception {
+		return salesDAO.getDailyEarnData(salesParamDTO);
+	}
 	
 }

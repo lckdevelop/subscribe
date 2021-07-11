@@ -17,4 +17,8 @@ public interface SalesService {
 
 	List<Integer> getSubsDistribution(SalesParamDTO salesParamDTO) throws Exception;
 
+	List<String> getCurrentTenDays() throws Exception;
+
+	List<Integer> getDailyEarnData(SalesParamDTO salesParamDTO) throws Exception;
+
 }
