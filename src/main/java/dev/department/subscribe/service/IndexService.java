@@ -17,5 +17,11 @@ public interface IndexService {
 	
 	ArrayList<ProductDTO> getNewProducts() throws Exception;
 	
+	ArrayList<ProductDTO> getBestSellersFromSubs(int memNo) throws Exception;
+	
+	ArrayList<ProductDTO> getNewProductsFromSubs(int memNo) throws Exception;
+	
 	ArrayList<ProductDTO> selectByKeyword(String keyWord) throws Exception;
+
+	String ZzimAction(int productNo, int memberNo) throws Exception;
 }

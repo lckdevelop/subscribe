@@ -31,12 +31,12 @@
 	                <script>
 	                    document.write(new Date().getFullYear());
 	                </script>
-	                <a href="" class="disable">hyundai team4</a> <br> - All rights reserved 
+	                <a href="" class="disable">hyundai team4</a> <br> All rights reserved 
 	            </p>
 	            <%-- <a href="#"><img src="${context}/resources/theme/img/payment.png" alt=""></a> --%>
 	        </div>
 	    </div>
-	    <!-- <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+	    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
 	        <div class="footer__widget">
 	            <h6>Category</h6>
 	            <ul>
@@ -52,10 +52,11 @@
 	        <div class="footer__widget">
 	            <h6>Brands</h6>
 	            <ul>
-	                <li><a href="#">Contact Us</a></li>
-	                <li><a href="#">Payment Methods</a></li>
-	                <li><a href="#">Delivary</a></li>
-	                <li><a href="#">Return & Exchanges</a></li>
+	            	<li><a href="#">앤아더스토리즈</a></li>
+	                <li><a href="#">지컷</a></li>
+	                <li><a href="#">이로</a></li>
+	                <li><a href="#">시슬리</a></li>
+	                <li><a href="#">보브</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -63,14 +64,14 @@
 	        <div class="footer__widget">
 	            <h6>NewLetter</h6>
 	            <div class="footer__newslatter">
-	                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+	                <p>새로운 세일 & 프로모션, 브로슈어 제공을<br> 제일 먼저 받아보세요!</p>
 	                <form action="#">
-	                    <input type="text" placeholder="Your email">
+	                    <input type="text" placeholder="이메일">
 	                    <button type="submit"><span class="icon_mail_alt"></span></button>
 	                </form>
 	            </div>
 	        </div>
-	    </div> -->
+	    </div>
 	</div>
 	<div class="row">
 	    <div class="col-lg-12 text-center">
