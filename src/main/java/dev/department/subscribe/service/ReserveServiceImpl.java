@@ -9,6 +9,7 @@ import dev.department.subscribe.dao.ReserveDAO;
 import dev.department.subscribe.dto.CalendarParamDTO;
 import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.ReservationDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,11 @@ public class ReserveServiceImpl implements ReserveService {
 	@Override
 	public void reserveVisit(ReservePermitDTO reservePermitDTO) throws Exception {
 		reserveDAO.reserveVisit(reservePermitDTO);
+	}
+
+	@Override
+	public ReservationDTO getReserveInfo(int no) throws Exception {
+		return reserveDAO.getReserveInfo(no);
 	}
 
 }
