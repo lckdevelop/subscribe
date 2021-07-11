@@ -22,6 +22,7 @@ public class PagingDTO {
 	int storeNo;
 	List<ReserveListDTO> list1;
 	List<PickupListDTO> list2;
+	List<AccumListDTO> list3;
 
 	public PagingDTO() {
 	}
