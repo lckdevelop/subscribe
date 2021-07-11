@@ -183,6 +183,7 @@
 	                            <!-- Card Body -->
 	                            <div class="card-body">
 	                            
+                           			<div class="coupon-img-title">----- 할인 쿠폰</div>
 	                            	<div class="coupon-img-box shadow d-flex flex-row align-items-center mb-4 mt-4 ml-5 mr-5" >
 	                            		
 	                            		<div class="col-lg-5 coupon-img-left d-flex">
@@ -190,7 +191,6 @@
 	                            		</div>
 	                            		
 	                            		<div class="col-lg-5 coupon-img-right" >
-	                            			<div class="coupon-img-title">----- 할인 쿠폰</div>
 	                            			<span class="coupon-img-amount">00</span><span class="coupon-img-type">-</span>
 	                            			<div class="coupon-img-duetime">~ 0000-00-00</div>
 	                            		</div>
