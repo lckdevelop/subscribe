@@ -11,4 +11,5 @@ public class ReservePermitDTO {
 
 	int no;
 	int brandNo;
+	int storeNo;
 }

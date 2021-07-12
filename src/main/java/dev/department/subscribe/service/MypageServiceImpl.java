@@ -34,4 +34,14 @@ public class MypageServiceImpl implements MypageService{
 			throw e;
 		}
 	}
+
+	@Override
+	public void insertReservation(ReservationDTO reservation) throws Exception {
+		try {
+			mypageDAO.insertReservation(reservation);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
 }

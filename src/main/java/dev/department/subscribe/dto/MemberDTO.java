@@ -22,5 +22,6 @@ public class MemberDTO {
 	int point;
 	String role;
 	int brandNo;
+	int storeNo;
 	String brandName;
 }

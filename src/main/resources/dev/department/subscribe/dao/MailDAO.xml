@@ -5,7 +5,8 @@
 <mapper namespace="dev.department.subscribe.dao.MailDAO">
 
 	<select id='getReceiverInfo' parameterType="int" resultType="MemberDTO">
-		SELECT NAME , 
+		SELECT M.NO ,
+			   NAME , 
 		       ID   , 
 		       EMAIL
 		  FROM MEMBER M

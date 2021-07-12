@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/custom/css/custom.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/custom/css/table.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/custom/css/ionicons.min.css">
+	<link rel="stylesheet" href="${context}/resources/custom/css/style.css">
+	<link rel="stylesheet" href="${context}/resources/custom/css/modal2.css">
 	
 	<!-- 아임포트 -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -42,6 +45,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="${context}/resources/theme/js/send-notice.js"></script>
 	
 	<script type="text/javascript">
 	
@@ -52,25 +56,101 @@
 		selectTotal();
 		selectContent();
 		clickCouponEvent();
-		//clickPointEvent();
+		selectPoint();
+		clickTarEvent();
+		savedeliveraddress();
 	});
-	/*
-	function clickPointEvent() {
-		$('#pointbtn').click(function(){
+	
+	function savedeliveraddress() {
+		$('.savedeliveradd').click(function(){
+			var address = $('#address_input_1').val() + " " + $('#address_input_2').val() + " " + $('#address_input_3').val();
+			console.log(address)
 			$.ajax({
 				method : 'GET',
-				url : '${pageContext.request.contextPath}/checkout/coupondisplay/' + $(".couponselect option:selected").val()
-			}).done(function( data ) { 
-				displayCoupon(data);
-				selectdcproduct(data);
-				console.log(data);
+				url : '${pageContext.request.contextPath}/checkout/savedeliveradd/'+ address
 			});
 		});
 	}
-	*/
+	
+	function clickTarEvent() {
+		$('.selecttar').click(function(){
+			console.log($(this).attr('myval'));
+			document.getElementById('storeNo').value = $(this).attr('myval');
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/depttarget/'+ $(this).attr('myval')
+			}).done(function( data ) { 
+				// 지점 정보 넘겨받기
+				displayTarget(data);
+			});
+		});
+	}
+	
+	function displayTarget(data) {
+		var mytable ='';
+	    mytable += '<div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.address+'</p></div></div>';
+		$('#displayTarget').html(mytable);
+		
+		clickPointEvent()
+	}
+	
+	function selectPoint() {
+		$.ajax({
+			method : 'GET',
+			url : '${pageContext.request.contextPath}/checkout/selectpoint'
+		}).done(function( data ) { 
+			displayPoint(data);
+		});
+		
+	}
+	
+	function displayPoint(data) {
+		var mytable ='';
+	    mytable += '<tr class="alert" role="alert"><td>'+data.amount+'</td> <td class="quantity">';
+	    mytable += '<div class="input-group"><input type="text" id = "usepoint"  name = "usepoint" class="usepoint form-control input-number"></div></td><td>';
+	    mytable += '<button id="pointbtn" class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></td><td></td></tr>';
+		$('#pointcontent').html(mytable);
+		
+		clickPointEvent()
+	}
+	
+	function clickPointEvent() {
+		$('#pointbtn').click(function(){
+			console.log($("#usepoint").val());
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/applypoint/'+ $("#usepoint").val()
+			}).done(function( data ) { 
+				displayTotalList(data);
+				payforButtonEvent(data);
+				payforButtonKaKaoEvent(data);
+				payforButtonPaykoEvent(data);
+				selectDisablePoint();
+			});
+		});
+	}
+	
+	function selectDisablePoint() {
+		$.ajax({
+			method : 'GET',
+			url : '${pageContext.request.contextPath}/checkout/selectpoint'
+		}).done(function( data ) { 
+			displayPointDisable(data);
+		});
+		
+	}
+	
+	function displayPointDisable(data) {
+		var mytable ='';
+	    mytable += '<tr class="alert" role="alert"><td>'+data.amount+'</td> <td class="quantity">';
+	    mytable += '<div class="input-group">&nbsp;&nbsp;&nbsp;&nbsp;<img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid"></div></td><td>';
+	    mytable += '포인트 사용 완료</td><td></td></tr>';
+		$('#pointcontent').html(mytable);
+	}
+	
 	function clickCouponEvent() {
 		$('#couponselectbtn').click(function(){
-			console.log($(".couponselect option:selected").val());
+			//console.log($(".couponselect option:selected").val());
 			//쿠폰 넘버 넘김
 			$.ajax({
 				method : 'GET',
@@ -85,7 +165,7 @@
 	
 	function displayCoupon(data) {
 		var mytable ='';
-	    mytable += '<div class="col-md-4 border-right"><div class="d-flex flex-column align-items-center"><img src="https://i.imgur.com/XwBlVpS.png"><span class="d-block">' + data.brandname + '</span><span class="text-black-50">' + data.brandengname + '</span></div></div>';
+	    mytable += '<div class="col-md-4 border-right"><div class="d-flex flex-column align-items-center"><img src="https://i.imgur.com/XwBlVpS.png"><span class="d-block" style="font-size: 13px">' + data.brandname + '</span><span class="text-black-50" style="font-size: 11px">' + data.brandengname + '</span></div></div>';
 	    mytable += '<div class="col-md-8"><div>';
 	    mytable += '<div class="d-flex flex-row justify-content-end off"><h1 style="color: #B1B1B1; font-size: 50px">' + data.typetemp + '</h1><span style="color: #B1B1B1;">OFF</span></div>';
 	    mytable += '<div class="d-flex flex-row justify-content-between off px-3 p-2" style="color: #B1B1B1; font-size: 13px">~ ' + data.duetimetemp + '</div>';
@@ -104,7 +184,7 @@
 	
 	function displayDCproduct(data) {
 		var mytable ='';
-	    mytable += '<br><br><div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.productPrice +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="applydcbtn" myval = "'+ data.productNo +'" couval = "'+data.couponNo+'" class="selecttime btn btn-outline-dark" style="border-radius: 20px">할인 적용</button></p></div></div>';
+	    mytable += '<br><br><div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.productPrice +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="applydcbtn" myval = "'+ data.productNo +'" couval = "'+data.couponNo+'" class="btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applycoupon">할인 적용</button></p></div></div>';
 		$('#displaydcproduct').html(mytable);
 		applyDiscount();
 	}
@@ -114,10 +194,17 @@
 			$.ajax({
 				method : 'GET',
 				url : '${pageContext.request.contextPath}/checkout/applyDiscount/' + $(this).attr('myval') + '/' + $(this).attr('couval')
-			}).done(function( data ) { 
+			}).done(function() { 
+				displayDCproductDone();
 				selectTotal();
 			});
 		});
+	}
+	
+	function displayDCproductDone() {
+		var mytable ='';
+	    mytable += '<br><br><div class="card text-center" style="background-color: #F2F2F2"><div class="card-body" ><p class="card-text"> <img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid"></p></div></div>';
+		$('#displaydcproduct').html(mytable);
 	}
 	
 	function selectContent() {
@@ -125,6 +212,7 @@
 			method : 'GET',
 			url : '${pageContext.request.contextPath}/cart/cartinfo', 
 		}).done(function( data ) {
+			window.sendlist = data;
 		 	displayContentList(data);
 		});
 	}
@@ -133,8 +221,8 @@
 		var mytable = "";
 	  	$.each( data, function( key, val ) {
 	    	mytable += '<tr><td class="product__cart__item">';
-	    	mytable += '<div class="product__cart__item__pic"><img src="' + val['thumbnail'] + '" alt="썸네일"></div>';
-	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><h5>' + val['productPrice'] + '원</h5></div></td>';
+	    	mytable += '<div class="product__cart__item__pic"><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/'+ val['brandengname'] +'/'+ val['categoryproductNo'] +'/'+ val['thumbnail'] +'.jpg" style="width: 150px; height: 150px"><div>';
+	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><p> 사이즈 : ' + val['productsize'] + '</p></div></td>';
 	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
 	    	mytable += '<input type="text" value="' + val['qty'] + '">';
 	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
@@ -150,9 +238,6 @@
 			url : '${pageContext.request.contextPath}/checkout/totalinfo', 
 		}).done(function( data ) {
 			displayTotalList(data);
-			payforButtonEvent(data);
-			payforButtonKaKaoEvent(data);
-			payforButtonPaykoEvent(data);
 		});
 	}
 	
@@ -211,37 +296,55 @@
 		$('.selectdelivery').hide();
 		$('.selectdirect').hide();
 		$('.deliverybutton').click(function(){
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/selectdeliver', 
+			});
+			window.direct = false;
 			$('.selectdirect').hide();
 		    $('.selectdelivery').show();
 		  });
-		  $('.directbutton').click(function(){
+	    $('.directbutton').click(function(){
+	    	$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/checkout/selectdirect', 
+			});
+	    	window.direct = true;
 			$('.selectdelivery').hide();
 		    $('.selectdirect').show();
-		  });
+		});
+	    $('#savedel').click(function(){
+			$('.selectdelivery').hide();
+		});
+	    $('#savedir').click(function(){
+			$('.selectdirect').hide();
+		});
 	}
 	
 	/* 아임 포트 연동 */
 	function payforButtonEvent(data){
-		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#check_module").click(function () { 
+			
 	        IMP.request_pay({
 	            pg: 'inicis', //inicis
 	            pay_method: 'card',
 	            merchant_uid: 'merchant_' + new Date().getTime(),
-	            name: '주문명: 결제테스트',
-	            amount: totalprice,
+	            name: '주문명: 상품 결제',
+	            amount: data.productPrice,
 	            m_redirect_url: 'https://www.yourdomain.com/payments/complete'
 	         
 	        }, function (rsp) {
 	            console.log(rsp);
 	            if (rsp.success) {
+	            	location.href="/subscribe/checkoutcomplete";
 	                var msg = '결제가 완료되었습니다.';
 	                //msg += '고유ID : ' + rsp.imp_uid;
 	                //msg += '상점 거래ID : ' + rsp.merchant_uid;
 	                //msg += '결제 금액 : ' + rsp.paid_amount;
 	                //msg += '카드 승인번호 : ' + rsp.apply_num;
+	            	if (window.direct == true) sendToAdminPickup();
 	            } else {
 	                var msg = '결제에 실패하였습니다.';
 	            }
@@ -251,7 +354,6 @@
 	}
 	
 	function payforButtonKaKaoEvent(data){
-		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#kakao_module").click(function () { 
@@ -260,7 +362,7 @@
 			    pay_method : 'card',
 			    merchant_uid : 'merchant_' + new Date().getTime(),
 			    name : '주문명:결제테스트',
-			    amount : totalprice
+			    amount : data.productPrice
 			}, function(rsp) {
 			    if ( rsp.success ) {
 			    	jQuery.ajax({
@@ -274,7 +376,9 @@
 			    	}).done(function(data) {
 			    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 			    		if ( everythings_fine ) {
+			    			
 			    			var msg = '결제가 완료되었습니다.';
+			    			location.href="/subscribe/checkoutcomplete";
 			    			alert(msg);
 			    		} else {
 			    			//[3] 아직 제대로 결제가 되지 않았습니다.
@@ -292,7 +396,6 @@
 	}
 	
 	function payforButtonPaykoEvent(data){
-		var totalprice = data.productPrice;
 		var IMP = window.IMP; 
         IMP.init('imp77559548');
 		$("#payko_module").click(function () { 
@@ -301,7 +404,7 @@
 			    pay_method : 'card',
 			    merchant_uid : 'merchant_' + new Date().getTime(),
 			    name : '주문명:결제테스트',
-			    amount : totalprice
+			    amount : data.productPrice
 			}, function(rsp) {
 			    if ( rsp.success ) {
 			    	jQuery.ajax({
@@ -317,6 +420,7 @@
 			    		if ( everythings_fine ) {
 			    			var msg = '결제가 완료되었습니다.';
 			    			alert(msg);
+			    			location.href="/subscribe/checkoutcomplete";
 			    		} else {
 			    			//[3] 아직 제대로 결제가 되지 않았습니다.
 			    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -329,6 +433,7 @@
 			        alert(msg);
 			    }
 			});
+			
 		});
 	}
 	
@@ -475,11 +580,15 @@
 	        this.drawHeader(o.innerHTML);
 	        this.setCookie('selected_day', 1);
 	        
-	        //값 어떻게 넘길지 고민해보기
 				$(".selecttime").click(function () {
-					var time = $(this).attr('value');
-					var result = year + "-" + month + "-" + o.innerHTML + " " + time;
+					var time = $(this).attr('myval');
+					var result = year + "-" + month + "-" + o.innerHTML + "-" + time;
 					console.log(result);
+					document.getElementById('reserveDate').value = result;
+					$.ajax({
+						method : 'GET',
+						url : '${pageContext.request.contextPath}/checkout/selecttime/' + result 
+					});
 				});
 	    };
 	    
@@ -667,19 +776,89 @@
 	                                    <span class="checkmark"></span>
 	                                </label>
 	                            </div>
-	                           
-	                            <div class="checkout__input" style="margin-top: 40px">
-	                                <p>Order notes<span>*</span></p>
-	                                <input type="text"
-	                                placeholder="배송 요구사항 입력">
+	                            <div style="text-align: center; margin-top: 30px">
+	                            	<button type="button" class="savedeliveradd btn btn-outline-dark" data-toggle="modal" data-target="#savedeliver">배송지 저장</button>
 	                            </div>
+	                            
+	                            <div class="modal fade" id="savedeliver" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							      <div class="modal-dialog modal-dialog-centered" role="document">
+							        <div class="modal-content rounded-0">
+							          <div class="modal-body p-4 px-5">
+							
+							            
+							            <div class="main-content text-center">
+							                
+							                <div class="warp-icon mb-4">
+							                  <img src="${context}/resources/custom/img/checkicon.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+							                </div>
+							                  <label>배송지가 저장되었습니다.</label>
+							                  <div class="d-flex">
+							                    <div class="mx-auto">
+							                    <button id="savedel" class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							                    </div>
+							                  </div>
+							            </div>
+							
+							          </div>
+							        </div>
+							      </div>
+							    </div>
                             </div>
+                            
                             <!-- 직접 수령 선택 -->
                             <div class="selectdirect">
 	                           <div class="checkout__input" style="margin-top: 60px">
 									<div class="containers">
+									<div style="text-align: center;">
+							            <button type="submit" class="site-btn" data-toggle="modal" data-target="#selecttarget">수령 지점 선택</button>
+							        </div>
+							        <div id="displayTarget" style="margin-top: 40px">
+							       
+							        </div>
+							        <div class="modal fade" id="selecttarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+									  <div class="modal-dialog modal-dialog-centered" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header img" style="background-image: url(${context}/resources/custom/img/bg-1.jpeg);">
+									      
+									      </div>
+									      <div class="modal-body pt-md-0 pb-5 px-4 text-center">
+									      	
+											<div class="row" style="margin-top: 80px">
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="더현대 서울 " myval = '1' data-dismiss="modal">
+												</div>
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="압구정 본점 " myval = '2' data-dismiss="modal">
+												</div>
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="판교점 " myval = '3' data-dismiss="modal">
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="무역센터점 " myval = '4' data-dismiss="modal">
+												</div>
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="중동점 " myval = '5' data-dismiss="modal">
+												</div>
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="신촌점 " myval = '6' data-dismiss="modal">
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="킨텍스점 " myval = '7' data-dismiss="modal">
+												</div>
+												<div class="col-md-4">
+													<input type="button" class="selecttar btn btn-outline-dark" value="천호점 " myval = '8' data-dismiss="modal">
+												</div>
+											</div>
+									      </div>
+									    </div>
+									  </div>
+									</div>
 										<div class="rows">
-											<div class="col-md-12">
+											<div class="col-md-12" style=" margin-top: 30px">
 											<p>수령 날짜 선택<span>*</span></p>
 												<div class="elegant-calencar d-md-flex">
 													<div class="wrap-header d-flex align-items-center">
@@ -775,70 +954,93 @@
 								<div class="col-md-12 mb-3">
 									<div class="row">
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="10:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="10:00 " myval="10:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="10:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="10:30 " myval="10:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="11:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="11:00 " myval="11:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="11:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="11:30 " myval="11:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="12:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="12:00 " myval="12:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="12:30">
-										</div>
-									</div>
-								</div>
-								<div class="col-md-12 mb-3">
-									<div class="row">
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="13:00">
-										</div>
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="13:30">
-										</div>
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="14:00">
-										</div>
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="14:30">
-										</div>
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="15:00">
-										</div>
-										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="15:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="12:30 " myval="12:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 									</div>
 								</div>
 								<div class="col-md-12 mb-3">
 									<div class="row">
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="15:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="13:00 " myval="13:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="15:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="13:30 " myval="13:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="16:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="14:00 " myval="14:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="16:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="14:30 " myval="14:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="17:00">
+											<input type="button" class="selecttime btn btn-outline-dark" value="15:00 " myval="15:00:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 										<div class="col-md-2">
-											<input type="button" class="selecttime btn btn-outline-dark" value="17:30">
+											<input type="button" class="selecttime btn btn-outline-dark" value="15:30 " myval="15:30:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 mb-3">
+									<div class="row">
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="16:00 " myval="16:00:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="16:30 " myval="16:30:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="17:00 " myval="17:00:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="17:30 " myval="17:30:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="18:00 " myval="18:00:00" data-toggle="modal" data-target="#savedirect">
+										</div>
+										<div class="col-md-2">
+											<input type="button" class="selecttime btn btn-outline-dark" value="18:30 " myval="18:30:00" data-toggle="modal" data-target="#savedirect">
 										</div>
 									</div>
 								</div>
 			                </div>
+			                <div class="modal fade" id="savedirect" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							      <div class="modal-dialog modal-dialog-centered" role="document">
+							        <div class="modal-content rounded-0">
+							          <div class="modal-body p-4 px-5">
+							
+							            
+							            <div class="main-content text-center">
+							                
+							                <div class="warp-icon mb-4">
+							                  <img src="${context}/resources/custom/img/checkicon.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+							                </div>
+							                  <label>방문 예약이 확인되었습니다.</label>
+							                  <div class="d-flex">
+							                    <div class="mx-auto">
+							                    <button id="savedir" class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							                    </div>
+							                  </div>
+							            </div>
+							
+							          </div>
+							        </div>
+							      </div>
+							    </div>
 			            </div>
 			            <h6 class="checkout__title" style="margin-top: 100px">결제 목록 확인</h6>
 			            <div class="shopping__cart__table">
@@ -869,7 +1071,7 @@
 				                                 </c:forEach>
 				                                </select>
 				                                <div class="select-dropdown"></div>
-				                                &nbsp;&nbsp;<button id="couponselectbtn" class="selecttime btn btn-outline-dark">쿠폰 선택</button>
+				                                &nbsp;&nbsp;<button id="couponselectbtn" class="btn btn-outline-dark">쿠폰 선택</button>
 				                                <br><br>
 				                                
 						                    <div class="d-flex justify-content-center row">
@@ -899,19 +1101,8 @@
 															      <th></th>
 															    </tr>
 															  </thead>
-															  <tbody>
-															    <tr class="alert" role="alert">
-															      <td>${pointamount.amount}P</td>
-															      <td class="quantity">
-														        	<div class="input-group">
-													             	<input type="text" name="usepoint" class="form-control input-number">
-													          	</div>
-													          </td>
-															    <td>
-															      	<button id="pointbtn" class="btn btn-outline-dark" style="border-radius: 20px">포인트 사용</button>
-													        	</td>
-													        	<td></td>
-															    </tr>
+															  <tbody id="pointcontent">
+															    
 															  </tbody>
 															</table>
 														</div>
@@ -923,14 +1114,15 @@
 				            </div>
 				        </div>
 				    </div>
-				    
+				    	<input type="hidden" id="reserveDate" name="reserveDate">
+				    	<input type="hidden" id="storeNo" name="storeNo">
 			            <h6 class="checkout__title" style="margin-top: 100px">결제 수단</h6>
 			            <div style="text-align: center; margin-top: 30px">
 			             <button id="check_module" class="btn btn-outline-dark" style="border-radius: 20px">카드 결제</button>
 			             <button id="kakao_module" class="btn btn-outline-dark" style="border-radius: 20px">카카오 간편 결제</button>
 			             <button id="payko_module" class="btn btn-outline-dark" style="border-radius: 20px">페이코 간편 결제</button>
 			            </div>
-			            <div style="text-align: center; margin-top: 30px">
+			            <div style="text-align: center; margin-top: 30px"><br><br><br>
 			            <button type="submit" class="site-btn">주문 취소하기</button>
 			            </div>
                         </div>
@@ -958,6 +1150,54 @@
         </div>
     </section>
     <!-- Checkout Section End -->
+    
+    <div class="modal fade" id="applycoupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							      <div class="modal-dialog modal-dialog-centered" role="document">
+							        <div class="modal-content rounded-0">
+							          <div class="modal-body p-4 px-5">
+							
+							            
+							            <div class="main-content text-center">
+							                
+							                <div class="warp-icon mb-4">
+							                  <img src="${context}/resources/custom/img/checkicon.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+							                </div>
+							                  <label>쿠폰 사용이 완료되었습니다.</label>
+							                  <div class="d-flex">
+							                    <div class="mx-auto">
+							                    <button id="savedel" class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							                    </div>
+							                  </div>
+							            </div>
+							
+							          </div>
+							        </div>
+							      </div>
+							    </div>
+    
+    <div class="modal fade" id="applypoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							      <div class="modal-dialog modal-dialog-centered" role="document">
+							        <div class="modal-content rounded-0">
+							          <div class="modal-body p-4 px-5">
+							
+							            
+							            <div class="main-content text-center">
+							                
+							                <div class="warp-icon mb-4">
+							                  <img src="${context}/resources/custom/img/checkicon.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+							                </div>
+							                  <label>포인트 사용이 완료되었습니다.</label>
+							                  <div class="d-flex">
+							                    <div class="mx-auto">
+							                    <button id="savedel" class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							                    </div>
+							                  </div>
+							            </div>
+							
+							          </div>
+							        </div>
+							      </div>
+							    </div>
 
     <!-- Footer Section Begin -->
     <footer class="footer">

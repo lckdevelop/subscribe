@@ -157,7 +157,7 @@
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-blog set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-background/${brandInfo.engname}.jpg">
         <div class="brandpage-buttons">
-        	<button class="brandpage-button">방문예약</button>
+        	<button class="brandpage-button"><a href="/subscribe/brands/reservationform/${brandInfo.no}" style="color: white">방문예약</a></button>
         	<button class="brandpage-button ml-3">브랜드 뉴스</button>
         </div>
     </section>

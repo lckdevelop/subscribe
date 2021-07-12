@@ -40,6 +40,7 @@
     $(document).ready(function(){
 		selectContent();
 		selectTotal();
+		saveCheckoutInfo();
 	});
 	
     function selectTotal() {
@@ -65,8 +66,8 @@
 		var mytable = "";
 	  	$.each( data, function( key, val ) {
 	    	mytable += '<tr><td class="product__cart__item">';
-	    	mytable += '<div class="product__cart__item__pic"><img src="' + val['thumbnail'] + '" alt="썸네일"></div>';
-	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><h5>' + val['productPrice'] + '원</h5></div></td>';
+	    	mytable += '<div class="product__cart__item__pic"><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/'+ val['brandengname'] +'/'+ val['categoryproductNo'] +'/'+ val['thumbnail'] +'.jpg" style="width: 200px; height: 200px"><div>';
+	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><p>사이즈: ' + val['productsize'] + '</p></div></td>';
 	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
 	    	mytable += '<span class="fa fa-angle-left decqtybtn" myval ="'+ val['productNo'] +'"></span>';
 	    	mytable += '<input type="text" value="' + val['qty'] + '">';
@@ -111,6 +112,15 @@
 				url : '${pageContext.request.contextPath}/cart/incqty/'+ $(this).attr('myval')
 			}).done(function( data ) {
 				displayContentList(data);
+			});
+		});
+	}
+	
+	function saveCheckoutInfo() {
+		$("#saveCheckout").click(function () {
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/cart/savecheckout', 
 			});
 		});
 	}
@@ -214,7 +224,7 @@
                         <div id="displayTotal">
                        
                         </div>
-                        <a href="/subscribe/checkout" class="primary-btn">결제하러 가기</a>
+                        <a href="/subscribe/checkout" id="saveCheckout" class="primary-btn">결제하러 가기</a>
                     </div>
                 </div>
             </div>

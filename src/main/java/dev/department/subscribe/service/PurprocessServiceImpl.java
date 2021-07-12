@@ -164,4 +164,166 @@ public class PurprocessServiceImpl implements PurprocessService{
 			throw e;
 		}
 	}
+
+	@Override
+	public CartListDTO applyPoint(PointDTO pointDTO) throws Exception {
+		try {
+			return purprocessDAO.applyPoint(pointDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void usePoint(PointDTO pointDTO) throws Exception {
+		try {
+			purprocessDAO.usePoint(pointDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public StoreDTO getStoreInfo(StoreDTO storeDTO) throws Exception {
+		try {
+			return purprocessDAO.getStoreInfo(storeDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void insertInitialCheck(OrderedDTO orderedDTO) throws Exception {
+		try {
+			purprocessDAO.insertInitialCheck(orderedDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public OrderedDTO getOrderno(OrderedDTO orderedDTO) throws Exception {
+		try {
+			return purprocessDAO.getOrderno(orderedDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void insertOrderedProduct(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.insertOrderedProduct(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateDelivery(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updateDelivery(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateDirect(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updateDirect(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateDeliveradd(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updateDeliveradd(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateDirectStore(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updateDirectStore(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateReserveDate(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updateReserveDate(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void saveorderedPoint(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.saveorderedPoint(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updatepointPrice(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updatepointPrice(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void updatestatus(OrderedDTO savecheck) throws Exception {
+		try {
+			purprocessDAO.updatestatus(savecheck);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteMemberCart(OrderedDTO orderedDTO) throws Exception {
+		try {
+			purprocessDAO.deleteMemberCart(orderedDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public OrderedDTO selectOrderedList(CartListDTO cartlistDTO) throws Exception {
+		try {
+			return purprocessDAO.selectOrderedList(cartlistDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	
 }

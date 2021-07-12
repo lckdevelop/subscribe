@@ -10,6 +10,7 @@ import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.BrandNewsDTO;
 import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.SubsDTO;
+import dev.department.subscribe.dto.ZzimDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -67,4 +68,36 @@ public class IndexServiceImpl implements IndexService {
 	public ArrayList<ProductDTO> selectByKeyword(String keyWord) throws Exception {
 		return indexDAO.selectByKeyword(keyWord);
 	}
+
+	@Override
+	public ArrayList<ProductDTO> getBestSellersFromSubs(int memNo) throws Exception {
+		return indexDAO.getBestSellersFromSubs(memNo);
+	}
+
+	@Override
+	public ArrayList<ProductDTO> getNewProductsFromSubs(int memNo) throws Exception {
+		return indexDAO.getNewProductsFromSubs(memNo);
+	}
+
+	@Override
+	public String ZzimAction(int productNo, int memberNo) throws Exception {
+		String result = "실패";
+		ZzimDTO zzimDTO = new ZzimDTO(productNo, memberNo);
+		
+		int zzimCheck = indexDAO.zzimCheck(zzimDTO);
+		
+		if (zzimCheck != 1) {
+			int updateCnt = indexDAO.updateZzimCnt(productNo);
+			int insertAction = indexDAO.insertZzim(zzimDTO);
+
+			if (updateCnt == 1 && insertAction == 1) {
+				result = "성공";
+			}
+		} else {
+			result = "이미 존재";
+		}
+		
+		return result;
+	}
+
 }

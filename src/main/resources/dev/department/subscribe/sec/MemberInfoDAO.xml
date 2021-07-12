@@ -18,7 +18,9 @@
 		        phone	 ,
 		        address	 ,
 		        point    ,
-		        role		
+		        role	 ,
+		       brand_no as brandNo	,
+		       store_no as storeNo
 		  from member
 		  where id = #{id}
 	</select>

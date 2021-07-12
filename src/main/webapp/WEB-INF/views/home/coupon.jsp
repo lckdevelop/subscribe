@@ -103,9 +103,6 @@
 				<div class="p-4 pt-5">
 	        <ul class="list-unstyled components mb-5">
 	          <li>
-	           <a href="memberInfo" style="color: #8C8C8C; margin-left: 30px">회원 정보 변경</a>
-	          </li>
-	          <li>
 	           <a href="orderedlist" style="color: #8C8C8C; margin-left: 30px">주문 확인 / 배송 조회</a>
 	          </li>
 	          <li>

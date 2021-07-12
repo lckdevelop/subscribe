@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"     
+    "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.department.subscribe.dao.PickupDAO">
+
+	<select id="getTodayPickupCnt" parameterType="ReserveCntParamDTO" resultType="int">
+		    SELECT COUNT(OP.NO) AS CNT
+		      FROM ORDEREDPRODUCT OP
+		INNER JOIN ORDERED O
+		        ON OP.ORDERED_NO = O.NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE P.BRAND_NO = #{brandNo}
+		       AND O.STORE_NO = #{storeNo}
+		       AND TO_CHAR(O.RESERVEDATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
+	</select>
+	
+	<select id="getTodayPickupList" parameterType="PagingDTO" resultType="PickupListDTO">
+		    SELECT OP.NO         AS NO			          ,
+		           O.NO          AS ORDERNO               ,
+		           M.NAME        AS MEMBERNAME            ,
+		           M.PHONE                                ,
+		           O.STORE_NO   AS STORENO               ,
+		           P.BRAND_NO    AS BRANDNO               ,
+		           OP.PRODUCT_NO AS PRODUCTNO             ,
+		           P.NAME        AS PRODUCTNAME           ,
+		           P.PRICE                                ,
+		           NVL(C.PRODUCTSIZE, '-') AS CLOTHSIZE   ,
+		           NVL(S.PRODUCTSIZE,'-')  AS SHOESIZE    ,
+		           O.ORDERDATE                            ,
+		           O.RESERVEDATE                          ,
+		           OP.QTY                                 ,
+		           OP.STATUS
+		      FROM ORDERED O
+		RIGHT JOIN ORDEREDPRODUCT OP
+		        ON O.NO = OP.ORDERED_NO
+		INNER JOIN MEMBER M
+		        ON O.MEMBER_NO = M.NO
+		 LEFT JOIN CLOTHSIZE C
+		        ON OP.CLOTHSIZE_NO = C.NO
+		 LEFT JOIN SHOESIZE S
+		        ON OP.SHOESIZE_NO = S.NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE P.BRAND_NO = #{brandNo}
+		       AND O.STORE_NO = #{storeNo}
+		       AND O.RECIEVE = 1
+		       AND TO_CHAR(O.RESERVEDATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		  ORDER BY NO DESC
+	        OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<select id="getPickupCnt" parameterType="ReserveCntParamDTO" resultType="int">
+		    SELECT COUNT(OP.NO) AS CNT
+		      FROM ORDEREDPRODUCT OP
+		INNER JOIN ORDERED O
+		        ON OP.ORDERED_NO = O.NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE P.BRAND_NO = #{brandNo}
+		       AND O.STORE_NO = #{storeNo}
+	</select>
+	
+	<select id="getPickupList" parameterType="PagingDTO" resultType="PickupListDTO">
+		    SELECT OP.NO         AS NO			          ,
+		           O.NO          AS ORDERNO               ,
+		           M.NAME        AS MEMBERNAME            ,
+		           M.PHONE                                ,
+		           O.STORE_NO   AS STORENO               ,
+		           P.BRAND_NO    AS BRANDNO               ,
+		           OP.PRODUCT_NO AS PRODUCTNO             ,
+		           P.NAME        AS PRODUCTNAME           ,
+		           P.PRICE                                ,
+		           NVL(C.PRODUCTSIZE, '-') AS CLOTHSIZE   ,
+		           NVL(S.PRODUCTSIZE,'-')  AS SHOESIZE    ,
+		           OP.QTY                                 ,
+		           O.ORDERDATE                            ,
+		           O.RESERVEDATE                          ,
+		           OP.STATUS
+		      FROM ORDERED O
+		RIGHT JOIN ORDEREDPRODUCT OP
+		        ON O.NO = OP.ORDERED_NO
+		INNER JOIN MEMBER M
+		        ON O.MEMBER_NO = M.NO
+		 LEFT JOIN CLOTHSIZE C
+		        ON OP.CLOTHSIZE_NO = C.NO
+		 LEFT JOIN SHOESIZE S
+		        ON OP.SHOESIZE_NO = S.NO
+		INNER JOIN PRODUCT P
+		        ON OP.PRODUCT_NO = P.NO
+		     WHERE P.BRAND_NO = #{brandNo}
+		       AND O.STORE_NO = #{storeNo}
+		       AND O.RECIEVE = 1
+		  ORDER BY NO DESC
+		    OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<update id="pickupPermit"  parameterType="ReservePermitDTO">
+		UPDATE ORDEREDPRODUCT
+       	   SET STATUS = 1
+     	 WHERE NO = #{no}
+	</update>
+	
+	<select id="getPickupCalendarData" parameterType="CalendarParamDTO" resultType="FullCalendarDTO">
+		    SELECT M.NAME        AS TITLE,
+		           O.RESERVEDATE AS "START"
+		      FROM ORDERED O
+		INNER JOIN ORDEREDPRODUCT OP
+		        ON O.NO = OP.ORDERED_NO
+        INNER JOIN PRODUCT P
+                ON OP.PRODUCT_NO = P.NO
+		INNER JOIN MEMBER M
+		        ON O.MEMBER_NO = M.NO
+		     WHERE P.BRAND_NO = #{brandNo}
+               AND O.STORE_NO = #{storeNo}
+		       AND TO_CHAR(O.RESERVEDATE, 'YYYY-MM') = #{date}
+
+	</select>
+	
+	<select id="getBrandNo" parameterType="int" resultType="int">
+		SELECT BRAND_NO
+		  FROM PRODUCT
+		 WHERE NO = #{no}
+	</select>
+	
+</mapper>

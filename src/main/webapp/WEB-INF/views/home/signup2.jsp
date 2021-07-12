@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="${context}/resources/theme/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="${context}/resources/index/css/index.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="${context}/resources/index/css/singup.css">
 <script type="text/javascript" src="${context}/resources/index/js/jquery-3.6.0.min.js" ></script>
+<script type="text/javascript" src="${context}/resources/theme/js/bootstrap.min.js" ></script>
 <title>현대백화점 | 회원가입</title>
 </head>
 <body>
@@ -53,10 +54,13 @@
 				data: {id: loginid},
 				success: function (data, textStatus) {
 					if (data == 'usable') {
-						$('#idCheckMessage').text("사용할 수 있는 아이디입니다.");
+						$('.form-group1').addClass("has-success");
+						$('.idCon').attr('style', "display:visible;");
+						/* $('#inputSuccess2Status').removeClass("sr-only"); */
+						$('#idCheckMessage').html("사용할 수 있는 아이디입니다.");
 						$('#idCheckMessage').attr('color', '#365df7');
 					} else {
-						$('#idCheckMessage').text("사용할 수 없는 아이디입니다.");
+						$('#idCheckMessage').html("사용할 수 없는 아이디입니다.");
 						$('#idCheckMessage').attr('color', '#e64343');
 					}
 				}
@@ -77,66 +81,56 @@
 	        }
 
 	    });
+
 	});
 	</script>
-	<header class="header">
-    	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
-        <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" />
-    </header>
-    
-    <div class="container">
-<%--     	<div class="wrap">
-    		<div class="inner_wrap">
-			   	<div class="col-md-12 mt-3">
-			    	<h3>회원가입</h3>
-			    </div>
-			    <div class="row">
-			    	<h5 class="text_left mt-5 mb-4"><strong>1단계 간편인증</strong></h5>
-			    </div>
-			    <div class="row mt-5">
-			    	<font id="kakaoConfirm" size="2"></font>
-			    </div>
-			    <div class="row">
-			    	<a href="javascript:kakaoLogin();"><img src="${context}/resources/index/images/kakaoLogo.png" class="kakaoLogo"/></a>
-			    </div>
-			    <div class="mb-5"></div>
-		    </div>
-	    </div>
-	    <hr> --%>
-		<form method="post" action="./signaction">
-	    <div class="wrap">
-    		<div class="inner_wrap">   
-			<div class="row">
-	    		<h5 class="text_left mt-5 mb-4"><strong>2단계 가입정보 입력</strong></h5>
-	    	</div>
-			    			<p class="text_left">아이디</p>
-			    			<input type="text" id="id" name="id" class="input_box_size" placeholder='아이디' required="required"/>
- 			    			<font id="idCheckMessage" size="2"></font>
-			    			<p class="text_left">비밀번호</p>
-			    			<input type="password" name="password" id="password" class="input_box_size" placeholder='비밀번호'/>
-			    			<input type="password" name="pwck" id="pwck" class="input_box_size" placeholder='비밀번호 확인'/>
-			    			<p class="text_left">이름</p>
-			    			<input type="text" name="name" id="name" class="input_box_size" placeholder='이름'/>
-			    			<p class="text_left">이메일</p>
-			    			<input type="text" name="email" id="email" class="input_box_size" placeholder='이메일'/>
-			    			<p class="text_left">생년월일</p>
-			    			<input type="text" name="birthdate" id="birthdate" placeholder='생년월일(예:19960803)' class="input_box_size"/>
-			    			<p class="text_left">휴대폰번호</p>
-			    			<input type="text" name="phone" id="phone" class="input_box_size" placeholder='휴대폰번호(예:010-0000-0000)'/>
-			    			<input type="submit" value="회원가입" />
-				</div>
-			</div>
-		</form>
-    </div>
-    
-    
-    
-    
-    
-    
-    <footer class="footer">
-        <jsp:include page="/WEB-INF/views/home/footer.jsp" flush="false" />
-    </footer>
-    
+<script>
+$(function(){
+	$('#btnIdDupl').click(function(){
+		$('.idCon').attr('style', "display:visible;");
+		/* $('#inputSuccess2Status').removeClass("sr-only"); */
+		$('.form-group1').addClass("has-success");
+	});
+});
+</script>
+	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
+<div class="container">
+<div class="container">
+	<h2>선택적 아이콘 사용(With optional icons)</h2>
+	
+
+	<div class="form-group has-success has-feedback" style="width:300px;">
+	  <label class="control-label" for="inputSuccess2">Input with success</label>
+	  <input type="text" class="form-control" id="inputSuccess2" aria-describedby="inputSuccess2Status">
+	  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+	  <span id="inputSuccess2Status" class="sr-only">(success)</span>
+	</div>
+	<div class="form-group has-warning has-feedback">
+	  <label class="control-label" for="inputWarning2">Input with warning</label>
+	  <input type="text" class="form-control" id="inputWarning2" aria-describedby="inputWarning2Status">
+	  <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+	  <span id="inputWarning2Status" class="sr-only">(warning)</span>
+	</div>
+	<div class="form-group has-error has-feedback">
+	  <label class="control-label" for="inputError2">Input with error</label>
+	  <input type="text" class="form-control" id="inputError2" aria-describedby="inputError2Status">
+	  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+	  <span id="inputError2Status" class="sr-only">(error)</span>
+	</div>
+</div>
+
+
+
+<!-- 아이디 -->
+			    	<div class="form-group1 has-feedback">
+						<label class="control-label" for="inputSuccess2">아이디</label>
+					  	<!-- <div class="row"> -->
+							<input type="text" class="form-control" id="id" name="id" placeholder='아이디' required="required" aria-describedby="inputSuccess2Status">
+						  	<span class="idCon glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display:none"></span>
+						  	<input id="btnIdDupl" class="favorite styled" type="button" value="중복확인">
+						<!-- </div> -->
+					  	<font id="idCheckMessage" size="2"></font>
+					</div>
+</div>
 </body>
 </html>
