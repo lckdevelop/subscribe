@@ -23,4 +23,11 @@ public class ErrorController {
 		
 		return "errorpage/error405";
 	}
+	
+	@GetMapping("/error500")
+	public String error500() {
+		
+		return "errorpage/error500";
+	}
+	
 }

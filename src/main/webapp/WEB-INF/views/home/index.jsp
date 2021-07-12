@@ -36,6 +36,11 @@
     <script type="text/javascript" src="${context}/resources/index/js/jquery-3.6.0.min.js" ></script>
     <script src="https://kit.fontawesome.com/fd670bf7a0.js"></script>
 	<script type="text/javascript">
+	$(function(){
+	  $('.zzimBtn').click(function(){
+	    $('.heartbox').show();
+	  });
+	});
     // html dom 이 다 로딩된 후 실행된다.
     $(document).ready(function(){
         // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
@@ -175,7 +180,7 @@
 						            	</a>
 						            </div>
 						            <div class="subtextBox2">
-						            	<a href="${context}/brands/brandpage/${branSubsList[i].no}" class="brand_action2">
+						            	<a href="${context}/brands/brandpage/${branSubsList[i].no}/all" class="brand_action2">
 						            		<i class="fas fa-home"></i><strong>방문하기</strong>
 					            		</a>
 						            </div>
@@ -188,7 +193,7 @@
 						            	</a>
 						            </div>
 						            <div class="subtextBox2">
-						            	<a href="${context}/brands/brandpage/${branSubsList[i].no}" class="brand_action2">
+						            	<a href="${context}/brands/brandpage/${branSubsList[i].no}/all" class="brand_action2">
 						            		<i class="fas fa-home"></i><strong>방문하기</strong>
 					            		</a>
 						            </div>
@@ -225,7 +230,7 @@
 						            	</a>
 						            </div>
 						            <div class="subtextBox2">
-										<a href="${context}/brands/brandpage/${branSubsList[i].no}" class="brand_action2">
+										<a href="${context}/brands/brandpage/${branSubsList[i].no}/all" class="brand_action2">
 						            		<i class="fas fa-home"></i><strong>방문하기</strong>
 						            	</a>
 						            </div>
@@ -237,7 +242,7 @@
 						            	</a>
 						            </div>
 						            <div class="subtextBox2">
-										<a href="${context}/brands/brandpage/${branSubsList[i].no}" class="brand_action2">
+										<a href="${context}/brands/brandpage/${branSubsList[i].no}/all" class="brand_action2">
 						            		<i class="fas fa-home"></i><strong>방문하기</strong>
 						            	</a>
 						            </div>
@@ -315,43 +320,46 @@
         	<div class="row text-center">
         		<div class="section-title col-lg-12">
 	                <span>Preview</span>
-	                <h3><strog>스페셜 브랜드</strog></h3>
+	                <h2><strog>스페셜 브랜드</strog></h2>
                 </div>
         	</div> 
             <div class="row">
                 <div class="col-lg-7 offset-lg-5">
                     <div class="banner__item">
                         <div class="banner__item__pic">
-                            <img src="${context}/resources/theme/img/banner/banner-1.jpg" alt="">
-                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg1.jpg" alt=""> --%>
+                            <%-- <img src="${context}/resources/theme/img/banner/banner-1.jpg" alt=""> --%>
+                            <img src="${context}/resources/index/images/special/specialbanner1.PNG" alt="">
                         </div>
                         <div class="banner__item__text">
-                            <h2>DKNY</h2>
-                            <a href="#">Shop now</a>
+                            <h3>질 스튜어트 뉴욕</h3>
+                            <h5 class="mt-3 mb-3">믹스맥치의 개성있는 룩</h5>
+                            <a href="${context}/brands/brandpage/24/all">Shop now</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="banner__item banner__item--middle">
                         <div class="banner__item__pic">
-                            <img src="${context}/resources/theme/img/banner/banner-2.jpg" alt="">
-                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg2.jpg" alt=""> --%>
+                            <%-- <img src="${context}/resources/theme/img/banner/banner-2.jpg" alt=""> --%>
+                            <img src="${context}/resources/index/images/special/specialbanner2.PNG" alt="">
                         </div>
                         <div class="banner__item__text">
-                            <h2>COS</h2>
-                            <a href="#">Shop now</a>
+                            <h3>폴로랄프로렌</h3>
+                            <h5 class="mt-3 mb-3">해외 유명 브랜드부터 신진 디자이너까지<br>젊고 위트있는 트렌디 편집관</h5>
+                            <a href="${context}/brands/brandpage/14/all">Shop now</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-7">
                     <div class="banner__item banner__item--last">
                         <div class="banner__item__pic">
-                            <img src="${context}/resources/theme/img/banner/banner-3.jpg" alt="">
-                            <%-- <img src="${context}/resources/index/images/link/indexLinkImg3.jpg" alt=""> --%>
+                            <%-- <img src="${context}/resources/theme/img/banner/banner-3.jpg" alt=""> --%>
+                            <img src="${context}/resources/index/images/special/specialbanner3.PNG" alt="">
                         </div>
                         <div class="banner__item__text">
-                            <h2>HAZZYS</h2>
-                            <a href="#">Shop now</a>
+                            <h3>솔리드옴므</h3>
+                            <h5 class="mt-3 mb-3">모던한 감각을 믹스하는<br>세련된 남성들을 위한 편집숍</h5>
+                            <a href="${context}/brands/brandpage/8/all">Shop now</a>
                         </div>
                     </div>
                 </div>
@@ -365,8 +373,8 @@
         <div class="container spad">
         	<div class="row text-center">
         		<div class="section-title col-lg-12">
-	                <span>Preview</span>
-	                <h3>상품 미리보기</h3>
+	                <span>Preview Products</span>
+	                <h3>추천상품 미리보기</h3>
                 </div>
         	</div> 
             <div class="row">
@@ -380,6 +388,7 @@
             </div>
             
             <div class="row product__filter">
+            	<!-- <div class="heartbox"></div> -->
             	<c:choose>
 					<c:when test="${fn:length(subsBestList) != 0}">
 						<c:forEach var="item" items="${subsBestList}">
@@ -523,12 +532,12 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="instagram__pic">
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg1.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg2.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg3.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg4.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg5.jpg"></a>
-                        <a href="#" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg6.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg1.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg2.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg3.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg4.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg5.jpg"></a>
+                        <a href="#" onclick="return false;" class="instagram__pic__item set-bg" data-setbg="${context}/resources/index/images/insta/instaimg6.jpg"></a>
                     </div>
                 </div>
                 <div class="col-lg-4">
