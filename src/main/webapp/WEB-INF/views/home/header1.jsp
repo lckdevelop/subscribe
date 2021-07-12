@@ -21,11 +21,6 @@
 </head>
 <body>
 
-<!-- <script type="text/javascript">
-function btnClick(formName) {
-	logoutAskOne.submit();
-};
-</script> -->
 <!-- Offcanvas Menu Begin -->
    <div class="offcanvas-menu-overlay"></div>
    <div class="offcanvas-menu-wrapper">
@@ -71,36 +66,22 @@ function btnClick(formName) {
 							<i class="far fa-user pr-2 mt-2" style="color:#fff;"></i><sec:authentication property="principal.brandName" />매니저님 환영합니다
 						</a>
 						<i class="fas fa-store pr-2 mt-2"></i><a href="${context}/admin">매장관리</a>
-						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
+						<i class="fas fa-power-off pr-2 mt-2"></i><a href="${context}/logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>
 					<sec:authorize access="hasAuthority('ROLE_USER')">
 						<i class="far fa-user pr-2 mt-2"></i><a class="disableLink" style="pointer-events: none;color:#fff;"><sec:authentication property="principal.name" />님 환영합니다</a>
-						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
+						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/orderedlist">마이페이지</a>
 	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
 	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff; font-size:12px;"></i><a href="${context}/brands">구독</a>
-						<i class="fas fa-power-off pr-2 mt-2"></i><a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
+						<i class="fas fa-power-off pr-2 mt-2"></i><a href="${context}/logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
 						<i class="far fa-user pr-2 mt-2"></i><a href="${context}/login">로그인|회원가입</a>
-						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/memberInfo">마이페이지</a>
+						<i class="far fa-file-alt pr-2 mt-2"></i><a href="${context}/mypage/orderedlist">마이페이지</a>
 	                    <i class="fas fa-cart-arrow-down pr-2 mt-2"></i><a href="${context}/cart">장바구니</a>
 	                    <i class="far fa-paper-plane pr-2 mt-2" style="color:#fff; font-size:12px;"></i><a href="${context}/brands">구독</a>
 					</sec:authorize>
-	                <%-- <sec:authorize access="isAuthenticated()">
-						<a href="logout" onclick="javascript:btnClick(logoutAskOne);">로그아웃</a>
-					</sec:authorize> --%>    
-	                    <!-- <a href="#">마이페이지</a>
-	                    <a href="#">장바구니</a>
-	                    <a href="#">구독</a> -->
 	                </div>
-	                <!-- <div class="header__top__hover">
-	                    <span>Usd <i class="arrow_carrot-down"></i></span>
-	                    <ul>
-	                        <li><a href="#">fgfgdgfgdfgdfg</a></li>
-	                        <li>EUR</li>
-	                        <li>USD</li>
-	                    </ul>
-	                </div> -->
 	            </div>
 	        </div>
 	    </div>

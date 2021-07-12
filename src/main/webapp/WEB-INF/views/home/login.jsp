@@ -17,33 +17,10 @@
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/vendor/daterangepicker/daterangepicker.css">
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/css/util.css">
 <link rel="stylesheet" type="text/css" href="${context}/resources/login/css/main.css">
+<script type="text/javascript" src="${context}/resources/index/js/jquery-3.6.0.min.js" ></script>
 <title>현대백화점 | 로그인</title>
 </head>
 <body>
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript">
-	window.Kakao.init("c719163c8a3ae97ac6453318e9396038");
-	
-	function kakaoLogin() {
-		window.Kakao.Auth.login({
-			scope:'profile_nickname, account_email, gender, birthday',
-			success: function(authObj) {
-				console.log(authObj);
-				window.Kakao.API.request({
-					url:'/v2/user/me',
-					success: res => {
-						const kakao_account = res.kakao_account;
-						console.log(kakao_account);
-						$("#name").val(res.kakao_account.profile.nickname);
-						$("#email").val(res.kakao_account.email);
-						$("#kakaoConfirm").text("kakao계정으로 인증 하셨습니다.");
-					}
-				});
-			}
-		});
-	}
-	</script>
-	
 	<header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
  	</header>
@@ -91,11 +68,10 @@
 							<i class="fa fa-facebook"></i>
 						</a> -->
 
-						
-
-						<!-- <a href="javascript:kakaoLogin();" class="login100-social-item bg3">
+						<%-- <a href="javascript:kakaoLogin();" class="login100-social-item bg3">
+							<img id="kakaoLoginBtn" src="${context}/resources/index/images/kakaoLogin.png"/>
 							<i class="fa fa-google"></i>
-						</a> -->
+						</a> --%>
 					</div>
 					
 					<div class="text-center p-t-40 p-b-20">

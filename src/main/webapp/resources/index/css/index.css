@@ -142,3 +142,28 @@
 	background-color:#383636;
 }
 
+
+/* .heartbox{
+    left:100px;
+    top: 100px;
+    --size: 2.5;
+}
+.heartbox::before{
+    content: '❤';
+    position: absolute;
+    display: inline-block;
+    left: 100px;
+    top: 100px;
+    color: pink;
+    font-size: 75px;
+    line-height: 1;
+    animation: heartbeat 2s infinite ease; 2초 애니메이션을 무한 반복
+}
+
+@keyframes heartbeat {
+    to {
+        transform: scale(var(--size));
+        opacity: 0;
+    }
+} */
+

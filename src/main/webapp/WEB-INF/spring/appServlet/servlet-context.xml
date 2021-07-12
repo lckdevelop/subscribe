@@ -26,7 +26,7 @@
 	<context:component-scan base-package="dev.department.subscribe" />
 	
 	<!-- 웹소켓 핸들러 설정 -->
-	<websocket:handlers>
+	<!-- <websocket:handlers>
 		<websocket:mapping handler="NoticeHandler"
 			path="/notice/*" />
 			
@@ -37,6 +37,6 @@
 	</websocket:handlers>
 
 	<beans:bean id="NoticeHandler"
-		class="dev.department.subscribe.handler.NoticeWebSocketHandler" />
+		class="dev.department.subscribe.handler.NoticeWebSocketHandler" /> -->
 	
 </beans:beans>
