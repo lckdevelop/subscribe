@@ -28,10 +28,10 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/slicknav.min.css" type="text/css">
-
+	<link rel="stylesheet" href="${context}/resources/custom/css/hpointcard.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${context}/resources/custom/css/sidebar.css" type="text/css">
-
+	<link rel="stylesheet" href="${context}/resources/custom/css/table.css" type="text/css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -124,58 +124,119 @@
 	      </div>
     	</nav>
 
-        <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
-			 <div class="container-fluid my-5 d-sm-flex justify-content-center">
-			    <div class="card px-2">
-			        <div class="card-header bg-white">
-			            <div class="row justify-content-between">
-			                <div class="col">
-			                    <p class="text-muted"> Order ID <span class="font-weight-bold text-dark">1222528743</span></p>
-			                    <p class="text-muted"> Place On <span class="font-weight-bold text-dark">12,March 2019</span> </p>
-			                </div>
-			                <div class="flex-col my-auto">
-			                    <h6 class="ml-auto mr-3"> <a href="#">View Details</a> </h6>
-			                </div>
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
+			   <div class="container">
+				<div class="row">
+				    <div class="col-lg-4">
+				        <div class="card2 card-margin">
+				            <div class="card-header no-border">
+				            </div>
+				            <div class="card-body pt-0">
+				                <div class="widget-49">
+				                    <div class="widget-49-title-wrapper">
+				                        <div class="widget-49-date-primary">
+				                            <span class="widget-49-date-day">${mycard.productcnt}</span>
+				                        </div>
+				                        <div class="widget-49-meeting-info">
+				                            <span class="widget-49-pro-title">주문 진행 중인 상품</span>
+				                            <span class="widget-49-meeting-time">(수령 대기 / 배송 중)</span>
+				                        </div>
+				                    </div>
+				                    <div class="widget-49-meeting-action">
+				                        <a href="#" class="btn btn-sm btn-flash-border-primary">바로 가기</a>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-lg-4">
+				        <div class="card2 card-margin">
+				            <div class="card-header no-border">
+				            </div>
+				            <div class="card-body pt-0">
+				                <div class="widget-49">
+				                    <div class="widget-49-title-wrapper">
+				                        <div class="widget-49-date-warning">
+				                            <span class="widget-49-date-day">${mycard.couponcnt}</span>
+				                        </div>
+				                        <div class="widget-49-meeting-info">
+				                            <span class="widget-49-pro-title">사용 가능한 쿠폰</span>
+				                            <span class="widget-49-meeting-time">브랜드별 쿠폰 모아보기</span>
+				                        </div>
+				                    </div>
+				                    <div class="widget-49-meeting-action">
+				                        <a href="#" class="btn btn-sm btn-flash-border-warning">바로 가기</a>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-lg-4">
+			        <div class="card2 card-margin">
+			            <div class="card-header no-border">
 			            </div>
-			        </div>
-			        <div class="card-body">
-			            <div class="media flex-column flex-sm-row">
-			                <div class="media-body ">
-			                    <h5 class="bold">Blade High Heels Sandals</h5>
-			                    <p class="text-muted"> Qt: 1 Pair</p>
-			                    <h4 class="mt-3 mb-4 bold"> <span class="mt-5">&#x20B9;</span> 1,500 <span class="small text-muted"> via (COD) </span></h4>
-			                    <p class="text-muted">Tracking Status on: <span class="Today">11:30pm, Today</span></p> <button type="button" class="btn btn-outline-primary d-flex">Reached Hub, Delhi</button>
-			                </div><img class="align-self-center img-fluid" src="https://i.imgur.com/bOcHdBa.jpg" width="180 " height="180">
-			            </div>
-			        </div>
-			        <div class="row px-3">
-			            <div class="col">
-			                <ul id="progressbar">
-			                    <li class="step0 active " id="step1">PLACED</li>
-			                    <li class="step0 active text-center" id="step2">SHIPPED</li>
-			                    <li class="step0 text-muted text-right" id="step3">DELIVERED</li>
-			                </ul>
-			            </div>
-			        </div>
-			        <div class="card-footer bg-white px-sm-3 pt-sm-4 px-0">
-			            <div class="row text-center ">
-			                <div class="col my-auto border-line ">
-			                    <h5>Track</h5>
+			            <div class="card-body pt-0">
+			                <div class="widget-49">
+			                    <div class="widget-49-title-wrapper">
+			                        <div class="widget-49-date-success">
+			                            <span class="widget-49-date-day">${mycard.pointcnt}P</span>
+			                        </div>
+			                        <div class="widget-49-meeting-info">
+			                            <span class="widget-49-pro-title">당신에게 적립된 포인트</span>
+			                            <span class="widget-49-meeting-time">포인트 혜택 사용하기</span>
+			                        </div>
+			                    </div>
+			                    <div class="widget-49-meeting-action">
+			                        <a href="#" class="btn btn-sm btn-flash-border-success">바로 가기</a>
+			                    </div>
 			                </div>
-			                <div class="col my-auto border-line ">
-			                    <h5>Cancel</h5>
-			                </div>
-			                <div class="col my-auto border-line ">
-			                    <h5>Pre-pay</h5>
-			                </div>
-			                <div class="col my-auto mx-0 px-0 "><img class="img-fluid cursor-pointer" src="https://img.icons8.com/ios/50/000000/menu-2.png" width="30" height="30"></div>
 			            </div>
 			        </div>
 			    </div>
-			</div>
+				</div>
+				</div><br>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="table-wrap">
+									<table class="table table-responsive-xl">
+									  <thead>
+									    <tr>
+		                                    <th></th>
+		                                    <th>상품</th>
+		                                    <th>가격</th>
+		                                    <th>사이즈</th>
+		                                    <th>갯수</th>
+		                                    <th>수령 상태</th>
+									    </tr>
+									  </thead>
+									  <tbody>
+									  <c:forEach items="${cartlist}" var="dto">
+										    <tr class="alert" role="alert">
+										      <td><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${dto.brandengname}/${dto.categoryproductNo}/${dto.thumbnail}.jpg" width="100"> </td>
+										      <td>${dto.name}</td>
+										      <td>${dto.productPrice}원</td>
+										      <td>${dto.productsize}</td>
+										      <td>${dto.qty}개</td>
+							<c:choose>
+	                             <c:when test="${dto.status eq 0}">
+	                             			<td class="status border-bottom-0"><span class="waiting">대기</span></td>
+	                             </c:when>
+	                             <c:otherwise>
+										    <td class="status"><span class="active">완료</span></td>
+	    					     </c:otherwise>
+	    					</c:choose>  
+										    </tr>
+										</c:forEach>
+									   </tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
       </div>
-		</div>
+		</div> 
 	
 
     <!-- Footer Section Begin -->
