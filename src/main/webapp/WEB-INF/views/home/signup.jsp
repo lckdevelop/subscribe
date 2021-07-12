@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="appKeyModel" value="${appKey}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +17,11 @@
 <body>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript">
-	window.Kakao.init("c719163c8a3ae97ac6453318e9396038");
 	
 	function kakaoLogin() {
+		let appKey = "${appKeyModel}";
+		
+		window.Kakao.init(appKey);
 		window.Kakao.Auth.login({
 			scope:'profile_nickname, account_email, gender, birthday',
 			success: function(authObj) {
@@ -36,7 +39,7 @@
 				});
 			}
 		});
-	}
+	};
 	</script>
 	<script type="text/javascript">
 	$(function(){

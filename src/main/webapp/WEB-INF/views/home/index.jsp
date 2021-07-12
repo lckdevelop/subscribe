@@ -251,9 +251,6 @@
 						            
 						         </c:otherwise>
 						    </c:choose>	
-						
-						
-						
 						</div>
 					</c:forEach>
 				</div>

@@ -1,8 +1,10 @@
 package dev.department.subscribe.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.dto.ProductDTO;
@@ -42,10 +49,27 @@ public class IndexController {
 
 	// 회원가입 창
 	@GetMapping("/signup")
-	public String signupPage() {
+	public String signupPage(Model model) {
+		File file = new File(getClass().getClassLoader().getResource("kakaoAccess.json").getFile());
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> json = new HashMap<String, String>();
+		try {
+			json = mapper.readValue(file, new TypeReference<Map<String, String>>() {
+			});
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		log.info(json.get("appKey") + ": appKey");
+		String appKey = json.get("appKey");
+		model.addAttribute("appKey", appKey);
+		
 		return "home/signup";
 	}
-
+	
 	// 회원가입 진행
 	@PostMapping("/signaction")
 	public String signAction(@ModelAttribute MemberDTO memberDTO) {
