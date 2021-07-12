@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
@@ -1067,7 +1068,7 @@
 				                            <div class="rs-select2 js-select-simple select--no-search">
 				                                <select class="couponselect" id="couponselect">
 				                                <c:forEach items="${couponlist}" var="dto">
-				                                  <option value="${dto.no}">${dto.title}</option>
+				                                  <option value="${dto.no}">${fn:escapeXml(dto.title)}</option>
 				                                 </c:forEach>
 				                                </select>
 				                                <div class="select-dropdown"></div>
