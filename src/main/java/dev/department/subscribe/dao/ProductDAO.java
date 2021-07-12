@@ -25,4 +25,10 @@ public interface ProductDAO {
 
 	int getAllMainCategoryProductsCount(int categoryBrandNo) throws SQLException;
 
+	int getAllSubCategoryProductsCount(Map<String, Integer> categoryInfo) throws SQLException;
+
+	ArrayList<ProductDTO> getSubCategoryProductsWithPage(Map<String, Object> productInfo) throws SQLException;
+
+	ProductDTO getProductInfo(int productNo) throws SQLException;
+
 }

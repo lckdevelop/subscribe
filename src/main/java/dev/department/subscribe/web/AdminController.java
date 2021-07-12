@@ -302,5 +302,14 @@ public class AdminController {
 		}
 		
 	}
+	
+	// 코디 등록 폼 이동
+		@GetMapping("/registerstyle")
+		public String registerStyle(Authentication authentication, Model model) {
+			
+			
+			
+			return "admin/registerstyle";
+		}
 
 }

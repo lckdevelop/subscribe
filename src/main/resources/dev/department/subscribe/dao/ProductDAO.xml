@@ -101,4 +101,10 @@
                 where categoryproduct_no=#{categoryProductNo}
                 )	
 	</select>
+	
+	<select id="getProductInfo" parameterType="int" resultType="ProductDTO">
+		select no, name, content, price, thumbnail, views, zzimcount, brand_no as brandNo, categoryproduct_no as categoryproductNo
+		from product
+		where no=#{productNo}
+	</select>
 </mapper>

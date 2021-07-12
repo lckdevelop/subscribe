@@ -10,4 +10,6 @@ public interface CategoryService {
 
 	int getCategoryBrandNo(String categoryBrand) throws Exception;
 
+	int getCategoryProductNo(String categoryProduct) throws Exception;
+
 }

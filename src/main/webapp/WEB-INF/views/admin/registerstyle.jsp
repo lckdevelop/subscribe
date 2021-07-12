@@ -14,32 +14,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>현대백화점 브랜드 관리자 예약 관리</title>
+    <title>현대백화점 브랜드 관리자 코디글 등록</title>
 
     <!-- Custom fonts for this template-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="${context}/resources/theme/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" 
+          rel="stylesheet">
     <link href="${context}/resources/theme/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="${context}/resources/theme/css/adminreserve.css" rel="stylesheet">
-    
-	<!-- Calendar css -->
-    <link rel="stylesheet" type="text/css" href="${context}/resources/fullcalendar/main.min.css" />
-    
-    <!-- Calendar js -->
-	<script src="${context}/resources/fullcalendar/main.min.js"></script>
-	<script src="${context}/resources/fullcalendar/locales-all.min.js"></script>
-    
-    <script>
-    	window.search = '${search}';
-    	
+    <link href="${context}/resources/registproduct/css/registproduct.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" />
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
+	<link rel="stylesheet"
+    	  href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css"/>
+	
+	
 
-
-    	
-    </script>
 </head>
 
 <body id="page-top">
-	
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -103,7 +96,6 @@
                 </div>
             </li>
             
-            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscribe"
@@ -160,13 +152,13 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form action="reserve" method="POST"
-                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="예약 현황 검색..."
-                                aria-label="search" aria-describedby="basic-addon2" id="searchbar" name="search" value="${search}">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">
+                                <button class="btn btn-secondary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -175,6 +167,30 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -332,112 +348,47 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">예약 관리</h1>
-                    </div>
-                    
-                    <div class="row">
-                    	<div class="col-xl-5 col-lg-5">
-	                    	<div class="card shadow mb-4">
-	                    		<div class="card-body">
-		                    		<div id="calendar">
-		                    		
-		                    		</div>
-	                    		</div>
-	                    	</div>
-                    	</div>
-                    	
-                    	<div class="col-xl-7 col-lg-7">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">전체 예약 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="rlist">
+				<div class="container-fluid">
 
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination3" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-                    </div>
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">코디 등록</h1>
+						<p>
+							<i class="fas fa-address-book"></i> 구독자 <b>${subsCnt}명</b>에게 발송
+						</p>
 
-                    <div class="row">
-	                    <div class="col-xl-6 col-lg-6">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">미승인 매장 방문 예약</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="upv-list">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination1" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="col-xl-6 col-lg-6">
-							<div class="card shadow mb-4">
-	                            <!-- Card Header - Dropdown -->
-	                            <div
-	                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-	                                <h6 class="m-0 font-weight-bold text-primary">금일 예약 현황</h6>
-	                            </div>
-	                            <!-- Card Body -->
-	                            <div class="card-body">
-                                    <table class="table table-hover text-center">
-	                                    <thead>
-	                                    	<tr>
-	                                    		<th>성함</th>
-	                                    		<th>연락처</th>
-	                                    		<th>예약시간</th>
-	                                    		<th>진행상태</th>
-	                                    	</tr>
-	                                    </thead>
-	                                    <tbody id="today-list">
-
-	                                    </tbody>
-                                    </table>
-                                    <div id="pagination2" class="pagination d-flex flex-row align-items-center justify-content-center"></div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    
 					</div>
-					
-					
-                </div>
-                <!-- /.container-fluid -->
+					<div>
+						<p>썸네일 등록</p>
+					</div>
 
+					<div class="row">
+
+						<div class="col-lg-3">
+							<div class="thumbnail-div">
+								<img class="upload-img" id="preview" name="thumbnail"
+									src="${context}/resources/registproduct/img/file-upload.png">
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<form method="POST" id="cody-form">
+								<input type="file" id="inputGroupFile01" class="imgInp custom-file-input" >
+    							<label class="custom-file-label" for="inputGroupFile01">이미지를 선택하세요.</label>
+								<input type="text" id="subject" name="subject" placeholder="제목을 입력해주세요." required="required" />
+								<textarea id="submit-content" name="content" style="display: none"></textarea>
+							</form>
+						</div>
+					</div>
+					<div class="row text-center mt-3">
+						<div class="col-lg-12">
+							<div id="editor"></div>
+						</div>
+						<button id="submit-btn" class="btn btn-success align1"
+							data-toggle="modal" data-target="#submitCompleteModal">등록</button>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
 
@@ -462,6 +413,26 @@
         <i class="fas fa-angle-up"></i>
     </a>
     
+    <!-- Submit Complete Modal-->
+    <div class="modal fade" id="submitCompleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">게시글을 등록합니다!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">정말 등록하시겠습니까?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <button class="btn btn-success" onclick="clickSubmit()">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -481,54 +452,14 @@
             </div>
         </div>
     </div>
-    
-    <!-- Approve Modal-->
-    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약 확정</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="approve-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
-                    <button id="refuse-modal-btn" class="btn btn-danger" data-dismiss="modal">거절</button>
-                    <button id="approve-modal-btn" class="btn btn-success" data-dismiss="modal">승인</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- UPVDetail Modal-->
-    <div class="modal fade" id="upvdetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">예약 상세 정보</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="upv-modal-body" class="modal-body">
-
-                </div>
-				<div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Core plugin JavaScript-->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     <script src="${context}/resources/theme/js/bootstrap.min.js"></script>
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
-    <script src="${context}/resources/theme/js/admin-reserve.js"></script>
+    <script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
+    <script src="${context}/resources/registproduct/js/registerstyle.js"></script>
 
 </body>
 

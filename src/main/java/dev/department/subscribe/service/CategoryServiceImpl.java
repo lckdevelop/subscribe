@@ -29,4 +29,10 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDAO.getCategoryBrandNo(categoryBrand);
 	}
 
+	@Override
+	public int getCategoryProductNo(String categoryProduct) throws Exception {
+		// TODO Auto-generated method stub
+		return categoryDAO.getCategoryProductNo(categoryProduct);
+	}
+
 }
