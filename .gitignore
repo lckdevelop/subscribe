@@ -51,3 +51,5 @@ Thumbs.db
 s3key.json
 src/main/resources/s3key.json
 
+coolsms.properties
+WEB-INF/spring/coolsms.properties

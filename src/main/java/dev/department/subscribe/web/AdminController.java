@@ -3,6 +3,7 @@ package dev.department.subscribe.web;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -11,11 +12,15 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +35,7 @@ import dev.department.subscribe.dto.MailFormDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.PickupListDTO;
+import dev.department.subscribe.dto.ReservationDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
@@ -41,7 +47,9 @@ import dev.department.subscribe.service.MailService;
 import dev.department.subscribe.service.PickupService;
 import dev.department.subscribe.service.ReserveService;
 import dev.department.subscribe.service.SalesService;
+import dev.department.subscribe.validator.CouponValidator;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.api.Message;
 
 @Slf4j
 @Controller
@@ -73,6 +81,12 @@ public class AdminController {
 	public String adminMain() {
 		return "redirect:admin/";
 	}
+	
+	@Value("${api_key}")
+	private String api_key;
+	
+	@Value("${api_secret}")
+	private String api_secret;
 	
 	// 관리자 대쉬보드
 	@GetMapping("/")
@@ -357,6 +371,10 @@ public class AdminController {
 	@ResponseBody
 	public void reservePermit(@RequestParam("no") int no, Authentication authentication) {
 		
+		Message coolsms = new Message(api_key, api_secret);
+		
+		HashMap<String, String> set = new HashMap<String, String>();
+		
 		int brandNo = 0;
 		int storeNo = 0;
 		
@@ -368,16 +386,34 @@ public class AdminController {
 		
 		try {
 			reserveService.permitReserve(new ReservePermitDTO(no, brandNo, storeNo));
+			
+			ReservationDTO reservationDTO = reserveService.getReserveInfo(no);
+			
+			String text = reservationDTO.getMemberName() + "님의 예약이 확정되었습니다.\n"
+			            + "예약 지점 : " + reservationDTO.getBrandName() + " " + reservationDTO.getStoreName() + "점\n" 
+					    + "예약 일시 : " + reservationDTO.getReserveDate() + "\n" 
+			            + "저희 " + reservationDTO.getBrandName() + "을(를) 이용해 주셔서 감사합니다.";
+			set.put("to", reservationDTO.getPhone().replace("-", ""));
+			set.put("from", "01056575293");
+			set.put("text", text);
+			set.put("type", "sms");
+			
+			JSONObject obj = (JSONObject) coolsms.send(set);
+			
 		} catch(Exception e) {
 			log.warn(e.getMessage());
-			e.printStackTrace();
 		}
+		
 	}
 	
 	// 예약 거부하기
 	@GetMapping("/reserve/refuse")
 	@ResponseBody
 	public void reserveRefuse(@RequestParam("no") int no, Authentication authentication) {
+		
+		Message coolsms = new Message(api_key, api_secret);
+		
+		HashMap<String, String> set = new HashMap<String, String>();
 		
 		int brandNo = 0;
 		int storeNo = 0;
@@ -390,6 +426,17 @@ public class AdminController {
 		
 		try {
 			reserveService.refuseReserve(new ReservePermitDTO(no, brandNo, storeNo));
+			
+			ReservationDTO reservationDTO = reserveService.getReserveInfo(no);
+			
+			String text = "죄송합니다. 매장 사정으로 예약이 불가능합니다. 다른 시간을 예약해주세요.";
+			set.put("to", reservationDTO.getPhone().replace("-", ""));
+			set.put("from", "01056575293");
+			set.put("text", text);
+			set.put("type", "sms");
+			
+			JSONObject obj = (JSONObject) coolsms.send(set);
+			
 		} catch(Exception e) {
 			log.warn(e.getMessage());
 			e.printStackTrace();
@@ -420,6 +467,15 @@ public class AdminController {
 		
 	}
 	
+	// 코디 등록 폼 이동
+		@GetMapping("/registerstyle")
+		public String registerStyle(Authentication authentication, Model model) {
+			
+			
+			
+			return "admin/registerstyle";
+		}
+		
 	// 방문예약 FullCalendar 이벤트 띄우기
 	@GetMapping("/reserve/getCalendarData")
 	@ResponseBody
@@ -608,7 +664,16 @@ public class AdminController {
 	
 	// 쿠폰 발급 완료 페이지
 	@PostMapping("/coupon")
-	public String couponComplete(Authentication authentication, CouponDTO couponDTO, Model model) {
+	public String couponComplete(Authentication authentication, CouponDTO couponDTO, Model model, BindingResult result) {
+		
+		CouponValidator validator = new CouponValidator();
+		validator.validate(couponDTO, result);
+		
+		if (result.hasErrors()) {
+			log.warn(result.getErrorCount() + "개의 에러 발생");
+			model.addAttribute("errMsg", "입력이 잘못되었습니다!.\n 쿠폰 발급 양식을 잘 확인해주세요");
+			return "admin/coupon-complete";
+		}
 		
 		int brandNo = 0;
 		int storeNo = 0;
@@ -618,11 +683,6 @@ public class AdminController {
 			brandNo = sMember.getBrandNo();
 			storeNo = sMember.getStoreNo();
 		}
-		
-		log.info(couponDTO.toString());
-		log.info(couponDTO.getTitle());
-		log.info(couponDTO.getType() + " ");
-		
 		
 		try {
 			BrandDTO brandInfo = brandService.getBrandInfo(brandNo);

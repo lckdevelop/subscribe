@@ -5,6 +5,7 @@ import java.util.List;
 import dev.department.subscribe.dto.CalendarParamDTO;
 import dev.department.subscribe.dto.FullCalendarDTO;
 import dev.department.subscribe.dto.PagingDTO;
+import dev.department.subscribe.dto.ReservationDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
@@ -30,5 +31,7 @@ public interface ReserveService {
 	List<FullCalendarDTO> getCalendarData(CalendarParamDTO calendarParamDTO) throws Exception;
 
 	void reserveVisit(ReservePermitDTO reservePermitDTO) throws Exception;
+
+	ReservationDTO getReserveInfo(int no) throws Exception;
 
 }

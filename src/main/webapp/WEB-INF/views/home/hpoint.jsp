@@ -127,27 +127,20 @@
 				    <div class="col-lg-4">
 				        <div class="card2 card-margin">
 				            <div class="card-header no-border">
-				                <h5 class="card-title">MOM</h5>
 				            </div>
 				            <div class="card-body pt-0">
 				                <div class="widget-49">
 				                    <div class="widget-49-title-wrapper">
 				                        <div class="widget-49-date-primary">
-				                            <span class="widget-49-date-day">09</span>
-				                            <span class="widget-49-date-month">apr</span>
+				                            <span class="widget-49-date-day">${mycard.productcnt}</span>
 				                        </div>
 				                        <div class="widget-49-meeting-info">
-				                            <span class="widget-49-pro-title">PRO-08235 DeskOpe. Website</span>
-				                            <span class="widget-49-meeting-time">12:00 to 13.30 Hrs</span>
+				                            <span class="widget-49-pro-title">주문 진행 중인 상품</span>
+				                            <span class="widget-49-meeting-time">(수령 대기 / 배송 중)</span>
 				                        </div>
 				                    </div>
-				                    <ol class="widget-49-meeting-points">
-				                        <li class="widget-49-meeting-item"><span>Expand module is removed</span></li>
-				                        <li class="widget-49-meeting-item"><span>Data migration is in scope</span></li>
-				                        <li class="widget-49-meeting-item"><span>Session timeout increase to 30 minutes</span></li>
-				                    </ol>
 				                    <div class="widget-49-meeting-action">
-				                        <a href="#" class="btn btn-sm btn-flash-border-primary">View All</a>
+				                        <a href="#" class="btn btn-sm btn-flash-border-primary">바로 가기</a>
 				                    </div>
 				                </div>
 				            </div>
@@ -156,27 +149,20 @@
 				    <div class="col-lg-4">
 				        <div class="card2 card-margin">
 				            <div class="card-header no-border">
-				                <h5 class="card-title">MOM</h5>
 				            </div>
 				            <div class="card-body pt-0">
 				                <div class="widget-49">
 				                    <div class="widget-49-title-wrapper">
 				                        <div class="widget-49-date-warning">
-				                            <span class="widget-49-date-day">13</span>
-				                            <span class="widget-49-date-month">apr</span>
+				                            <span class="widget-49-date-day">${mycard.couponcnt}</span>
 				                        </div>
 				                        <div class="widget-49-meeting-info">
-				                            <span class="widget-49-pro-title">PRO-08235 Lexa Corp.</span>
-				                            <span class="widget-49-meeting-time">12:00 to 13.30 Hrs</span>
+				                            <span class="widget-49-pro-title">사용 가능한 쿠폰</span>
+				                            <span class="widget-49-meeting-time">브랜드별 쿠폰 모아보기</span>
 				                        </div>
 				                    </div>
-				                    <ol class="widget-49-meeting-points">
-				                        <li class="widget-49-meeting-item"><span>Scheming module is removed</span></li>
-				                        <li class="widget-49-meeting-item"><span>App design contract confirmed</span></li>
-				                        <li class="widget-49-meeting-item"><span>Client request to send invoice</span></li>
-				                    </ol>
 				                    <div class="widget-49-meeting-action">
-				                        <a href="#" class="btn btn-sm btn-flash-border-warning">View All</a>
+				                        <a href="#" class="btn btn-sm btn-flash-border-warning">바로 가기</a>
 				                    </div>
 				                </div>
 				            </div>
@@ -185,35 +171,27 @@
 				    <div class="col-lg-4">
 			        <div class="card2 card-margin">
 			            <div class="card-header no-border">
-			                <h5 class="card-title">MOM</h5>
 			            </div>
 			            <div class="card-body pt-0">
 			                <div class="widget-49">
 			                    <div class="widget-49-title-wrapper">
 			                        <div class="widget-49-date-success">
-			                            <span class="widget-49-date-day">22</span>
-			                            <span class="widget-49-date-month">apr</span>
+			                            <span class="widget-49-date-day">${mycard.pointcnt}P</span>
 			                        </div>
 			                        <div class="widget-49-meeting-info">
-			                            <span class="widget-49-pro-title">PRO-027865 Opera module</span>
-			                            <span class="widget-49-meeting-time">12:00 to 13.30 Hrs</span>
+			                            <span class="widget-49-pro-title">당신에게 적립된 포인트</span>
+			                            <span class="widget-49-meeting-time">포인트 혜택 사용하기</span>
 			                        </div>
 			                    </div>
-			                    <ol class="widget-49-meeting-points">
-			                        <li class="widget-49-meeting-item"><span>Scope is revised and updated</span></li>
-			                        <li class="widget-49-meeting-item"><span>Time-line has been changed</span></li>
-			                        <li class="widget-49-meeting-item"><span>Received approval to start wire-frame</span></li>
-			                    </ol>
 			                    <div class="widget-49-meeting-action">
-			                        <a href="#" class="btn btn-sm btn-flash-border-success">View All</a>
+			                        <a href="#" class="btn btn-sm btn-flash-border-success">바로 가기</a>
 			                    </div>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
 				</div>
-				</div>
-				<section class="ftco-section">
+				</div><br>
 					<div class="container">
 						<div class="row">
 							<div class="col-md-12">
@@ -221,31 +199,25 @@
 									<table class="table table-responsive-xl">
 									  <thead>
 									    <tr>
-									    	<th>쿠폰명</th>
-		                                    <th>할인 금액</th>
-		                                    <th>할인율</th>
-		                                    <th>할인 기간</th>
-		                                    <th>사용 현황</th>
-		                                    <th>사용일</th>
+		                                    <th>충전 / 사용 포인트</th>
+		                                    <th>충전 / 사용 날짜</th>
+		                                    <th>사유</th>
 									    </tr>
 									  </thead>
 									  <tbody>
+									  <c:forEach items="${pointlist}" var="dto">
 									    <tr class="alert" role="alert">
-									      <td>브랜드 쿠폰</td>
-									      <td>1000원</td>
-									      <td>10%</td>
-									      <td>~ 2021/07/21</td>
-									      <td class="status"><span class="active">사용 가능</span></td>
-									      <!-- <td class="status"><span class="waiting">Waiting for Resassignment</span></td> -->
-									      <td></td>
+									      <td>${dto.amount}P</td>
+									      <td>${dto.regdate}</td>
+									      <td>${dto.log}</td>
 									    </tr>
+									   </c:forEach>
 									  </tbody>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-				</section>
       </div>
 		</div>
 	

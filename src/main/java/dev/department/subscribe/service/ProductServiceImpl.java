@@ -64,4 +64,22 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getAllMainCategoryProductsCount(categoryBrandNo);
 	}
 
+	@Override
+	public int getAllSubCategoryProductsCount(Map<String, Integer> categoryInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.getAllSubCategoryProductsCount(categoryInfo);
+	}
+
+	@Override
+	public ArrayList<ProductDTO> getSubCategoryProductsWithPage(Map<String, Object> productInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.getSubCategoryProductsWithPage(productInfo);
+	}
+
+	@Override
+	public ProductDTO getProductInfo(int productNo) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.getProductInfo(productNo);
+	}
+
 }

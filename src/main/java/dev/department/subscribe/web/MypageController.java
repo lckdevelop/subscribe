@@ -51,6 +51,7 @@ public class MypageController {
 
 	@RequestMapping(value = "/mypage/coupon", method = RequestMethod.GET)
 	public ModelAndView coupon(Model model, Authentication authentication) throws Exception {
+		MypagecardDTO mycard = new MypagecardDTO();
 		if (authentication != null) {
 	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 
@@ -62,6 +63,16 @@ public class MypageController {
 	 		
 	 		List<CouponDTO> couponDTO = mypageService.getCouponList(memberDTO);
 	 		log.info(couponDTO.toString());
+	 		
+	 		MypagecardDTO mycardtemp = new MypagecardDTO();
+		    mycardtemp = mypageService.getCouponcnt(memberDTO);
+		    mycard.setCouponcnt(mycardtemp.getCouponcnt());
+		    mycardtemp = mypageService.getPointcnt(memberDTO);
+		    mycard.setPointcnt(mycardtemp.getPointcnt());
+		    mycardtemp = mypageService.getProductcnt(memberDTO);
+		    mycard.setProductcnt(mycardtemp.getProductcnt());
+		    
+			model.addAttribute("mycard", mycard);
 	 		model.addAttribute("couponlist", couponDTO);
 	      }
 		return new ModelAndView("/home/coupon");
@@ -71,7 +82,6 @@ public class MypageController {
 	public ModelAndView like(Model model, Authentication authentication) throws Exception {
 		if (authentication != null) {
 	    SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
-		//나중에 수정 (멤버 넘버 제대로 넘기기)
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setNo(sMember.getNo());
 		
@@ -83,14 +93,60 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value = "/mypage/hpoint", method = RequestMethod.GET)
-	public ModelAndView hpoint() throws Exception {
-		
+	public ModelAndView hpoint(Model model, Authentication authentication) throws Exception {
+		MypagecardDTO mycard = new MypagecardDTO();
+		List<PointDTO> pointlist = new ArrayList<>();
+		if (authentication != null) {
+		    SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setNo(sMember.getNo());
+			
+		    MypagecardDTO mycardtemp = new MypagecardDTO();
+		    mycardtemp = mypageService.getCouponcnt(memberDTO);
+		    mycard.setCouponcnt(mycardtemp.getCouponcnt());
+		    mycardtemp = mypageService.getPointcnt(memberDTO);
+		    mycard.setPointcnt(mycardtemp.getPointcnt());
+		    mycardtemp = mypageService.getProductcnt(memberDTO);
+		    mycard.setProductcnt(mycardtemp.getProductcnt());
+		    
+		    pointlist = mypageService.getPointlist(memberDTO);
+		    
+		    model.addAttribute("pointlist", pointlist);
+			model.addAttribute("mycard", mycard);
+			 }
 		return new ModelAndView("/home/hpoint");
 	}
 	
 	@RequestMapping(value = "/mypage/orderedlist", method = RequestMethod.GET)
-	public ModelAndView orderedlist() throws Exception {
-		
+	public ModelAndView orderedlist(Model model, Authentication authentication) throws Exception {
+		MypagecardDTO mycard = new MypagecardDTO();
+		List<CartListDTO> cartlist = new ArrayList<>();
+		if (authentication != null) {
+		    SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setNo(sMember.getNo());
+			
+			cartlist = mypageService.getOrderedList(memberDTO);
+			
+			for(int i = 0; i < cartlist.size(); i++) {
+	        	 if(cartlist.get(i).getShoesize() == null) {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getClothsize());
+	        	 }else {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getShoesize());
+	        	 }
+	         }
+			
+		    MypagecardDTO mycardtemp = new MypagecardDTO();
+		    mycardtemp = mypageService.getCouponcnt(memberDTO);
+		    mycard.setCouponcnt(mycardtemp.getCouponcnt());
+		    mycardtemp = mypageService.getPointcnt(memberDTO);
+		    mycard.setPointcnt(mycardtemp.getPointcnt());
+		    mycardtemp = mypageService.getProductcnt(memberDTO);
+		    mycard.setProductcnt(mycardtemp.getProductcnt());
+		    
+			model.addAttribute("mycard", mycard);
+			model.addAttribute("cartlist", cartlist);
+			 }
 		return new ModelAndView("/home/orderedlist");
 	}
 }

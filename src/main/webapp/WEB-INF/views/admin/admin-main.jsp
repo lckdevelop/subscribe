@@ -107,7 +107,7 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">상품 관리</a>
+                        <a class="collapse-item" href="./registerstyle">코디글 등록</a>
                     </div>
                 </div>
             </li>

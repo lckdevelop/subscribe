@@ -130,5 +130,21 @@
 		   AND TO_CHAR(R.RESTIME, 'YYYY-MM') = #{date}
 	</select>
 	
+	<select id="getReserveInfo" parameterType="int" resultType="ReservationDTO">
+		    SELECT B.NAME    AS BRANDNAME  , 
+		           M.NAME    AS MEMBERNAME , 
+		           M.PHONE   AS PHONE      , 
+		           S.NAME    AS STORENAME  , 
+		           TO_CHAR(R.RESTIME, 'YYYY-MM-DD HH24:MI') AS RESERVEDATE
+		      FROM RESERVATION R
+		INNER JOIN BRAND B
+		        ON R.BRAND_NO = B.NO
+		INNER JOIN MEMBER M
+		        ON R.MEMBER_NO = M.NO
+		INNER JOIN STORE S
+		        ON R.STORE_NO = S.NO
+		WHERE R.NO = #{no}
+	</select>
+	
 	
 </mapper>
