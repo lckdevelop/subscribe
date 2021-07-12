@@ -50,10 +50,10 @@
             // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
             if( submenu.is(":visible") ){
                 submenu.slideUp();
-                $(".brand_spread").html("<strong>브랜드 더보기</strong>");
+                $(".brand_spread").html("<strong>| 브랜드 더보기 |</strong>");
             }else{
                 submenu.slideDown();
-                $(".brand_spread").html("<strong>브랜드 접기</strong>");
+                $(".brand_spread").html("<strong>| 브랜드 접기 |</strong>");
             }
             
         });
@@ -90,16 +90,19 @@
 	        url:"${context}/zzimAction/"+productNo,
 	        success:function (data){
 	        	if (data == "성공") {
-		        	alert(productName + " 찜 하였습니다.");
+		        	/* alert(productName + " 찜 하였습니다."); */
+		        	$(".heart"+productNo).fadeIn("slow");
+		        	setTimeout(function() {
+		        		  console.log('Works!');
+	        		}, 10000);
+		        	$(".heart"+productNo).fadeOut("slow");
 	        	} else if (data == "이미 존재") {
-	        		alert(productName + " 이미 찜 상품입니다.");
-	        	} else {
-	        		alert("실패");
+	        		alert(productName + "\n\n이미 찜 완료된상품입니다.");
 	        	}
 	        	
 	       },
 	      error:function(data,textStatus){
-	         alert("에러가 발생했습니다.");
+	         alert("로그인이 필요합니다.");
 	      },
 	      complete:function(data,textStatus){
 	      }
@@ -155,7 +158,6 @@
         </div>
     </section>
     <!-- Hero Section End -->
-	
 	<!-- 브랜드 아이콘 Start-->
 	<sec:authorize access="isAuthenticated()">
 		<div class="container">
@@ -268,7 +270,7 @@
 			</c:forEach>
 			</div>
 			<div class="col-md-12 text-center mt-5">
-				<a class="brand_spread"><strong>브랜드 더보기</strong></a>
+				<a class="brand_spread"><strong>| 브랜드 더보기 |</strong></a>
 			</div>
 		</div>
 	</sec:authorize>
@@ -304,7 +306,7 @@
 								        </h6></c:otherwise>
 								</c:choose>
 	                            <%-- <h6 class="mt-3 mb-4 newscontent">${news.content}</h6> --%>
-	                            <a href="${context}/brands/brandpage/${news.no}">자세히보기</a>
+	                            <a href="${context}/brands/brandpage/${news.no}/all">자세히보기</a>
 	                        </div>
 	                    </div>
 	                </div>	
@@ -388,18 +390,18 @@
             </div>
             
             <div class="row product__filter">
-            	<!-- <div class="heartbox"></div> -->
             	<c:choose>
 					<c:when test="${fn:length(subsBestList) != 0}">
 						<c:forEach var="item" items="${subsBestList}">
 							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix best-seller">
 		                    	<div class="product__item">
 		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <h3 class="heart${item.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 			                            <span class="label">Best</span>
 			                            <ul class="product__hover">
 			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                                <li><a href="${context}/product/detail/${item.mainCategory}/${item.categoryproductNo}/${item.brandNo}/${item.no}"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 			                            </ul>
 		                        	</div>
 		            				<div class="product__item__text">
@@ -415,11 +417,12 @@
 							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix best-seller">
 		                    	<div class="product__item">
 		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <h3 class="heart${item.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 			                            <span class="label">Best</span>
 			                            <ul class="product__hover">
 			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                                <li><a href="${context}/product/detail/${item.mainCategory}/${item.categoryproductNo}/${item.brandNo}/${item.no}"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 			                            </ul>
 		                        	</div>
 		            				<div class="product__item__text">
@@ -437,11 +440,12 @@
 							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
 		                    	<div class="product__item">
 		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <h3 class="heart${item.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 			                            <span class="label">New</span>
 			                            <ul class="product__hover">
 			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                                <li><a href="${context}/product/detail/${item.mainCategory}/${item.categoryproductNo}/${item.brandNo}/${item.no}"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 			                            </ul>
 		                        	</div>
 		            				<div class="product__item__text">
@@ -457,11 +461,12 @@
 							<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
 		                    	<div class="product__item">
 		            				<div class="product__item__pic set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${item.engname}/${item.categoryproductNo}/${item.thumbnail}.jpg">
+			                            <h3 class="heart${item.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 			                            <span class="label">New</span>
 			                            <ul class="product__hover">
 			                                <li><a onClick="zzimBtn(${item.no}, '${item.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/compare.png" alt=""> <span>상품비교</span></a></li>
-			                                <li><a href="#"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+			                                <li><a href="${context}/product/detail/${item.mainCategory}/${item.categoryproductNo}/${item.brandNo}/${item.no}"><img src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 			                            </ul>
 		                        	</div>
 		            				<div class="product__item__text">
@@ -476,55 +481,6 @@
             </div>
         </div>
     </section>
-    <!-- Product Section End -->
-
-    <!-- Categories Section Begin -->
-    <%-- <section class="categories spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="categories__text">
-                        <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="categories__hot__deal">
-                        <img src="${context}/resources/theme/img/product-sale.png" alt="">
-                        <div class="hot__deal__sticker">
-                            <span>Sale Of</span>
-                            <h5>$29.99</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 offset-lg-1">
-                    <div class="categories__deal__countdown">
-                        <span>Deal Of The Week</span>
-                        <h2>Multi-pocket Chest Bag Black</h2>
-                        <div class="categories__deal__countdown__timer" id="countdown">
-                            <div class="cd-item">
-                                <span>3</span>
-                                <p>Days</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>1</span>
-                                <p>Hours</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>50</span>
-                                <p>Minutes</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>18</span>
-                                <p>Seconds</p>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">Shop now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --%>
-    <!-- Categories Section End -->
 
     <!-- Instagram Section Begin -->
     <section class="categories spad">
@@ -546,7 +502,7 @@
                         	<img src="${context}/resources/index/images/instaLogo.png" style="width:70px;object-fit:cover"/><h2 class="mt-3">Instagram</h2>
                         </div>
                         <p></p>
-                        <a href="https://www.instagram.com/the_hyundai/" style="color:red"># 현대백화점 공식 계정 바로가기</a><i class="far fa-hand-point-left"></i>
+                        <a href="https://www.instagram.com/the_hyundai/" style="color:red" target='_blank'># 현대백화점 공식 계정 바로가기</a><i class="far fa-hand-point-left"></i>
                     </div>
                 </div>
             </div>

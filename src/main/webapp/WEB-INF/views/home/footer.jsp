@@ -40,11 +40,11 @@
 	        <div class="footer__widget">
 	            <h6>Category</h6>
 	            <ul>
-	                <li><a href="#">여성패션</a></li>
-	                <li><a href="#">남성패션</a></li>
-	                <li><a href="#">남여공용</a></li>
-	                <li><a href="#">진/캐주얼</a></li>
-	                <li><a href="#">스포츠/레저</a></li>
+	                <li><a href="${context}/product/category?main=여성패션&sub=&page=1">여성패션</a></li>
+	                <li><a href="${context}/product/category?main=남성패션&sub=&page=1">남성패션</a></li>
+	                <li><a href="${context}/product/category?main=유니섹스&sub=&page=1">남여공용</a></li>
+	                <li><a href="${context}/product/category?main=진/캐주얼&sub=&page=1">진/캐주얼</a></li>
+	                <li><a href="${context}/product/category?main=스포츠/레저&sub=&page=1">스포츠/레저</a></li>
 	            </ul>
 	        </div>
 	    </div>
