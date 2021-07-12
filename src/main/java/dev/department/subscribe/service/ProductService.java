@@ -24,4 +24,10 @@ public interface ProductService {
 
 	int getAllMainCategoryProductsCount(int categoryBrandNo) throws Exception;
 
+	int getAllSubCategoryProductsCount(Map<String, Integer> categoryInfo) throws Exception;
+
+	ArrayList<ProductDTO> getSubCategoryProductsWithPage(Map<String, Object> productInfo) throws Exception;
+
+	ProductDTO getProductInfo(int productNo) throws Exception;
+
 }

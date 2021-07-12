@@ -8,6 +8,7 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="brandInfo" value="${brandInfo}" />
 <c:set var="pagingDTO" value="${pagingDTO}" />
@@ -16,7 +17,6 @@
 <c:set var="productInfo" value="${productInfo}" />
 <c:set var="brandInfo" value="${brandInfo}" />
 
-$brandInfo[23].engName
 <!DOCTYPE html>
 <%
 	PagingDTO pagingDTO = (PagingDTO)pageContext.getAttribute("pagingDTO");
@@ -30,6 +30,7 @@ $brandInfo[23].engName
 	
 	long productStart = pageSize*(pagenum-1)+1;
 	long productEnd = pageSize*pagenum;
+	
 %>
 <html>
 <head>
@@ -64,6 +65,10 @@ $brandInfo[23].engName
     		makePage(${pagingDTO.page}, ${pagingDTO.pageSize}, ${pagingDTO.pageBlock}, ${pagingDTO.startPage}, ${pagingDTO.endPage}, ${pagingDTO.totalPage});
     		
     	});
+    	
+    	function moveProductDetail(brandNo, productNo){
+    		location.href="${context}/product/detail/${main}/${sub}/"+brandNo+"/"+productNo;
+    	}
     	
     	function movePage(page){
     		location.href="${context}/product/category?main=${main}&sub=${sub}&page="+page;
@@ -202,8 +207,12 @@ $brandInfo[23].engName
 							</div>
 						</div>
 					</div>
-					<div class="row">
-
+					<div class="row" >
+						<c:if test="${fn:length(productInfo)==0}">
+						<div class="col-md-12 text-center">
+							<img src="${context}/resources/product/noitem.png">
+						</div>
+						</c:if>
 						<c:forEach items="${productInfo}" var="product">
 							<%
 								ProductDTO productInfo = (ProductDTO)pageContext.getAttribute("product");
@@ -214,20 +223,21 @@ $brandInfo[23].engName
 							<div class="col-lg-3 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
-										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg">
+										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg"
+										onclick="moveProductDetail(${product.brandNo}, ${product.no})">
 										<ul class="product__hover">
 											<li><a href="#"><img
 													src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>
 											<li><a href="#"><img
 													src="${context}/resources/theme/img/icon/compare.png"
 													alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img
+											<li><a href="${context}/product/detail/${main}/${sub}/${product.brandNo}/${product.no}"><img
 													src="${context}/resources/theme/img/icon/search.png" alt=""></a></li>
 										</ul>
 									</div>
 									<div class="product__item__text">
 										<h6>${product.name}</h6>
-										<a href="#" class="add-cart">+ 장바구니에 담기</a>
+										<a href="${context}/product/detail/${main}/${sub}/<%=brandName%>/${product.no}" class="add-cart">상품 상세보기</a>
 
 										<h5>
 											<fmt:formatNumber type="number" maxFractionDigits="3"

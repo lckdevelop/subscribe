@@ -467,6 +467,15 @@ public class AdminController {
 		
 	}
 	
+	// 코디 등록 폼 이동
+		@GetMapping("/registerstyle")
+		public String registerStyle(Authentication authentication, Model model) {
+			
+			
+			
+			return "admin/registerstyle";
+		}
+		
 	// 방문예약 FullCalendar 이벤트 띄우기
 	@GetMapping("/reserve/getCalendarData")
 	@ResponseBody
