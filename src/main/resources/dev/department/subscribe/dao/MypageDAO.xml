@@ -13,7 +13,7 @@
 	
 	<select id="getLikeList" parameterType="MemberDTO" resultType="CartListDTO">
 		select b.no as productNo, b.name as name, b.price as productPrice, b.thumbnail as thumbnail,
-		b.views as views, c.name as brandname, c.engname as brandengname
+		b.categoryproduct_no as categoryproductNo, c.name as brandname, c.engname as brandengname
 			from zzim a
 			JOIN product b on a.product_no = b.no 
 			JOIN brand c on b.brand_no = c.no
@@ -25,4 +25,34 @@
 		0, #{memo}, 0, #{storeNo})
 	</insert>
 	
+	<select id="getCouponcnt" parameterType="MemberDTO" resultType="MypagecardDTO">
+		select count(*) as couponcnt from coupon where member_no = #{no} and classification = 0
+	</select>
+	
+	<select id="getPointcnt" parameterType="MemberDTO" resultType="MypagecardDTO">
+		select sum(amount) as pointcnt from point where member_no = #{no}
+	</select>
+	
+	<select id="getProductcnt" parameterType="MemberDTO" resultType="MypagecardDTO">
+		select count(*) as productcnt from orderedproduct a join
+		ordered b on a.ordered_no = b.no
+		where b.member_no = #{no} and a.status = 0
+	</select>
+	
+	<select id="getOrderedList" parameterType="MemberDTO" resultType="CartListDTO">
+		select a.name, a.price as productPrice, a.thumbnail, a.categoryproduct_no as categoryproductNo
+		, b.engname as brandengname, e.productsize as shoesize, f.productsize as clothsize,
+		d.qty, c.orderdate, d.status
+		from product a join brand b on a.brand_no = b.no
+		join orderedproduct d on a.no = d.product_no
+		join ordered c on c.no = d.ordered_no
+		LEFT OUTER join shoesize e on d.shoesize_no = e.no
+		LEFT OUTER join clothsize f on d.clothsize_no = f.no
+		where c.member_no = #{no}
+	</select>
+	
+	<select id="getPointlist" parameterType="MemberDTO" resultType="PointDTO">
+		select amount, regdate, log
+		from point where member_no = #{no}
+	</select>
 </mapper>

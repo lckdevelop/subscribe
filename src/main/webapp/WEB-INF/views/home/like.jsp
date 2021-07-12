@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Male-Fashion | Template</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -121,22 +122,26 @@
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
-			<div class="container mt-2">
-			  <div class="row">
-			  <c:forEach items="${likelist}" var="dto">
-			    <div class="col-md-3 col-sm-6" style="margin-top: 30px">
-			      <div class="card card-block">
-			        <h4 class="card-title text-right"><i class="material-icons">settings</i></h4>
-			        <img src="${dto.thumbnail}" alt="Photo of sunset" style="height:150px; width:100%;">
-			        <h5 class="card-title mt-3 mb-3">${dto.name} • ${dto.brandname} ${dto.brandengname}</h5>
-			        <p class="card-text">가격 : ${dto.productPrice} 조회수 : ${dto.views}</p> 
-			      </div>
-			    </div>
-			    </c:forEach>
-			  </div>
-			</div>
-			   
-      </div>
+			<div class="row" id="ads">
+			<c:forEach items="${likelist}" var="dto">
+				    <div class="col-md-4">
+				        <div class="card rounded">
+				            <div class="card-image">
+				                 <img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${dto.brandengname}/${dto.categoryproductNo}/${dto.thumbnail}.jpg" width="320">
+				            </div>
+				            <div class="card-image-overlay m-auto"><br>
+				                <span class="card-detail-badge">${dto.productPrice} ￦</span>
+				            </div>
+				            <div class="card-body text-center">
+				                <div class="ad-title m-auto">
+				                    <p>${dto.name}</p>
+				                </div>
+				            </div>
+				        </div><br>
+				    </div>
+				    </c:forEach>
+				</div>
+      		</div>
 		</div>
 	
 

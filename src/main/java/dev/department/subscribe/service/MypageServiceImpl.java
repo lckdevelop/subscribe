@@ -44,4 +44,54 @@ public class MypageServiceImpl implements MypageService{
 			throw e;
 		}
 	}
+
+	@Override
+	public MypagecardDTO getCouponcnt(MemberDTO memberDTO) throws Exception {
+		try {
+			return mypageDAO.getCouponcnt(memberDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public MypagecardDTO getPointcnt(MemberDTO memberDTO) throws Exception {
+		try {
+			return mypageDAO.getPointcnt(memberDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public MypagecardDTO getProductcnt(MemberDTO memberDTO) throws Exception {
+		try {
+			return mypageDAO.getProductcnt(memberDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public List<CartListDTO> getOrderedList(MemberDTO memberDTO) throws Exception {
+		try {
+			return mypageDAO.getOrderedList(memberDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public List<PointDTO> getPointlist(MemberDTO memberDTO) throws Exception {
+		try {
+			return mypageDAO.getPointlist(memberDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
 }

@@ -163,7 +163,7 @@
 	
 	function displayCoupon(data) {
 		var mytable ='';
-	    mytable += '<div class="col-md-4 border-right"><div class="d-flex flex-column align-items-center"><img src="https://i.imgur.com/XwBlVpS.png"><span class="d-block" style="font-size: 13px">' + data.brandname + '</span><span class="text-black-50" style="font-size: 11px">' + data.brandengname + '</span></div></div>';
+	    mytable += '<div class="col-md-4 border-right"><div class="d-flex flex-column align-items-center"><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-logo/' + data.brandengname + '.jpg"><br><span class="d-block" style="font-size: 13px">' + data.brandname + '</span><span class="text-black-50" style="font-size: 11px">' + data.brandengname + '</span></div></div>';
 	    mytable += '<div class="col-md-8"><div>';
 	    mytable += '<div class="d-flex flex-row justify-content-end off"><h1 style="color: #B1B1B1; font-size: 50px">' + data.typetemp + '</h1><span style="color: #B1B1B1;">OFF</span></div>';
 	    mytable += '<div class="d-flex flex-row justify-content-between off px-3 p-2" style="color: #B1B1B1; font-size: 13px">~ ' + data.duetimetemp + '</div>';
@@ -372,7 +372,7 @@
 			    		if ( everythings_fine ) {
 			    			var msg = '결제가 완료되었습니다.';
 			    			location.href="/subscribe/checkoutcomplete";
-			    			alert(msg);
+			    			
 			    		} else {
 			    			//[3] 아직 제대로 결제가 되지 않았습니다.
 			    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -382,7 +382,6 @@
 			        var msg = '결제에 실패하였습니다.';
 			        msg += '에러내용 : ' + rsp.error_msg;
 			        
-			        alert(msg);
 			    }
 			});
 		});
@@ -412,7 +411,7 @@
 			    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 			    		if ( everythings_fine ) {
 			    			var msg = '결제가 완료되었습니다.';
-			    			alert(msg);
+			    			
 			    			location.href="/subscribe/checkoutcomplete";
 			    		} else {
 			    			//[3] 아직 제대로 결제가 되지 않았습니다.
@@ -423,7 +422,6 @@
 			        var msg = '결제에 실패하였습니다.';
 			        msg += '에러내용 : ' + rsp.error_msg;
 			        
-			        alert(msg);
 			    }
 			});
 			
