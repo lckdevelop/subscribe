@@ -108,10 +108,20 @@
 		      FROM ORDERED O
 		INNER JOIN ORDEREDPRODUCT OP
 		        ON O.NO = OP.ORDERED_NO
+        INNER JOIN PRODUCT P
+                ON OP.PRODUCT_NO = P.NO
 		INNER JOIN MEMBER M
 		        ON O.MEMBER_NO = M.NO
-		     WHERE O.STORE_NO = #{storeNo}
+		     WHERE P.BRAND_NO = #{brandNo}
+               AND O.STORE_NO = #{storeNo}
 		       AND TO_CHAR(O.RESERVEDATE, 'YYYY-MM') = #{date}
+
+	</select>
+	
+	<select id="getBrandNo" parameterType="int" resultType="int">
+		SELECT BRAND_NO
+		  FROM PRODUCT
+		 WHERE NO = #{no}
 	</select>
 	
 </mapper>

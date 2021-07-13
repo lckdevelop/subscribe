@@ -11,4 +11,6 @@ public interface CategoryDAO {
 
 	int getCategoryBrandNo(String categoryBrand) throws SQLException;
 
+	int getCategoryProductNo(String categoryProduct) throws SQLException;
+
 }

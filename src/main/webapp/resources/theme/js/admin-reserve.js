@@ -23,7 +23,7 @@ window.onload = function() {
     });
 	
 	let arr = getCalendarData(getYearMonth(new Date()));
-
+	console.log(arr);
 	calendar.addEventSource(arr);
 	calendar.render();
 	

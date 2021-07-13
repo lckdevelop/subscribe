@@ -431,5 +431,9 @@
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
+    <script src="${context}/resources/custom/js/jquery.min.js"></script>
+    <script src="${context}/resources/custom/js/tether.min.js"></script>
+    <script src="${context}/resources/custom/js/bootstrap.min.js"></script>
+    <script src="${context}/resources/custom/js/custom.js"></script>
 </body>
 </html>

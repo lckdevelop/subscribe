@@ -38,5 +38,11 @@
 
 	<beans:bean id="NoticeHandler"
 		class="dev.department.subscribe.handler.NoticeWebSocketHandler" />
+		
+	<!-- coolsms 프로퍼티 -->
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="location" value="/WEB-INF/spring/coolsms.properties"/>
+		<beans:property name="fileEncoding" value="UTF-8"/>
+	</beans:bean>
 	
 </beans:beans>

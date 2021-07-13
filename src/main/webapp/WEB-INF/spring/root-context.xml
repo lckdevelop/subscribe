@@ -107,6 +107,18 @@
 		p:mapperInterface="dev.department.subscribe.dao.MypageDAO" />
 	<!-- mypageDAO end -->
 	
+	<!-- sizeDAO start -->
+	<bean
+		id="sizeSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="sizeDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="sizeSession"
+		p:mapperInterface="dev.department.subscribe.dao.SizeDAO" />
+	<!-- sizeDAO end -->
+	
 	<!-- mailSender start -->
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -163,6 +175,15 @@
 		class="org.mybatis.spring.mapper.MapperFactoryBean"
 		p:sqlSessionFactory-ref="couponSession"
 		p:mapperInterface="dev.department.subscribe.dao.CouponDAO" />
+		
+	<bean id="salesSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:typeAliasesPackage="dev.department.subscribe.dto" />
+		
+	<bean id="salesDAO"
+		class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="couponSession"
+		p:mapperInterface="dev.department.subscribe.dao.SalesDAO" />
 		
 	<!-- CategoryDAO start -->
 	<bean

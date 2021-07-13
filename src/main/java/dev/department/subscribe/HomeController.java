@@ -50,9 +50,13 @@ public class HomeController {
 		}
 		
 		try {
-			ArrayList<ProductDTO> bestList = indexService.getBestSellers();			
+			ArrayList<ProductDTO> subsBestList = indexService.getBestSellersFromSubs(memNo);
+			ArrayList<ProductDTO> subsNewProList = indexService.getNewProductsFromSubs(memNo);
+			ArrayList<ProductDTO> bestList = indexService.getBestSellers();
 			ArrayList<ProductDTO> newProList = indexService.getNewProducts();
 			
+			model.addAttribute("subsBestList", subsBestList);
+			model.addAttribute("subsNewProList", subsNewProList);
 			model.addAttribute("bestList", bestList);
 			model.addAttribute("newProList", newProList);
 			
