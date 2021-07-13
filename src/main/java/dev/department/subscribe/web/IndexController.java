@@ -63,7 +63,7 @@ public class IndexController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		log.info(json.get("appKey") + ": appKey");
+		//log.info(json.get("appKey") + ": appKey");
 		String appKey = json.get("appKey");
 		model.addAttribute("appKey", appKey);
 		
@@ -73,9 +73,11 @@ public class IndexController {
 	// 회원가입 진행
 	@PostMapping("/signaction")
 	public String signAction(@ModelAttribute MemberDTO memberDTO) {
-		log.info("여기옴?");
+		log.info("여기오나요~??");
 		try {
-			memberService.memberJoin(memberDTO);
+			memberService.memberJoin(memberDTO); // 회원가입
+			int memberNo = memberDTO.getMemberSeq();
+			memberService.welcomePoint(memberNo); //웰컴포인트
 		} catch (Exception e) {
 			e.getMessage();
 		}
