@@ -205,18 +205,6 @@ public class IndexController {
 		return "sec_view2/memberMain";
 	}
 
-	
-//	@GetMapping("/loginAction") 
-//	public String loginAction(@RequestParam String id, Authentication authentication, Model model) { 
-//		SecurityMember securitymember = (SecurityMember) memberDetailServieImpl.loadUserByUsername(id);
-//		log.info("여기 옴");
-//		model.addAttribute("securitymember", securitymember);
-//		model.addAttribute("authentication", authentication);
-//			
-//		return "home/index"; 
-//	}
-	
-
 	@PostMapping(value = "/loginAction", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public SecurityMember recharge(@RequestParam String id, Authentication authentication) {
@@ -229,5 +217,5 @@ public class IndexController {
 	public String logoutPage() {
 		return "home/index";
 	}
-
+	
 }
