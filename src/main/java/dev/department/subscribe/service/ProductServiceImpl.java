@@ -1,14 +1,18 @@
 package dev.department.subscribe.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.department.subscribe.dao.ProductDAO;
+import dev.department.subscribe.dto.BrandDTO;
+import dev.department.subscribe.dto.MybrandsProductParamDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ProductDTO;
+import dev.department.subscribe.dto.WindowListDTO;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -80,6 +84,36 @@ public class ProductServiceImpl implements ProductService {
 	public ProductDTO getProductInfo(int productNo) throws Exception {
 		// TODO Auto-generated method stub
 		return productDAO.getProductInfo(productNo);
+	}
+
+	@Override
+	public List<ProductDTO> getMybrandsProduct(PagingDTO pagingDTO) throws Exception {
+		return productDAO.getMybrandsProduct(pagingDTO);
+	}
+
+	@Override
+	public int getMybrandsProductCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception {
+		return productDAO.getMybrandsProductCnt(mybrandsProductParamDTO);
+	}
+
+	@Override
+	public int getMybrandsCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception {
+		return productDAO.getMybrandsCnt(mybrandsProductParamDTO);
+	}
+
+	@Override
+	public List<BrandDTO> getMybrands(PagingDTO pagingDTO) throws Exception {
+		return productDAO.getMybrands(pagingDTO);
+	}
+
+	@Override
+	public int getMybrandsWindowCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception {
+		return productDAO.getMybrandsWindowCnt(mybrandsProductParamDTO);
+	}
+
+	@Override
+	public List<WindowListDTO> getMybrandsWindow(PagingDTO pagingDTO) throws Exception {
+		return productDAO.getMybrandsWindow(pagingDTO);
 	}
 
 }

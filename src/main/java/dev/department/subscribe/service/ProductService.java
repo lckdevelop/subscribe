@@ -1,10 +1,14 @@
 package dev.department.subscribe.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import dev.department.subscribe.dto.BrandDTO;
+import dev.department.subscribe.dto.MybrandsProductParamDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ProductDTO;
+import dev.department.subscribe.dto.WindowListDTO;
 
 public interface ProductService {
 
@@ -29,5 +33,17 @@ public interface ProductService {
 	ArrayList<ProductDTO> getSubCategoryProductsWithPage(Map<String, Object> productInfo) throws Exception;
 
 	ProductDTO getProductInfo(int productNo) throws Exception;
+
+	List<ProductDTO> getMybrandsProduct(PagingDTO pagingDTO) throws Exception;
+
+	int getMybrandsProductCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception;
+
+	int getMybrandsCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception;
+
+	List<BrandDTO> getMybrands(PagingDTO pagingDTO) throws Exception;
+
+	int getMybrandsWindowCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws Exception;
+
+	List<WindowListDTO> getMybrandsWindow(PagingDTO pagingDTO) throws Exception;
 
 }
