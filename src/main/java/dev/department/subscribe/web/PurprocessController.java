@@ -214,8 +214,12 @@ public class PurprocessController {
 			purprocessService.usePoint(pointDTO);
 			
 			savecheck.setMemberNo(sMember.getNo());
+			log.error("meberNo : {}" , sMember.getNo());
+			log.error("savecheck : {}", savecheck.toString());
 			savecheck = purprocessService.getOrderno(savecheck);
 			savecheck.setPrice(pointDTO.getAmount());
+			savecheck.setMemberNo(sMember.getNo());
+			log.error("savecheck : {}", savecheck.toString());
 			purprocessService.saveorderedPoint(savecheck);
 			purprocessService.updatepointPrice(savecheck);
 			
