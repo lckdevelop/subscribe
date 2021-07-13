@@ -48,7 +48,7 @@
 			method : 'GET',
 			url : '${pageContext.request.contextPath}/cart/totalinfo', 
 		}).done(function( data ) {
-			var mytable = '<ul><li>Total <span>' + data + '</span></li>';
+			var mytable = '<ul><li>Total <span>' + data.toLocaleString() + '&nbsp원</span></li>';
 			$('#displayTotal').html(mytable);
 		});
 	}
@@ -72,7 +72,7 @@
 	    	mytable += '<span class="fa fa-angle-left decqtybtn" myval ="'+ val['productNo'] +'"></span>';
 	    	mytable += '<input type="text" value="' + val['qty'] + '">';
 	    	mytable += '<span class="fa fa-angle-right incqtybtn" myval ="'+ val['productNo'] +'"></span></div></div></td>';
-	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
+	    	mytable += '<td class="cart__price">' + val['memberPrice'].toLocaleString() + '&nbsp원</td>';
 	    	mytable += '<td class="cart__close"><i class="deletebtn fa fa-close" myval ="'+ val['productNo'] +'"></i></td></tr>';
 			});
 	 

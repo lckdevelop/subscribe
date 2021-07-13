@@ -23,11 +23,15 @@ import dev.department.subscribe.dto.MybrandsProductParamDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.SizeDTO;
+import dev.department.subscribe.dto.SubsBoardDTO;
+import dev.department.subscribe.dto.SubsBoardProDTO;
 import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.BrandService;
 import dev.department.subscribe.service.CategoryService;
 import dev.department.subscribe.service.ProductService;
 import dev.department.subscribe.service.SizeService;
+import dev.department.subscribe.service.SubsBoardProService;
+import dev.department.subscribe.service.SubsBoardService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,10 +50,20 @@ public class ProductController {
 	@Autowired
 	private SizeService sizeService;
 	
+	@Autowired
+	private SubsBoardService subsBoardService;
+	
+	@Autowired
+	private SubsBoardProService subsBoardProService;
+	
 	@RequestMapping(value = "/product/category", method = RequestMethod.GET)
 	public String home(@RequestParam(value = "main") String categoryBrand, @RequestParam(value = "sub") String categoryProduct, @RequestParam(value = "page") int pageNo, Model model, HttpSession session, Authentication authentication) {
-	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
-	         int memberNo = sMember.getNo();
+		int memberNo=0;
+		if  (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			memberNo = sMember.getNo();
+		}
+	         
 	         ArrayList<ProductDTO> products = new ArrayList<ProductDTO>();
 	         ArrayList<CategoryDTO> categoryProductDTO = new ArrayList<CategoryDTO>();
 	         ArrayList<BrandDTO> brandInfo = new ArrayList<BrandDTO>();
@@ -233,6 +247,58 @@ public class ProductController {
 		
 		return pagingDTO;
 		
+	}
+	
+	@GetMapping("/mybrands/window/{brandName}/{subsBoardNo}")
+	public String subsBoardDetail(@PathVariable String brandName, @PathVariable int subsBoardNo, Authentication authentication, Model model) {
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		ArrayList<SubsBoardProDTO> subsBoardProInfo;
+		ArrayList<ProductDTO> tagedProducts = new ArrayList<ProductDTO>();
+		int userNo = sMember.getNo();
+		SubsBoardDTO subsBoardDTO = new SubsBoardDTO();
+		try {
+			subsBoardDTO = subsBoardService.getSubsBoardInfo(subsBoardNo);
+			subsBoardProInfo = subsBoardProService.getSubsBoardPro(subsBoardDTO.getNo());
+			for(SubsBoardProDTO s : subsBoardProInfo) {
+				ProductDTO p = productService.getProductInfo(s.getProductNo());
+				tagedProducts.add(p);
+			}
+			int brandNo = subsBoardDTO.getBrandNo();
+			BrandDTO brandDTO = brandService.getBrandInfo(brandNo);
+			model.addAttribute("subsBoardInfo", subsBoardDTO);
+			model.addAttribute("tagedProductsInfo", tagedProducts);
+			model.addAttribute("brandName", brandName);
+			model.addAttribute("userNo", userNo);
+			model.addAttribute("brandEngName", brandDTO.getEngname());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "product/windowdetail";
+	}
+	
+	@GetMapping(value="/product/detail/{brandNo}/{productNo}")
+	public String getProductDetail1(@PathVariable int brandNo, @PathVariable int productNo, Model model, HttpSession session) {
+		try {
+			ProductDTO product = productService.getProductInfo(productNo);
+			BrandDTO brand = brandService.getBrandInfo(brandNo);
+			ArrayList<SizeDTO> size = new ArrayList<SizeDTO>();
+			if(product.getCategoryproductNo()==5) {
+				size = sizeService.getShoeSize();
+			}else {
+				size = sizeService.getClothSize();
+			}
+			
+			
+			log.info(size.get(0).toString());
+			model.addAttribute("productInfo", product);
+			model.addAttribute("brandInfo", brand);
+			model.addAttribute("sizeInfo", size);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "product/productdetail";
 	}
 
 }

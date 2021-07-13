@@ -8,4 +8,6 @@ public interface SubsBoardDAO {
 
 	void insertSubsBoard(SubsBoardDTO sbDTO) throws SQLException;
 
+	SubsBoardDTO getSubsBoardInfo(int subsBoardNo) throws SQLException;
+
 }
