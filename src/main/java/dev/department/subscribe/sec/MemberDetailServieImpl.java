@@ -42,8 +42,6 @@ public class MemberDetailServieImpl implements UserDetailsService {
 		        	securitymember.setEnabled(memberDTO.getEnabled());
 		        	securitymember.setAddress(memberDTO.getAddress());
 		        	securitymember.setPoint(memberDTO.getPoint());
-		        	log.info(memberDTO.getBrandNo() + " ");
-		        	log.info(memberDTO.getBrandName());
 		        	securitymember.setBrandNo(memberDTO.getBrandNo());
 		        	securitymember.setBrandName(memberDTO.getBrandName());
 		        	securitymember.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(memberDTO.getRole()))); 
@@ -83,12 +81,7 @@ public class MemberDetailServieImpl implements UserDetailsService {
         	securitymember.setBrandNo(memberDTO.getBrandNo());
         	securitymember.setStoreNo(memberDTO.getStoreNo());
         	securitymember.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(memberDTO.getRole()))); 
-//            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//            authorities.add(new SimpleGrantedAuthority(memberDTO.getRole()));
         }
-        
-        log.info("완료");
-        
         
         return securitymember;
 	}
