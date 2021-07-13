@@ -2,10 +2,14 @@ package dev.department.subscribe.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import dev.department.subscribe.dto.BrandDTO;
+import dev.department.subscribe.dto.MybrandsProductParamDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ProductDTO;
+import dev.department.subscribe.dto.WindowListDTO;
 
 public interface ProductDAO {
 
@@ -30,5 +34,17 @@ public interface ProductDAO {
 	ArrayList<ProductDTO> getSubCategoryProductsWithPage(Map<String, Object> productInfo) throws SQLException;
 
 	ProductDTO getProductInfo(int productNo) throws SQLException;
+
+	List<ProductDTO> getMybrandsProduct(PagingDTO pagingDTO) throws SQLException;
+
+	int getMybrandsProductCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws SQLException;
+
+	int getMybrandsCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws SQLException;
+
+	List<BrandDTO> getMybrands(PagingDTO pagingDTO) throws SQLException;
+
+	int getMybrandsWindowCnt(MybrandsProductParamDTO mybrandsProductParamDTO) throws SQLException;
+
+	List<WindowListDTO> getMybrandsWindow(PagingDTO pagingDTO) throws SQLException;
 
 }

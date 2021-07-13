@@ -1,37 +1,11 @@
-<%@page import="dev.department.subscribe.dto.BrandDTO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="dev.department.subscribe.dto.ProductDTO"%>
-<%@page import="dev.department.subscribe.dto.MemberDTO"%>
-<%@page import="dev.department.subscribe.dto.PagingDTO"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="brandInfo" value="${brandInfo}" />
-<c:set var="pagingDTO" value="${pagingDTO}" />
-<c:set var="main" value="${main}" />
-<c:set var="sub" value="${sub}" />
-<c:set var="productInfo" value="${productInfo}" />
-<c:set var="brandInfo" value="${brandInfo}" />
 
 <!DOCTYPE html>
-<%
-	PagingDTO pagingDTO = (PagingDTO)pageContext.getAttribute("pagingDTO");
-	
-	int pageSize = pagingDTO.getPageSize();
-	long pagenum = pagingDTO.getPage();
-	if(pagenum==0){
-		pagenum=1;
-	}
-	
-	
-	long productStart = pageSize*(pagenum-1)+1;
-	long productEnd = pageSize*pagenum;
-	
-%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -56,64 +30,18 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/pagination.css" type="text/css">
-    <link rel="stylesheet" href="${context}/resources/brands/css/mybrands-product.css" type="text/css">
     
      <!-- Js Plugins -->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
-
-	<script>
-    	$(document).ready(function(){
-    		makePage(${pagingDTO.page}, ${pagingDTO.pageSize}, ${pagingDTO.pageBlock}, ${pagingDTO.startPage}, ${pagingDTO.endPage}, ${pagingDTO.totalPage});
-    		
-    	});
-    	
-    	function moveProductDetail(brandNo, productNo){
-    		location.href="${context}/product/detail/${main}/${sub}/"+brandNo+"/"+productNo;
-    	}
-    	
-    	function movePage(page){
-    		location.href="${context}/product/category?main=${main}&sub=${sub}&page="+page;
-    	}
-    	
-    	function makePage(page, pageSize, pageBlock, startPage, endPage, totalPage){
-    		
-    		if(page==0){
-    			page=1;
-    		}
-    		
-    		let select_page='';
-    		
-    		if(endPage!=0){
-    		if (startPage == 1 && page==1) {
-    			select_page += '';
-			} else {
-				select_page += '<li class="prev"><a onclick="movePage('+(page-1)+')">< 이전</a></li>';
-			}
-			
-			for (let i = startPage; i < endPage + 1; i++) {
-				if (page == i) {
-					select_page += '<li class="active page-block"><a onclick="movePage('+i+')">'+i+'</a></li>';
-				} else {
-					select_page += '<li class="page-block"><a onclick="movePage('+i+')">'+i+'</a></li>';
-				}
-			}
-			
-			if (endPage == totalPage && page == totalPage) {
-				select_page += '';
-			} else {
-				select_page += '<li class="next"><a onclick="movePage('+(page+1)+')">다음 ></a></li>';
-			} 	
-			
-			$('.page-num').html(select_page);
-    		}
-    	}
-    	
-    	function moveScroll(){
-    		let location = document.querySelector('.product-category').offsetTop;
-    		window.scrollTo({top:location, behavior:'smooth'});
-    	}
     
+    <script>
+    	window.userNo = ${userNo};
+    	window.brandNo = 0;
+    	window.pg = 1;
+    	window.context = '${context}';
+    	window.subspg = 1;
     </script>
+
 
 </head>
 <body>
@@ -159,27 +87,35 @@
     </header>
     <!-- Header Section End -->
     
-   
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-blog set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-background/jillstuartnewyork.jpg">
     </section>
     <!-- Breadcrumb Section End -->
     
-    <!-- Product Category Begin -->
-	<div class="container">
-		<div id="product-category" class="product-category text-center">
-			<ul>
-				<li><a href="${context}/product/category?main=${main}&sub=${sub}&page=1">전체</a></li>
-				<c:forEach items="${categoryProductInfo}" var="categoryProduct">
-					<li><a href="${context}/product/category?main=${main}&sub=${categoryProduct.name}&page=1">${categoryProduct.name}</a></li>
-				</c:forEach>
-			</ul>
-			<hr>
+    
+    <div class="container mt-5">
+	    <div class="row">
+	        <div class="col-lg-12">
+	            <ul class="filter__controls">
+	                <li class="active" onclick="location.href='./product'">구독 브랜드 제품</li>
+	                <li onclick="location.href='./window'">브랜드 윈도우</li>
+	            </ul>
+	        </div>
+	    </div>
+    </div>
+    
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="pagination2 center">
+				<ul class="mysubs">
+					<li class="active"><a>전체</a></li>
+					<li class="page-block"><a>질스튜어트 뉴욕</a></li>
+				</ul>
+			</div>
 		</div>
 	</div>
-
-	<!-- Product Category End -->
-
+    
+    
     <!-- Shop Section Begin -->
     <section class="shop spad" style="padding-top: 15px">
         <div class="container">
@@ -189,12 +125,7 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-6">
 								<div class="shop__product__option__left">
-									<c:if test="${pagingDTO.recordCount == 0}">
-										<p>총 ${pagingDTO.recordCount} 개의 상품</p>
-									</c:if>
-									<c:if test="${pagingDTO.recordCount != 0}">
-										<p>총 ${pagingDTO.recordCount} 개의 상품 중 <%=productStart %>번 - <%=productEnd %>번 상품</p>
-									</c:if>
+									<p>총 0 개의 상품</p>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6">
@@ -208,49 +139,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="row" >
-						<c:if test="${fn:length(productInfo)==0}">
-						<div class="col-md-12 text-center">
-							<img src="${context}/resources/product/noitem.png">
-						</div>
-						</c:if>
-						<c:forEach items="${productInfo}" var="product">
-							<%
-								ProductDTO productInfo = (ProductDTO)pageContext.getAttribute("product");
-								ArrayList<BrandDTO> brandsInfo= (ArrayList<BrandDTO>)pageContext.getAttribute("brandInfo");
-								int brandNo = productInfo.getBrandNo();
-								String brandName = brandsInfo.get(brandNo-1).getEngname();
-							%>
-							<div class="col-lg-3 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg"
-										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg"
-										onclick="moveProductDetail(${product.brandNo}, ${product.no})">
-										<ul class="product__hover">
-											<li><a href="#"><img
-													src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>
-											<li><a href="#"><img
-													src="${context}/resources/theme/img/icon/compare.png"
-													alt=""> <span>Compare</span></a></li>
-											<li><a href="${context}/product/detail/${main}/${sub}/${product.brandNo}/${product.no}"><img
-													src="${context}/resources/theme/img/icon/search.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
-										<h6>${product.name}</h6>
-										<a href="${context}/product/detail/${main}/${sub}/<%=brandName%>/${product.no}" class="add-cart">상품 상세보기</a>
-
-										<h5>
-											<fmt:formatNumber type="number" maxFractionDigits="3"
-												value="${product.price}" />
-											&nbsp;원
-										</h5>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-
+					<div id="product-list-section" class="row" >
+					
 					</div>
+					
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="pagination center">
@@ -260,11 +152,13 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
         </div>
     </section>
     <!-- Shop Section End -->
+
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -292,6 +186,8 @@
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
+    
+    <script src="${context}/resources/product/mybrands-product.js"></script>
    
 </body>
 

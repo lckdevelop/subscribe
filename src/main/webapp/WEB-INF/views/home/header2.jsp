@@ -82,7 +82,7 @@
 	                        <li><a href="${context}/product/category?main=스포츠/레저&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/mybrands/product?page=1">구독브랜드</a>
+	                <li><a href="${context}/mybrands/product">구독브랜드</a>
 
 	                </li>
 	            </ul>
