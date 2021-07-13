@@ -3,6 +3,7 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="productInfo" value="${productInfo}" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -362,20 +363,40 @@
 
 					<div class="row">
 
-						<div class="col-lg-3">
+						<div class="col-lg-3" style="height:400px">
 							<div class="thumbnail-div">
 								<img class="upload-img" id="preview" name="thumbnail"
 									src="${context}/resources/registproduct/img/file-upload.png">
 							</div>
 						</div>
-						<div class="col-lg-4">
-							<form method="POST" id="cody-form">
-								<input type="file" id="inputGroupFile01" class="imgInp custom-file-input" >
-    							<label class="custom-file-label" for="inputGroupFile01">이미지를 선택하세요.</label>
-								<input type="text" id="subject" name="subject" placeholder="제목을 입력해주세요." required="required" />
-								<textarea id="submit-content" name="content" style="display: none"></textarea>
-							</form>
+						<div class="col-lg-4" style="height:400px; overflow: hidden;">
+								<!-- <form method="POST" id="cody-form"> -->
+									<input type="file" id="inputGroupFile01" class="imgInp custom-file-input"> 
+									<label class="custom-file-label" for="inputGroupFile01" style="height: 40px;">이미지를 선택하세요.</label> 
+									<input type="text" id="subject" name="subject" placeholder="제목을 입력해주세요." style="height: 40px;" required="required" />
+									<textarea id="submit-content" name="content" style="display: none"></textarea>
+									<div class="product-list-box">
+										<div class="card" style="width: 100%; height: 304px;  overflow: hidden;">
+											<div class="card-header">태그 상품</div>
+											<div class="scroll">
+												
+												<ul class="list-group list-group-flush">
+													<c:forEach items="${productInfo}" var="product">
+														<li class="list-group-item">${product.name}
+															<label class="checkbox"> 
+																<input type="checkbox" name="product-check" value="${product.no}" />
+																<span class="default"></span>
+															</label>
+														</li>
+													</c:forEach>
+												</ul>
+											
+											</div>
+										</div>
+									</div>
+								<!-- </form> -->
 						</div>
+					</div>
 					</div>
 					<div class="row text-center mt-3">
 						<div class="col-lg-12">
@@ -389,7 +410,12 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
+            
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+<!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -398,11 +424,6 @@
                 </div>
             </footer>
             <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -422,7 +443,7 @@
                     </button>
                 </div>
                 <div class="modal-body">정말 등록하시겠습니까?</div>
-                <div class="modal-footer">
+                <div class="modal-footer"> 
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
                     <button class="btn btn-success" onclick="clickSubmit()">등록</button>
                 </div>
@@ -457,6 +478,13 @@
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
     <script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
     <script src="${context}/resources/registproduct/js/registerstyle.js"></script>
+    
+    <script>
+    	var chk_arr={};
+    	$("input[name=product-check]:checked").each(function(){
+    		var chk = $(this).val();
+    	})
+    </script>
 
 </body>
 

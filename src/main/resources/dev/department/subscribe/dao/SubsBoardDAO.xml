@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="dev.department.subscribe.dao.SubsBoardDAO">
+	
+	<insert id="insertSubsBoard" parameterType="SubsBoardDTO">
+		
+		insert into subsboard (no, thumbnail, title, content, brand_no, store_no)
+		values (subsboard_id_seq.nextval, #{thumbnail}, #{title}, #{content}, #{brandNo}, #{storeNo})
+		<selectKey keyProperty="contentSeq" resultType="int" order="AFTER">
+    		select subsboard_id_seq.currval FROM DUAL
+  		</selectKey>
+	</insert>
+
+
+</mapper>

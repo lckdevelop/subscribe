@@ -3,7 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	
+     
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- max upload size in bytes -->
+    <property name="maxUploadSize" value="209715200" /> <!-- 20MB -->
+    <!-- max size of file in memory (in bytes) -->
+    <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+</bean>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
@@ -118,6 +125,30 @@
 		p:sqlSessionFactory-ref="sizeSession"
 		p:mapperInterface="dev.department.subscribe.dao.SizeDAO" />
 	<!-- sizeDAO end -->
+	
+	<!-- subsBoardDAO start -->
+	<bean
+		id="subsBoardSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="subsBoardDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="subsBoardSession"
+		p:mapperInterface="dev.department.subscribe.dao.SubsBoardDAO" />
+	<!-- subsBoardDAO end -->
+	
+	<!-- subsBoardProDAO start -->
+	<bean
+		id="subsBoardProSession" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource"
+		p:typeAliasesPackage="dev.department.subscribe.dto"
+		/>
+	
+	<bean id="subsBoardProDAO" class="org.mybatis.spring.mapper.MapperFactoryBean" 
+		p:sqlSessionFactory-ref="subsBoardProSession"
+		p:mapperInterface="dev.department.subscribe.dao.SubsBoardProDAO" />
+	<!-- subsBoardDAO end -->
 	
 	<!-- mailSender start -->
 	<bean id="mailSender"

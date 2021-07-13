@@ -1,5 +1,6 @@
 package dev.department.subscribe.web;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +25,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.CalendarParamDTO;
@@ -35,18 +39,25 @@ import dev.department.subscribe.dto.MailFormDTO;
 import dev.department.subscribe.dto.MemberDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.PickupListDTO;
+import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.ReservationDTO;
 import dev.department.subscribe.dto.ReserveCntParamDTO;
 import dev.department.subscribe.dto.ReserveListDTO;
 import dev.department.subscribe.dto.ReservePermitDTO;
 import dev.department.subscribe.dto.SalesParamDTO;
+import dev.department.subscribe.dto.SubsBoardDTO;
+import dev.department.subscribe.dto.SubsBoardProDTO;
 import dev.department.subscribe.sec.SecurityMember;
 import dev.department.subscribe.service.BrandService;
 import dev.department.subscribe.service.CouponService;
 import dev.department.subscribe.service.MailService;
 import dev.department.subscribe.service.PickupService;
+import dev.department.subscribe.service.ProductService;
 import dev.department.subscribe.service.ReserveService;
 import dev.department.subscribe.service.SalesService;
+import dev.department.subscribe.service.SubsBoardProService;
+import dev.department.subscribe.service.SubsBoardService;
+import dev.department.subscribe.util.S3Utils;
 import dev.department.subscribe.validator.CouponValidator;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
@@ -55,6 +66,8 @@ import net.nurigo.java_sdk.api.Message;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+	
+	S3Utils s3 = new S3Utils();
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -76,6 +89,15 @@ public class AdminController {
 	
 	@Autowired
 	private SalesService salesService;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private SubsBoardService subsBoardService;
+	
+	@Autowired
+	private SubsBoardProService subsBoardProService;
 	
 	@GetMapping("")
 	public String adminMain() {
@@ -470,7 +492,61 @@ public class AdminController {
 	// 코디 등록 폼 이동
 		@GetMapping("/registerstyle")
 		public String registerStyle(Authentication authentication, Model model) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			try {
+				ArrayList<ProductDTO> products = productService.getAllProducts(sMember.getBrandNo());
+				model.addAttribute("productInfo", products);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
+			return "admin/registerstyle";
+		}
+		
+	// 코디 등록
+		@ResponseBody
+		@RequestMapping(value = "/registerstyle/insert", method= RequestMethod.POST, headers = ("content-type=multipart/*"))
+		public String insertSubsboard(
+				@RequestParam("title") String title, 
+				@RequestParam("content") String content,
+				@RequestParam("checkedProduct") String[] checkedProduct,
+				@RequestParam("thumbnail") MultipartFile imgfile,
+				Authentication authentication, Model model) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			
+			log.info(title);
+			log.info(content);
+			log.info(checkedProduct[0]);
+			log.info(checkedProduct[1]);
+			log.info(imgfile.getOriginalFilename());
+			SubsBoardDTO sbDTO = new SubsBoardDTO();
+			sbDTO.setTitle(title);
+			sbDTO.setContent(content);
+			sbDTO.setThumbnail(imgfile.getOriginalFilename());
+			sbDTO.setBrandNo(sMember.getBrandNo());
+			sbDTO.setStoreNo(sMember.getStoreNo());
+			byte[] byteimg;
+			
+			try {
+				subsBoardService.insertSubsBoard(sbDTO);
+				int subsBoardProNo=sbDTO.getContentSeq();
+				
+				for(String productNo : checkedProduct) {
+					SubsBoardProDTO sbpDTO = new SubsBoardProDTO();
+					sbpDTO.setProductNo(Integer.parseInt(productNo));
+					sbpDTO.setSubscribeBoardNo(subsBoardProNo);
+					subsBoardProService.insertSubsBoardPro(sbpDTO);
+				}
+				byteimg = imgfile.getBytes();
+				s3.fileUpload("subscribe/coordi", imgfile.getOriginalFilename(), byteimg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			
 			return "admin/registerstyle";

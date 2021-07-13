@@ -13,5 +13,6 @@ public class SubsBoardDTO {
 	String thumbnail;
 	String title;
 	String content;
+	int contentSeq;
 	int storeNo;
 }
