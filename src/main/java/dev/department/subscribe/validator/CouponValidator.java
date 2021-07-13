@@ -1,12 +1,9 @@
 package dev.department.subscribe.validator;
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
+import org.springframework.validation.*;
 
-import dev.department.subscribe.dto.CouponDTO;
-import jdk.internal.org.jline.utils.Log;
-import lombok.extern.slf4j.Slf4j;
+import dev.department.subscribe.dto.*;
+import lombok.extern.slf4j.*;
 
 @Slf4j
 public class CouponValidator implements Validator {

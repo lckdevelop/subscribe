@@ -1,5 +1,8 @@
 package dev.department.subscribe.dto;
 
+
+import java.sql.*;
+
 import lombok.*;
 
 @Getter
@@ -9,6 +12,7 @@ public class CartListDTO {
 	int couponNo;
 	int productNo;
 	int memberNo;
+	int status;
 	String name;
 	int categoryproductNo;
 	int qty;
@@ -16,6 +20,7 @@ public class CartListDTO {
 	int memberPrice;
 	int totalPrice;
 	int views;
+	Date orderdate;
 	String shoesize;
 	String clothsize;
 	String productsize;

@@ -12,4 +12,14 @@ public interface MypageDAO {
 
 	void insertReservation(ReservationDTO reservation) throws Exception;
 
+	MypagecardDTO getCouponcnt(MemberDTO memberDTO) throws Exception;
+
+	MypagecardDTO getPointcnt(MemberDTO memberDTO) throws Exception;
+
+	MypagecardDTO getProductcnt(MemberDTO memberDTO) throws Exception;
+
+	List<CartListDTO> getOrderedList(MemberDTO memberDTO) throws Exception;
+
+	List<PointDTO> getPointlist(MemberDTO memberDTO) throws Exception;
+
 }

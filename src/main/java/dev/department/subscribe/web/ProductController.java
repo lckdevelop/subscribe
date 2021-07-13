@@ -1,9 +1,7 @@
 package dev.department.subscribe.web;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -17,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.department.subscribe.dto.BrandDTO;
 import dev.department.subscribe.dto.CategoryDTO;
+import dev.department.subscribe.dto.MybrandsProductParamDTO;
 import dev.department.subscribe.dto.PagingDTO;
 import dev.department.subscribe.dto.ProductDTO;
 import dev.department.subscribe.dto.SizeDTO;
@@ -139,6 +139,100 @@ public class ProductController {
 		
 		
 		return "product/productdetail";
+	}
+	
+	@GetMapping("/mybrands/product")
+	public String mybrandsProduct(Authentication authentication, Model model) {
+		
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		int userNo = sMember.getNo();
+		
+		model.addAttribute("userNo", userNo);
+		
+		return "product/mybrands-product";
+	}
+	
+	@GetMapping("/mybrands/product/getMybrandsProduct")
+	@ResponseBody
+	public PagingDTO getMybrandsProduct(Authentication authentication, @RequestParam int pg, @RequestParam int brandNo) {
+		
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		int userNo = sMember.getNo();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int productCnt = productService.getMybrandsProductCnt(new MybrandsProductParamDTO(userNo, brandNo));
+			pagingDTO = new PagingDTO(pg, 12, 5, productCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setUserNo(userNo);
+			pagingDTO.setProductList(productService.getMybrandsProduct(pagingDTO));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
+		
+	}
+	
+	@GetMapping("/mybrands/product/getMybrands")
+	@ResponseBody
+	public PagingDTO getMybrands(Authentication authentication, @RequestParam int pg, @RequestParam int brandNo) {
+		
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		int userNo = sMember.getNo();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int brandCnt = productService.getMybrandsCnt(new MybrandsProductParamDTO(userNo, brandNo));
+			pagingDTO = new PagingDTO(pg, 5, 1, brandCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setUserNo(userNo);
+			pagingDTO.setBrandList(productService.getMybrands(pagingDTO));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
+		
+	}
+	
+	@GetMapping("/mybrands/window")
+	public String mybrandsWindow(Authentication authentication, Model model) {
+		
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		int userNo = sMember.getNo();
+		
+		model.addAttribute("userNo", userNo);
+		
+		return "product/mybrands-window";
+	}
+	
+	@GetMapping("/mybrands/product/getMybrandsWindow")
+	@ResponseBody
+	public PagingDTO getMybrandsWindow(Authentication authentication, @RequestParam int pg, @RequestParam int brandNo) {
+		
+		SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+		int userNo = sMember.getNo();
+		
+		PagingDTO pagingDTO = null;
+		
+		try {
+			int windowCnt = productService.getMybrandsWindowCnt(new MybrandsProductParamDTO(userNo, brandNo));
+			pagingDTO = new PagingDTO(pg, 24, 5, windowCnt);
+			pagingDTO.setBrandNo(brandNo);
+			pagingDTO.setUserNo(userNo);
+			pagingDTO.setWindowList(productService.getMybrandsWindow(pagingDTO));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pagingDTO;
+		
 	}
 
 }

@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${context}/resources/custom/css/sidebar.css" type="text/css">
 	<link rel="stylesheet" href="${context}/resources/custom/css/table.css" type="text/css">
+	<link rel="stylesheet" href="${context}/resources/custom/css/hpointcard.css" type="text/css">
 </head>
 
 <body>
@@ -120,8 +121,76 @@
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
-           <!-- 브랜드 사진들 띄우기 : hover 하면 구독 가능 -->
-      		<section class="ftco-section">
+           <div class="container">
+				<div class="row">
+				    <div class="col-lg-4">
+				        <div class="card2 card-margin">
+				            <div class="card-header no-border">
+				            </div>
+				            <div class="card-body pt-0">
+				                <div class="widget-49">
+				                    <div class="widget-49-title-wrapper">
+				                        <div class="widget-49-date-primary">
+				                            <span class="widget-49-date-day">${mycard.productcnt}</span>
+				                        </div>
+				                        <div class="widget-49-meeting-info">
+				                            <span class="widget-49-pro-title">주문 진행 중인 상품</span>
+				                            <span class="widget-49-meeting-time">(수령 대기 / 배송 중)</span>
+				                        </div>
+				                    </div>
+				                    <div class="widget-49-meeting-action">
+				                        <a href="#" class="btn btn-sm btn-flash-border-primary">바로 가기</a>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-lg-4">
+				        <div class="card2 card-margin">
+				            <div class="card-header no-border">
+				            </div>
+				            <div class="card-body pt-0">
+				                <div class="widget-49">
+				                    <div class="widget-49-title-wrapper">
+				                        <div class="widget-49-date-warning">
+				                            <span class="widget-49-date-day">${mycard.couponcnt}</span>
+				                        </div>
+				                        <div class="widget-49-meeting-info">
+				                            <span class="widget-49-pro-title">사용 가능한 쿠폰</span>
+				                            <span class="widget-49-meeting-time">브랜드별 쿠폰 모아보기</span>
+				                        </div>
+				                    </div>
+				                    <div class="widget-49-meeting-action">
+				                        <a href="#" class="btn btn-sm btn-flash-border-warning">바로 가기</a>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-lg-4">
+			        <div class="card2 card-margin">
+			            <div class="card-header no-border">
+			            </div>
+			            <div class="card-body pt-0">
+			                <div class="widget-49">
+			                    <div class="widget-49-title-wrapper">
+			                        <div class="widget-49-date-success">
+			                            <span class="widget-49-date-day">${mycard.pointcnt}P</span>
+			                        </div>
+			                        <div class="widget-49-meeting-info">
+			                            <span class="widget-49-pro-title">당신에게 적립된 포인트</span>
+			                            <span class="widget-49-meeting-time">포인트 혜택 사용하기</span>
+			                        </div>
+			                    </div>
+			                    <div class="widget-49-meeting-action">
+			                        <a href="#" class="btn btn-sm btn-flash-border-success">바로 가기</a>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+				</div>
+				</div><br>
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
@@ -170,8 +239,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</div><br>
 			<section class="breadcrumb-option" style="background-color: #F9F9F9">
 				        <div class="container">
 				            <div class="row">

@@ -104,14 +104,14 @@
 	</select>
 	
 	<select id="applyPoint" parameterType="PointDTO" resultType="CartListDTO">
-		select distinct (select sum(price) from cart where member_no = 1) as memberPrice, 
-       (select sum(dcprice) from cart where member_no = 1) - #{amount} as productPrice
+		select distinct (select sum(price) from cart where member_no = #{memberNo}) as memberPrice, 
+       (select sum(dcprice) from cart where member_no = #{memberNo}) - #{amount} as productPrice
 		from cart
 	</select>
 	
 	<insert id="usePoint" parameterType="PointDTO">
 		Insert Into point values (point_id_seq.nextval, -#{amount}, to_date(sysdate,'yyyy.mm.dd hh24:mi'),
-		'결제 페이지 포인트 사용', 1)
+		'결제 포인트 사용', #{memberNo})
 	</insert>
 	
 	<select id="getStoreInfo" parameterType="StoreDTO" resultType="StoreDTO">
@@ -129,7 +129,7 @@
 	
 	<insert id="insertOrderedProduct" parameterType="OrderedDTO">
 		INSERT INTO orderedproduct (no, ordered_no, status, product_no, clothsize_no, shoesize_no, qty)
-		select orderedproduct_id_seq.nextval, #{no}, 0, a.no, a.clothsize_no, a.shoesize_no, a.qty
+		select orderedproduct_id_seq.nextval, #{no}, 0, a.product_no, a.clothsize_no, a.shoesize_no, a.qty
 		from cart a
 		where member_no = #{memberNo}
 	</insert>
@@ -174,4 +174,21 @@
 		select no, orderdate as orderDate, recieve, usedpoint as usedPoint, price from ordered
 		where member_no = #{memberNo} and status = 1
 	</select>
+	
+	<insert id="addToCart" parameterType="CartDTO">
+		<choose>
+			<when test='shoesizeNo == 0'>
+				INSERT INTO cart (no, product_no, member_no, price, dcprice, shoesize_no, clothsize_no) 
+				values(cart_id_seq.nextval, #{productNo}, #{memberNo}, #{price}, #{price}, null, #{clothsizeNo})
+			</when>
+			<otherwise>
+				INSERT INTO cart (no, product_no, member_no, price, dcprice, shoesize_no, clothsize_no) 
+				values(cart_id_seq.nextval, #{productNo}, #{memberNo}, #{price}, #{price}, #{shoesizeNo}, null)
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<insert id="addToZzim" parameterType="CartDTO">
+		INSERT INTO ZZIM VALUES(zzim_id_seq.nextval, #{productNo}, #{memberNo})
+	</insert>
 </mapper>

@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/pagination.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/brands/css/mybrands-product.css" type="text/css">
     
      <!-- Js Plugins -->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>

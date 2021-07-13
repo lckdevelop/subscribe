@@ -24,6 +24,7 @@ public class MemberDetailServieImpl implements UserDetailsService {
 		SecurityMember securitymember = new SecurityMember();
 		
 		try {
+			log.info(id);
 			divisionInfo = memberInfoDAO.divisionMember(id);
 		} catch (SQLException e) {
 			e.getMessage();

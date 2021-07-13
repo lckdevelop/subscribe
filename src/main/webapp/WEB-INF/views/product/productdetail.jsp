@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/pagination.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/custom/css/modal2.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/productdetail/css/productdetail.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" />
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
@@ -48,7 +49,37 @@
      <!-- Js Plugins -->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     
-    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+	
+	$(document).ready(function(){
+		addCart();
+		addZZim();
+	});
+	
+	function addCart() {
+		$('.btn-cart').click(function(){
+			var selected = $("input[type='radio'][name='size_no']:checked");
+			console.log($(selected.val()));
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/product/detail/addcart/' + ${productInfo.no} + '/' + ${productInfo.price} + '/' + selected.val()
+			});
+		});
+	}
+	
+	function addZZim() {
+		$('.btn-zzim').click(function(){
+			$.ajax({
+				method : 'GET',
+				url : '${pageContext.request.contextPath}/product/detail/addzzim/' + ${productInfo.no}
+			});
+		});
+	}
+	
+	</script>
 
 </head>
 
@@ -117,7 +148,7 @@
 						<div class="row" style="margin-left: 0px; margin-right: 0px;">
 							<c:forEach items="${sizeInfo}" var="size">
 								<div class="form_radio_btn">
-									<input id="${size.no}" type="radio" name="size"
+									<input id="${size.no}" type="radio" name="size_no"
 										value="${size.no}"> <label for="${size.no}">${size.productSize}</label>
 								</div>
 							</c:forEach>
@@ -130,11 +161,11 @@
 									style="margin-left: 0px; margin-right: 0px;">바로구매</button>
 							</div>
 							<div class="col-lg-5 col-sm-5" style="padding-left: 0px;">
-								<button class="btn-cart"
+								<button class="btn-cart" data-toggle="modal" data-target="#addcartbtn"
 									style="margin-left: 0px; margin-right: 0px; padding-left: 0px;">장바구니</button>
 							</div>
 							<div class="col-lg-2 col-sm-2">
-								<button class="btn-zzim"
+								<button class="btn-zzim" data-toggle="modal" data-target="#addzzimbtn"
 									style="margin-left: 0px; margin-right: 0px;">찜</button>
 							</div>
 						</div>
@@ -143,7 +174,48 @@
 			</div>
 		</div>
 	</section>
-	
+	<!-- 장바구니 추가 모달 -->
+	<div class="modal fade" id="addcartbtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		 <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content rounded-0">
+				 <div class="modal-body p-4 px-5">
+					<div class="main-content text-center">
+						 <div class="warp-icon mb-4">
+							   <img src="${context}/resources/custom/img/cart.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+						</div>
+							   <label>장바구니에 추가되었습니다.</label>
+							    <div class="d-flex">
+							          <div class="mx-auto">
+							          <button class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							           </div>
+							       </div>
+							</div>
+						</div>
+					</div>
+				 </div>
+		    </div>
+							    
+	<!-- 찜 추가 모달 -->
+	<div class="modal fade" id="addzzimbtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		 <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content rounded-0">
+				 <div class="modal-body p-4 px-5">
+					<div class="main-content text-center">
+						 <div class="warp-icon mb-4">
+							   <img src="${context}/resources/custom/img/like.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
+						</div>
+							   <label>나의 찜에 추가되었습니다.</label>
+							    <div class="d-flex">
+							          <div class="mx-auto">
+							          <button class="btn btn-outline-dark" data-dismiss="modal">확인</button>
+							           </div>
+							       </div>
+							</div>
+						</div>
+					</div>
+				 </div>
+		    </div>
+		    
 	<!-- Banner Section Begin -->
 	<div class=container>
 		<img src="${context}/resources/productdetail/ad.jpg">

@@ -20,9 +20,13 @@ public class PagingDTO {
 	String search;
 	int brandNo;
 	int storeNo;
+	int userNo;
 	List<ReserveListDTO> list1;
 	List<PickupListDTO> list2;
 	List<AccumListDTO> list3;
+	List<ProductDTO> productList;
+	List<BrandDTO> brandList;
+	List<WindowListDTO> windowList;
 
 	public PagingDTO() {
 	}

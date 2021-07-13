@@ -107,4 +107,111 @@
 		from product
 		where no=#{productNo}
 	</select>
+	
+	<select id='getMybrandsProductCnt' parameterType="MybrandsProductParamDTO" resultType="int">
+			    SELECT COUNT(*) AS CNT
+		      FROM MEMBER M
+		INNER JOIN SUBS S
+		        ON M.NO = S.MEMBER_NO
+		INNER JOIN PRODUCT P
+		        ON S.BRAND_NO = P.BRAND_NO
+		     WHERE M.NO = #{userNo}
+		     <if test='brandNo neq 0'>
+		       AND P.BRAND_NO = #{brandNo}
+		     </if>
+		  ORDER BY P.NO DESC
+	</select>
+	
+	<select id="getMybrandsProduct" parameterType="PagingDTO" resultType="ProductDTO">
+		    SELECT P.NO         ,
+		           P.NAME       ,
+		           P.CONTENT    ,
+		           P.PRICE      ,
+		           P.THUMBNAIL  ,
+		           P.VIEWS      ,
+		           P.ZZIMCOUNT  ,
+		           P.BRAND_NO   AS BRANDNO					 ,
+		           P.CATEGORYPRODUCT_NO AS CATEGORYPRODUCTNO ,
+		           B.ENGNAME    							 ,
+		           CB.NAME AS CATEGORYBRANDNAME  			 ,
+		           CP.NAME AS CATEGORYPRODUCTNAME
+		      FROM MEMBER M
+		INNER JOIN SUBS S
+		        ON M.NO = S.MEMBER_NO
+		INNER JOIN PRODUCT P
+		        ON S.BRAND_NO = P.BRAND_NO
+		INNER JOIN BRAND B
+        		ON P.BRAND_NO = B.NO
+        INNER JOIN CATEGORYBRAND CB
+        		ON B.CATEGORYBRAND_NO = CB.NO
+		INNER JOIN CATEGORYPRODUCT CP
+        		ON P.CATEGORYPRODUCT_NO = CP.NO
+		     WHERE M.NO = #{userNo}
+		     <if test='brandNo neq 0'>
+		       AND P.BRAND_NO = #{brandNo}
+		     </if>
+		  ORDER BY P.NO DESC
+		    OFFSET (#{page} - 1) * 12 ROWS FETCH NEXT 12 ROWS ONLY
+	</select>
+	
+	<select id='getMybrandsCnt' parameterType="MybrandsProductParamDTO" resultType="int">
+		SELECT COUNT(*) AS CNT
+		  FROM SUBS S
+		  JOIN BRAND B
+		    ON S.BRAND_NO = B.NO
+		 WHERE S.MEMBER_NO = #{userNo}
+	</select>
+	
+	<select id="getMybrands" parameterType="PagingDTO" resultType="BrandDTO">
+		SELECT B.NO , 
+		       B.NAME
+		  FROM SUBS S
+		  JOIN BRAND B
+		    ON S.BRAND_NO = B.NO
+		 WHERE S.MEMBER_NO = #{userNo}
+		OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
+	</select>
+	
+	<select id='getMybrandsWindowCnt' parameterType="MybrandsProductParamDTO" resultType="int">
+			 SELECT COUNT(*) AS CNT
+			   FROM SUBS S
+			   JOIN SUBSBOARD SB
+			 	 ON S.BRAND_NO = SB.BRAND_NO
+			   JOIN BRAND B
+			 	 ON SB.BRAND_NO = B.NO
+			   JOIN STORE ST
+			  	 ON SB.STORE_NO = ST.NO
+			  WHERE S.MEMBER_NO = #{userNo}
+			<if test='brandNo neq 0'>
+			    AND SB.BRAND_NO = #{brandNo}
+			</if>
+			ORDER BY SB.NO DESC
+	</select>
+	
+	<select id="getMybrandsWindow" parameterType="PagingDTO" resultType="WindowListDTO">
+		 SELECT SB.NO                 ,
+		        SB.THUMBNAIL          ,
+		        SB.TITLE              ,
+		        B.NAME AS BRANDNAME   ,
+		        ST.NAME AS STORENAME  ,
+		        NVL(CT.PRODUCTCNT, 0) AS CNT
+		   FROM SUBS S
+		   JOIN SUBSBOARD SB
+		 	 ON S.BRAND_NO = SB.BRAND_NO
+	  LEFT JOIN (   SELECT SUBSBOARD_NO, 
+	                       COUNT(NO) AS PRODUCTCNT
+	                  FROM SUBSBOARDPRO
+	              GROUP BY SUBSBOARD_NO) CT
+	         ON SB.NO = CT.SUBSBOARD_NO
+		   JOIN BRAND B
+		 	 ON SB.BRAND_NO = B.NO
+		   JOIN STORE ST
+		  	 ON SB.STORE_NO = ST.NO
+		  WHERE S.MEMBER_NO = #{userNo}
+		<if test='brandNo neq 0'>
+		    AND SB.BRAND_NO = #{brandNo}
+		</if>
+		ORDER BY SB.NO DESC
+		  OFFSET (#{page} - 1) * 24 ROWS FETCH NEXT 24 ROWS ONLY
+	</select>
 </mapper>

@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.window-title {
+
+	height: 70px; 
+	overflow : hidden;
+	text-overflow: ellipsis;
+	
+}
+
+.window-brandname {
+	border-top: 0.5px solid #dfdfdf;
+	padding-top: 20px;
+}

@@ -68,4 +68,8 @@ public interface PurprocessService {
 
 	OrderedDTO selectOrderedList(CartListDTO cartlistDTO) throws Exception;
 
+	void addToCart(CartDTO cartDTO) throws Exception;
+
+	void addToZzim(CartDTO zzimDTO) throws Exception;
+
 }

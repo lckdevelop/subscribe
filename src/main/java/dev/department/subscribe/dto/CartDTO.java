@@ -1,8 +1,6 @@
 package dev.department.subscribe.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,4 +9,9 @@ public class CartDTO {
 	int no;
 	int memberNo;
 	int productNo;
+	int shoesizeNo;
+	int clothsizeNo;
+	int productsize;
+	int price;
+	int dcprice;
 }
