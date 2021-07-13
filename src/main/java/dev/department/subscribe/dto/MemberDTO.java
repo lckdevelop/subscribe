@@ -24,4 +24,5 @@ public class MemberDTO {
 	int brandNo;
 	int storeNo;
 	String brandName;
+	int memberSeq;
 }
