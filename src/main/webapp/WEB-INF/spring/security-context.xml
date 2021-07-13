@@ -14,7 +14,6 @@
 
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/admin/**"   access="hasAuthority('ROLE_ADMIN')" />
-		<!-- <security:intercept-url pattern="/member/**"   access="hasAuthority('ROLE_USER')" /> -->
 		<security:intercept-url pattern="/manager/**" access="hasAnyAuthority('ROLE_MANAGER')" />
 		<security:intercept-url pattern="/member/**"  access="isAuthenticated()" />
 		<security:intercept-url pattern="/**"         access="permitAll" />
@@ -32,8 +31,6 @@
 			invalidate-session="true"
 			delete-cookies="true"
 		/>
-		<!-- CSRF -->
-		<!-- <security:csrf/> -->
         <security:access-denied-handler error-page="/error403"/>
 	</security:http>
 	
@@ -43,21 +40,4 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<!-- <security:authentication-manager>	
-		<security:authentication-provider>			
-			<security:password-encoder hash="bcrypt"/>
-			<security:jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="SELECT id, password, enabled FROM member WHERE id=?"
-				authorities-by-username-query="SELECT 
-											   name as username, 
-											   CASE WHEN ROLE=1 THEN 'ROLE_USER'
-                                                    WHEN ROLE=2 THEN 'ROLE_MANAGER'
-                                                    ELSE 'ROLE_ADMIN' 
-                                               END as authority,
-                                               id,
-											   password FROM member WHERE id=?"
-			/>			
-		</security:authentication-provider>
-	</security:authentication-manager> -->
-   
 </beans>
