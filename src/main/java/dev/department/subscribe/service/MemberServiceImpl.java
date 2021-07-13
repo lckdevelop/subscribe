@@ -1,5 +1,6 @@
 package dev.department.subscribe.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDTO getAdminIdentifier(String id) throws Exception {
 		return memberDAO.getAdminIdentifier(id);
+	}
+
+	@Override
+	public void welcomePoint(int memberNo) throws SQLException {
+		memberDAO.welcomePoint(memberNo);
 	}
 
 }

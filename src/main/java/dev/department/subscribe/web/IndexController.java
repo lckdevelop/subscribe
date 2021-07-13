@@ -63,7 +63,7 @@ public class IndexController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		log.info(json.get("appKey") + ": appKey");
+		//log.info(json.get("appKey") + ": appKey");
 		String appKey = json.get("appKey");
 		model.addAttribute("appKey", appKey);
 		
@@ -73,9 +73,11 @@ public class IndexController {
 	// 회원가입 진행
 	@PostMapping("/signaction")
 	public String signAction(@ModelAttribute MemberDTO memberDTO) {
-		log.info("여기옴?");
+		log.info("여기오나요~??");
 		try {
-			memberService.memberJoin(memberDTO);
+			memberService.memberJoin(memberDTO); // 회원가입
+			int memberNo = memberDTO.getMemberSeq();
+			memberService.welcomePoint(memberNo); //웰컴포인트
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -203,18 +205,6 @@ public class IndexController {
 		return "sec_view2/memberMain";
 	}
 
-	
-//	@GetMapping("/loginAction") 
-//	public String loginAction(@RequestParam String id, Authentication authentication, Model model) { 
-//		SecurityMember securitymember = (SecurityMember) memberDetailServieImpl.loadUserByUsername(id);
-//		log.info("여기 옴");
-//		model.addAttribute("securitymember", securitymember);
-//		model.addAttribute("authentication", authentication);
-//			
-//		return "home/index"; 
-//	}
-	
-
 	@PostMapping(value = "/loginAction", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public SecurityMember recharge(@RequestParam String id, Authentication authentication) {
@@ -227,5 +217,5 @@ public class IndexController {
 	public String logoutPage() {
 		return "home/index";
 	}
-
+	
 }
