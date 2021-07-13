@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="appKeyModel" value="${appKey}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +17,11 @@
 <body>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript">
-	window.Kakao.init("c719163c8a3ae97ac6453318e9396038");
 	
 	function kakaoLogin() {
+		let appKey = "${appKeyModel}";
+		
+		window.Kakao.init(appKey);
 		window.Kakao.Auth.login({
 			scope:'profile_nickname, account_email, gender, birthday',
 			success: function(authObj) {
@@ -36,7 +39,7 @@
 				});
 			}
 		});
-	}
+	};
 	</script>
 	<script type="text/javascript">
 	$(function(){
@@ -86,17 +89,21 @@
 	    	
 	    	if (testDate.length == 13) {
 		    	$("#phone").val(testDate);
-		    	/* $('#phoneCheckMessage').text("알맞은 형식입니다.");
-				$('#phoneCheckMessage').attr('color', '#365df7'); */
 	    	}
-
+	    });
+	    
+	    $('#kakaoIdCheckBox').change(function(){
+			if ($("#kakaoIdCheckBox").is(":checked")) {
+				$("#id").val($("#email").val());
+			} else if ($("#kakaoIdCheckBox").is(":checked") == false) {
+				$("#id").val('');
+			}
 	    });
 
 	});
 	</script>
 	<header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
-        <%-- <jsp:include page="/WEB-INF/views/home/header2.jsp" flush="false" /> --%>
     </header>
     <div class="container">
      	<div class="wrap">
@@ -104,19 +111,24 @@
 			   	<div class="col-md-12 mt-5">
 			    	<h3>회원가입</h3>
 			    </div>
-			    <div class="kakaoLogo_box">
 			    <div class="row">
 			    	<h5 class="text_left mt-5 mb-4"><strong>1단계 간편인증</strong></h5>
 			    </div>
 			    <div class="row mt-5 mb-2">
-			    <div class="hidden_box"></div>
+			    <div class="hidden_box">
 			    	<font id="kakaoConfirm" size="2"></font>
+			    </div>
 			    </div>
 			    <div class="row offset-lg-1">
 		    		<a href="javascript:kakaoLogin();"><img src="${context}/resources/index/images/kakaoLogo.png" class="kakaoLogo"/></a>
 			    </div>
+			    <div class="form-check mt-3">
+				  <input class="form-check-input" type="checkbox" value="" id="kakaoIdCheckBox">
+				  <label class="form-check-label" for="flexCheckChecked">
+				    카카오톡 아이디로 사용하기 
+				  </label>
+				</div>
 			    <div class="mb-5"></div>
-			    </div>
  			</div>
 	    </div>
 	    <hr style="width:700px;">

@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ErrorController {
+	@GetMapping("/error400")
+	public String error400() {
+		
+		return "errorpage/error400";
+	}
 	
 	@GetMapping("/error403")
 	public String error403() {
@@ -23,4 +28,11 @@ public class ErrorController {
 		
 		return "errorpage/error405";
 	}
+	
+	@GetMapping("/error500")
+	public String error500() {
+		
+		return "errorpage/error500";
+	}
+	
 }
