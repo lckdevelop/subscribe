@@ -30,9 +30,9 @@
 	    <div class="col-lg-9 col-md-9 mt-1">
 	        <nav class="header__menu mobile-menu">
 	            <ul>
-	                <li><a href="${context}">홈</a></li>
+	                <li id="home"><a href="${context}">홈</a></li>
 
-	                <li><a href="${context}/product/category?main=여성패션&sub=&page=1">여성패션</a>
+	                <li id="women"><a href="${context}/product/category?main=여성패션&sub=&page=1">여성패션</a>
 	                    <ul class="dropdown">
 	                        <li><a href="${context}/product/category?main=여성패션&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main=여성패션&sub=상의&page=1">상의</a></li>
@@ -42,7 +42,7 @@
 	                        <li><a href="${context}/product/category?main=여성패션&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/product/category?main=남성패션&sub=&page=1">남성패션</a>
+	                <li id="men"><a href="${context}/product/category?main=남성패션&sub=&page=1">남성패션</a>
 	                    <ul class="dropdown">
 	                        <li><a href="${context}/product/category?main=남성패션&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main=남성패션&sub=상의&page=1">상의</a></li>
@@ -52,7 +52,7 @@
 	                        <li><a href="${context}/product/category?main=남성패션&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/product/category?main=유니섹스&sub=&page=1">유니섹스</a>
+	                <li id="unisex"><a href="${context}/product/category?main=유니섹스&sub=&page=1">유니섹스</a>
 	                    <ul class="dropdown">
 	                        <li><a href="${context}/product/category?main=유니섹스&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main=유니섹스&sub=상의&page=1">상의</a></li>
@@ -62,7 +62,7 @@
 	                        <li><a href="${context}/product/category?main=유니섹스&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/product/category?main=진/캐주얼&sub=&page=1">진/캐주얼</a>
+	                <li id="jean"><a href="${context}/product/category?main=진/캐주얼&sub=&page=1">진/캐주얼</a>
 	                    <ul class="dropdown">
 	                        <li><a href="${context}/product/category?main=진/캐주얼&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main=진/캐주얼&sub=상의&page=1">상의</a></li>
@@ -72,7 +72,7 @@
 	                        <li><a href="${context}/product/category?main=진/캐주얼&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/product/category?main=스포츠/레저&sub=&page=1">스포츠/레저</a>
+	                <li id="sport"><a href="${context}/product/category?main=스포츠/레저&sub=&page=1">스포츠/레저</a>
 	                    <ul class="dropdown">
 	                        <li><a href="${context}/product/category?main=스포츠/레저&sub=아우터&page=1">아우터</a></li>
 	                        <li><a href="${context}/product/category?main=스포츠/레저&sub=상의&page=1">상의</a></li>
@@ -82,7 +82,7 @@
 	                        <li><a href="${context}/product/category?main=스포츠/레저&sub=기타잡화&page=1">기타잡화</a></li>
 	                    </ul>
 	                </li>
-	                <li><a href="${context}/mybrands/product">구독브랜드</a>
+	                <li id="subs"><a href="${context}/mybrands/product">구독브랜드</a>
 
 	                </li>
 	            </ul>

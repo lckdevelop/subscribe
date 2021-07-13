@@ -64,6 +64,22 @@
 	<script>
     	$(document).ready(function(){
     		makePage(${pagingDTO.page}, ${pagingDTO.pageSize}, ${pagingDTO.pageBlock}, ${pagingDTO.startPage}, ${pagingDTO.endPage}, ${pagingDTO.totalPage});
+    	
+    	    if('${main}'=='여성패션'){
+    	    	document.getElementById('women').className += 'active';
+    	    }
+    	    if('${main}'=='남성패션'){
+    	    	document.getElementById('men').className += 'active';
+    	    }
+    	    if('${main}'=='유니섹스'){
+    	    	document.getElementById('unisex').className += 'active';
+    	    }
+    	    if('${main}'=='진/캐주얼'){
+    	    	document.getElementById('jean').className += 'active';
+    	    }
+    	    if('${main}'=='스포츠/레저'){
+    	    	document.getElementById('sport').className += 'active';
+    	    }
     		
     	});
     	
