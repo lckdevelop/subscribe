@@ -14,6 +14,7 @@ public class ProductDTO {
 	int views;
 	int zzimCount;
 	int brandNo;
+	int mainCategory;
 	int categoryproductNo;
 	int qtysum;
 	String engname;
