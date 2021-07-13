@@ -17,4 +17,10 @@ public class SubsBoardServiceImpl implements SubsBoardService {
 		subsBoardDAO.insertSubsBoard(sbDTO);
 	}
 
+	@Override
+	public SubsBoardDTO getSubsBoardInfo(int subsBoardNo) throws Exception {
+		// TODO Auto-generated method stub
+		return subsBoardDAO.getSubsBoardInfo(subsBoardNo);
+	}
+
 }

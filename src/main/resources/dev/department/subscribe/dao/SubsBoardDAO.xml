@@ -14,5 +14,10 @@
   		</selectKey>
 	</insert>
 
-
+	<select id="getSubsBoardInfo" parameterType="int" resultType="SubsBoardDTO">
+		select no, thumbnail, title, content, brand_no as brandNo, store_no as storeNo
+		from subsboard
+		where no=#{subsBoardNo}
+	
+	</select>
 </mapper>

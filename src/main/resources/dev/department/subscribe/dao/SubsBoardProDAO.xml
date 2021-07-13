@@ -8,6 +8,11 @@
 		insert into subsboardpro (no, subsboard_no, product_no)
 		values (subsboardpro_id_seq.nextval, #{subscribeBoardNo}, #{productNo})
 	</insert>
-
+	
+	<select id="getSubsBoardPro" parameterType="int" resultType="SubsBoardProDTO">
+		select no, subsboard_no as subsBoardNo, product_no as productNo
+		from subsboardpro
+		where subsboard_no=#{subsBoardNo}
+	</select>
 
 </mapper>

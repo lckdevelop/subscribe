@@ -65,6 +65,14 @@
     		location.href="${context}/brands/brandpage/${brandInfo.no}/${categoryNo}/"+page;
     	}
     	
+    	function moveReservationPage(){
+    		location.href="/subscribe/brands/reservationform/${brandInfo.no}";
+    	}
+    	
+    	function moveNewsPage(){
+    		location.href="/subscribe/brands/brandnewscrawl/${brandInfo.no}";
+    	}
+    	
     	function makePage(page, pageSize, pageBlock, startPage, endPage, totalPage){
     		
     		if(page==0){
@@ -102,6 +110,31 @@
     		let location = document.querySelector('.product-category').offsetTop;
     		window.scrollTo({top:location, behavior:'smooth'});
     	}
+    	
+    	function zzimBtn(productNo, productName) {
+        	$.ajax({
+    	        type:"get",
+    	        url:"${context}/zzimAction/"+productNo,
+    	        success:function (data){
+    	        	if (data == "성공") {
+    		        	/* alert(productName + " 찜 하였습니다."); */
+    		        	$(".heart"+productNo).fadeIn("slow");
+    		        	setTimeout(function() {
+    		        		  console.log('Works!');
+    	        		}, 10000);
+    		        	$(".heart"+productNo).fadeOut("slow");
+    	        	} else if (data == "이미 존재") {
+    	        		alert(productName + "\n\n이미 찜 완료된상품입니다.");
+    	        	}
+    	        	
+    	       },
+    	      error:function(data,textStatus){
+    	         alert("로그인이 필요합니다.");
+    	      },
+    	      complete:function(data,textStatus){
+    	      }
+    	   });
+        }
     
     </script>
 
@@ -157,8 +190,8 @@
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-blog set-bg" data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/brand-background/${brandInfo.engname}.jpg">
         <div class="brandpage-buttons">
-        	<button class="brandpage-button"><a href="/subscribe/brands/reservationform/${brandInfo.no}" style="color: white">방문예약</a></button>
-        	<button class="brandpage-button ml-3"><a href="/subscribe/brands/brandnewscrawl/${brandInfo.no}" style="color: white">브랜드 뉴스</a></button>
+        	<button class="brandpage-button" onclick="moveReservationPage()">방문예약</button>
+        	<button class="brandpage-button ml-3" onclick="moveNewsPage()">브랜드 뉴스</button>
         </div>
     </section>
     <!-- Breadcrumb Section End -->
@@ -213,20 +246,18 @@
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
 										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${brandInfo.engname}/${product.categoryproductNo}/${product.thumbnail}.jpg">
+										<h3 class="heart${product.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 										<ul class="product__hover">
-											<li><a href="#"><img
-													src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>
+											<li style="cursor:pointer"><a onClick="zzimBtn(${product.no}, '${product.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 											<li><a href="#"><img
 													src="${context}/resources/theme/img/icon/compare.png"
-													alt=""> <span>Compare</span></a></li>
-											<li><a href="#"><img
-													src="${context}/resources/theme/img/icon/search.png" alt=""></a></li>
+													alt=""> <span>비교하기</span></a></li>
+											<li><a href="${context}/product/detail/${product.brandNo}/${product.no}"><img
+													src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 										</ul>
 									</div>
 									<div class="product__item__text">
 										<h6>${product.name}</h6>
-										<a href="#" class="add-cart">+ 장바구니에 담기</a>
-
 										<h5>
 											<fmt:formatNumber type="number" maxFractionDigits="3"
 												value="${product.price}" />

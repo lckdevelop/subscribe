@@ -6,4 +6,6 @@ public interface SubsBoardService {
 
 	void insertSubsBoard(SubsBoardDTO sbDTO) throws Exception;
 
+	SubsBoardDTO getSubsBoardInfo(int subsBoardNo) throws Exception;
+
 }
