@@ -8,10 +8,48 @@ let submitContent = document.getElementById('submit-content');
 		initialValue: submitContent.value
 	});
 	
-	function clickSubmit() {
-		submitContent.value = editor.getHtml();
-		document.getElementById('cody-form').submit();
+	function getCheckedProduct(){
+		var chk_arr=[];
+    	$("input[name=product-check]:checked").each(function(){
+    		var chk = $(this).val();
+    		chk_arr.push(chk);
+    	})
+    	return chk_arr;
 	}
+	
+	function clickSubmit() {
+		//submitContent.value = editor.getHtml();
+		
+		//alert(editor.getHtml());
+		var form = new FormData();
+        
+		let title = $("input[name=subject]").val();
+		let content = editor.getHtml();
+		let checkedProduct = getCheckedProduct();
+		
+		form.append("thumbnail", $("#inputGroupFile01")[0].files[0] );
+		form.append("title", title);
+		form.append("content", content);
+		form.append("checkedProduct", checkedProduct);
+		
+		
+		$.ajax({
+    		type : "POST",
+    		url : './registerstyle/insert',
+    		data : form,
+    		enctype: 'multipart/form-data',
+    		processData: false,
+    		contentType: false,
+    		success : function() {
+        		location.href="/subscribe/admin/registerstyle";
+    		},
+    		err : function(err) {
+        		alert(err.status);
+    		}
+		});
+	}
+	
+	
 	
 	$("#inputGroupFile01").change(function(event) {  
   RecurFadeIn();
