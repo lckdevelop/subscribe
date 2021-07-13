@@ -21,12 +21,47 @@ public class PurprocessController {
 	@Autowired
 	private PurprocessService purprocessService; 
 	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private SizeService sizeService;
+	
+	@GetMapping(value = "/product/detail/addcart/{productNo}/{price}/{productsize}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void addcart(@ModelAttribute CartDTO cartDTO, Authentication authentication) throws Exception {
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			cartDTO.setMemberNo(sMember.getNo());
+			
+			ProductDTO product = productService.getProductInfo(cartDTO.getProductNo());
+			if(product.getCategoryproductNo()==5) {
+				cartDTO.setShoesizeNo(cartDTO.getProductsize());
+				cartDTO.setClothsizeNo(0);
+			}else {
+				cartDTO.setClothsizeNo(cartDTO.getProductsize());
+				cartDTO.setShoesizeNo(0);
+			}
+			log.info("add cart" + cartDTO.toString());
+			purprocessService.addToCart(cartDTO);
+		}
+	}
+	
+	@GetMapping(value = "/product/detail/addzzim/{productNo}", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public void addzzim(@ModelAttribute CartDTO zzimDTO, Authentication authentication) throws Exception {
+		if (authentication != null) {
+			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
+			zzimDTO.setMemberNo(sMember.getNo());
+			purprocessService.addToZzim(zzimDTO);
+		}
+	}
+	
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public ModelAndView cart() throws Exception {
 		return new ModelAndView("/home/shopping_cart");
 	}
 	
-	//카트로 상품 넘버 값 넘길 때 price, dcprice 업데이트해주기
 	@GetMapping(value = "/cart/cartinfo", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public List<CartListDTO> cartinfo(@ModelAttribute CartListDTO cartlistDTO, Authentication authentication) throws Exception {
@@ -351,6 +386,8 @@ public class PurprocessController {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			cartlistDTO.setMemberNo(sMember.getNo());
 			purprocessService.applyDiscount(cartlistDTO);
+			//쿠폰 사용 업데이트
+			
 		}
 	}
 	

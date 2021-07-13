@@ -177,14 +177,6 @@
                                             <div class="text-right"> <span class="text-success">${orderedDTO.usedPoint}P</span> </div>
                                         </td>
                                     </tr>
-                                    <tr class="border-top border-bottom">
-                                        <td>
-                                            <div class="text-left"> <span class="font-weight-bold">결제 가격</span> </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-right"> <span class="font-weight-bold">${orderedDTO.price}원</span> </div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

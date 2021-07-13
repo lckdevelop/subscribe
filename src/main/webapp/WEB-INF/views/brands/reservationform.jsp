@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="${context}/resources/theme/css/style.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/brands.css" type="text/css">
     <link rel="stylesheet" href="${context}/resources/brands/css/form.css" type="text/css">
+    <link rel="stylesheet" href="${context}/resources/custom/css/modal2.css" type="text/css">
      <!-- Js Plugins -->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>

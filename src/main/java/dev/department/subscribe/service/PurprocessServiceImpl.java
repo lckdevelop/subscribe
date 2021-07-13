@@ -325,5 +325,25 @@ public class PurprocessServiceImpl implements PurprocessService{
 		}
 	}
 
+	@Override
+	public void addToCart(CartDTO cartDTO) throws Exception {
+		try {
+			purprocessDAO.addToCart(cartDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public void addToZzim(CartDTO zzimDTO) throws Exception {
+		try {
+			purprocessDAO.addToZzim(zzimDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
 	
 }
