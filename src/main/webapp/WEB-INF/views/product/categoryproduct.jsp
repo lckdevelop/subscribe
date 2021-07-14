@@ -60,15 +60,31 @@
     
      <!-- Js Plugins -->
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
-
+	<script src="https://kit.fontawesome.com/fd670bf7a0.js"></script>
 	<script>
     	$(document).ready(function(){
     		makePage(${pagingDTO.page}, ${pagingDTO.pageSize}, ${pagingDTO.pageBlock}, ${pagingDTO.startPage}, ${pagingDTO.endPage}, ${pagingDTO.totalPage});
+    	
+    	    if('${main}'=='여성패션'){
+    	    	document.getElementById('women').className += 'active';
+    	    }
+    	    if('${main}'=='남성패션'){
+    	    	document.getElementById('men').className += 'active';
+    	    }
+    	    if('${main}'=='유니섹스'){
+    	    	document.getElementById('unisex').className += 'active';
+    	    }
+    	    if('${main}'=='진/캐주얼'){
+    	    	document.getElementById('jean').className += 'active';
+    	    }
+    	    if('${main}'=='스포츠/레저'){
+    	    	document.getElementById('sport').className += 'active';
+    	    }
     		
     	});
     	
     	function moveProductDetail(brandNo, productNo){
-    		location.href="${context}/product/detail/${main}/${sub}/"+brandNo+"/"+productNo;
+    		location.href="${context}/product/detail/"+brandNo+"/"+productNo;
     	}
     	
     	function movePage(page){
@@ -112,6 +128,37 @@
     		let location = document.querySelector('.product-category').offsetTop;
     		window.scrollTo({top:location, behavior:'smooth'});
     	}
+    	
+    	$(function(){
+    		  $('.zzimBtn').click(function(){
+    		    $('.heartbox').show();
+    		  });
+    		});
+    	
+    	function zzimBtn(productNo, productName) {
+        	$.ajax({
+    	        type:"get",
+    	        url:"${context}/zzimAction/"+productNo,
+    	        success:function (data){
+    	        	if (data == "성공") {
+    		        	/* alert(productName + " 찜 하였습니다."); */
+    		        	$(".heart"+productNo).fadeIn("slow");
+    		        	setTimeout(function() {
+    		        		  console.log('Works!');
+    	        		}, 10000);
+    		        	$(".heart"+productNo).fadeOut("slow");
+    	        	} else if (data == "이미 존재") {
+    	        		alert(productName + "\n\n이미 찜 완료된상품입니다.");
+    	        	}
+    	        	
+    	       },
+    	      error:function(data,textStatus){
+    	         alert("로그인이 필요합니다.");
+    	      },
+    	      complete:function(data,textStatus){
+    	      }
+    	   });
+        }
     
     </script>
 
@@ -224,22 +271,19 @@
 							<div class="col-lg-3 col-md-6 col-sm-6">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
-										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg"
-										onclick="moveProductDetail(${product.brandNo}, ${product.no})">
+										data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/<%=brandName%>/${product.categoryproductNo}/${product.thumbnail}.jpg">
+										<h3 class="heart${product.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
 										<ul class="product__hover">
-											<li><a href="#"><img
-													src="${context}/resources/theme/img/icon/heart.png" alt=""></a></li>
+											<li style="cursor:pointer"><a onClick="zzimBtn(${product.no}, '${product.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
 											<li><a href="#"><img
 													src="${context}/resources/theme/img/icon/compare.png"
-													alt=""> <span>Compare</span></a></li>
-											<li><a href="${context}/product/detail/${main}/${sub}/${product.brandNo}/${product.no}"><img
-													src="${context}/resources/theme/img/icon/search.png" alt=""></a></li>
+													alt=""> <span>비교하기</span></a></li>
+											<li><a href="${context}/product/detail/${product.brandNo}/${product.no}"><img
+													src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
 										</ul>
 									</div>
 									<div class="product__item__text">
 										<h6>${product.name}</h6>
-										<a href="${context}/product/detail/${main}/${sub}/<%=brandName%>/${product.no}" class="add-cart">상품 상세보기</a>
-
 										<h5>
 											<fmt:formatNumber type="number" maxFractionDigits="3"
 												value="${product.price}" />

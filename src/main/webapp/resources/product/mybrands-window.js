@@ -18,8 +18,8 @@ function getMybrandsWindow() {
 				plusMsg +=`<div class="col-lg-2 col-md-6 col-sm-6">`
 						+ `				<div class="product__item" style="cursor: pointer">`
 						+ `					<div class="product__item__pic set-bg"`
-						+ `						onclick="location.href=''"` 
-						+ `                     style="background-image: url(https://file.mk.co.kr/meet/neds/2017/05/image_readtop_2017_315338_14944817612877919.jpg);">`
+						+ `						onclick="location.href='/subscribe/mybrands/window/${list[i].brandName}/${list[i].no}'"` 
+						+ `                     style="background-image: url(https://subscribe.s3.ap-northeast-2.amazonaws.com/coordi/${list[i].thumbnail});">`
 						+ `					</div>`
 						+ `					<div class="product__item__text">`
 						+ `						<div>`
@@ -102,7 +102,7 @@ function getMybrands() {
 			
 			if (res.startPage == 1) {
 				if(window.brandNo == 0) {
-					brands += `<li class="active" onclick="selectBrand(0)"><a>전체</a></li>`;
+					brands += `<li class="page-block active" onclick="selectBrand(0)"><a>전체</a></li>`;
 				} else {
 					brands += `<li class="page-block"><a onclick="selectBrand(0)">전체</a></li>`;
 				}

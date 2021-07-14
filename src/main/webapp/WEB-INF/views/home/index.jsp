@@ -58,6 +58,8 @@
             
         });
         
+        document.getElementById('home').className += 'active';
+        
     });
     
     function subBtn(brandNo, subsed) {

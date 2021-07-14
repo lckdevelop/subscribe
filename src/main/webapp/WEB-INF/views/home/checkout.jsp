@@ -3,7 +3,7 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -185,7 +185,7 @@
 	
 	function displayDCproduct(data) {
 		var mytable ='';
-	    mytable += '<br><br><div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.productPrice +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="applydcbtn" myval = "'+ data.productNo +'" couval = "'+data.couponNo+'" class="btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applycoupon">할인 적용</button></p></div></div>';
+	    mytable += '<br><br><div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.productPrice.toLocaleString() +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="applydcbtn" myval = "'+ data.productNo +'" couval = "'+data.couponNo+'" class="btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applycoupon">할인 적용</button></p></div></div>';
 		$('#displaydcproduct').html(mytable);
 		applyDiscount();
 	}
@@ -226,7 +226,7 @@
 	    	mytable += '<div class="product__cart__item__text"><h6>' + val['name'] + '</h6><p> 사이즈 : ' + val['productsize'] + '</p></div></td>';
 	    	mytable += '<td class="quantity__item"><div class="quantity"><div class="pro-qty-2">';
 	    	mytable += '<input type="text" value="' + val['qty'] + '">';
-	    	mytable += '<td class="cart__price">' + val['memberPrice'] + '원</td>';
+	    	mytable += '<td class="cart__price">' + val['memberPrice'].toLocaleString() + '원</td>';
 			});
 	 
 			$('#contentdisplay').html(mytable);
@@ -263,9 +263,9 @@
 	function displayTotalList(data) {
 	    var dcprice = data.memberPrice - data.productPrice;
 		var mytable = "";
-	  	mytable += '<li>총액 <span>' + data.memberPrice + '원</span></li>';
-	  	mytable += '<li>할인 금액 <span> -' + dcprice + '원</span></li>';
-	  	mytable += '<li>결제 금액 <span>' + data.productPrice + '원</span></li>';
+	  	mytable += '<li>총액 <span>' + data.memberPrice.toLocaleString() + '원</span></li>';
+	  	mytable += '<li>할인 금액 <span> -' + dcprice.toLocaleString() + '원</span></li>';
+	  	mytable += '<li>결제 금액 <span>' + data.productPrice.toLocaleString() + '원</span></li>';
 	 
 		$('#displayTotal').html(mytable);
 	}
@@ -287,7 +287,7 @@
 	function displayCheckList(data) {
 		var mytable = "";
 	  	$.each( data, function( key, val ) {
-	  		mytable += '<li>' + val['name'] + '&nbsp;(' + val['qty'] + ')<span>' + val['memberPrice'] + ' 원</span></li>';
+	  		mytable += '<li>' + val['name'] + '&nbsp;(' + val['qty'] + ')<span>' + val['memberPrice'].toLocaleString() + ' 원</span></li>';
 			});
 	 
 			$('#displayCheckout').html(mytable);

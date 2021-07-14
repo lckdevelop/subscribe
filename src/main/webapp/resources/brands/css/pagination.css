@@ -104,13 +104,13 @@
 }
 .pagination2 li:hover a {
   color: #fdfdfd;
-  background-color: #ff80c0;
-  border: solid 1px #ff80c0;
+  background-color: #000000;
+  border: solid 1px #000000;
 }
 .pagination2 li.active a {
   color: #fdfdfd;
-  background-color: #ff80c0;
-  border: solid 1px #ff80c0;
+  background-color: #000000;
+  border: solid 1px #000000;
 }
 
 .pagination2 li a {
