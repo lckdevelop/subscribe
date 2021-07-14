@@ -1,5 +1,7 @@
 package dev.department.subscribe.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,12 @@ public class SubsBoardProServiceImpl implements SubsBoardProService{
 	public void insertSubsBoardPro(SubsBoardProDTO sbpDTO) throws Exception {
 		// TODO Auto-generated method stub
 		subsBoardProDAO.insertSubsBoardPro(sbpDTO);
+	}
+
+	@Override
+	public ArrayList<SubsBoardProDTO> getSubsBoardPro(int subsBoardNo) throws Exception {
+		// TODO Auto-generated method stub
+		return subsBoardProDAO.getSubsBoardPro(subsBoardNo);
 	}
 
 }

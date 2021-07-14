@@ -33,6 +33,9 @@
 </head>
 
 <body id="page-top">
+	<header class="header">
+    	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
+    </header>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -352,13 +355,7 @@
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">코디 등록</h1>
-						<p>
-							<i class="fas fa-address-book"></i> 구독자 <b>${subsCnt}명</b>에게 발송
-						</p>
 
-					</div>
-					<div>
-						<p>썸네일 등록</p>
 					</div>
 
 					<div class="row">
@@ -372,7 +369,7 @@
 						<div class="col-lg-4" style="height:400px; overflow: hidden;">
 								<!-- <form method="POST" id="cody-form"> -->
 									<input type="file" id="inputGroupFile01" class="imgInp custom-file-input"> 
-									<label class="custom-file-label" for="inputGroupFile01" style="height: 40px;">이미지를 선택하세요.</label> 
+									<label class="custom-file-label" for="inputGroupFile01" style="height: 40px;">썸네일 이미지를 선택하세요.</label> 
 									<input type="text" id="subject" name="subject" placeholder="제목을 입력해주세요." style="height: 40px;" required="required" />
 									<textarea id="submit-content" name="content" style="display: none"></textarea>
 									<div class="product-list-box">
@@ -419,7 +416,8 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; KOSA 현대IT&E 채용 확정형 교육 2021</span><br><br>
+                        <span>강현구, 윤예빈, 이채경, 홍민석</span>
                     </div>
                 </div>
             </footer>

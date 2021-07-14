@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -95,32 +95,27 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
+    
 	<div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
-				<div class="custom-menu">
-	          <i class="fa fa-bars"></i>
-	          <span class="sr-only">Toggle Menu</span>
-	        </button>
-        </div>
-				<div class="p-4 pt-5">
-	        <ul class="list-unstyled components mb-5">
-	          <li>
-	           <a href="orderedlist" style="color: #8C8C8C; margin-left: 30px">주문 확인 / 배송 조회</a>
-	          </li>
-	          <li>
-              <a href="like" style="color: #8C8C8C; margin-left: 30px">내가 찜한 상품</a>
-	          </li>
-	          <li>
-              <a href="coupon" style="color: #8C8C8C; margin-left: 30px">쿠폰</a>
-	          </li>
-	          <li>
-              <a href="hpoint" style="color: #8C8C8C; margin-left: 30px">H.Point</a>
-	          </li>
-	        </ul>
-	      </div>
-    	</nav>
+		<nav id="sidebar">
+			<div class="custom-menu">
+				<i class="fa fa-bars"></i> <span class="sr-only">Toggle Menu</span>
+			</div>
+			<div class="p-4 pt-5">
+				<ul class="list-unstyled components mb-5">
+					<li><a href="orderedlist"
+						style="color: #8C8C8C; margin-left: 30px">주문 확인 / 배송 조회</a></li>
+					<li><a href="like" style="color: #8C8C8C; margin-left: 30px">내가
+							찜한 상품</a></li>
+					<li><a href="coupon" style="color: #8C8C8C; margin-left: 30px">쿠폰</a>
+					</li>
+					<li><a href="hpoint" style="color: #8C8C8C; margin-left: 30px">H.Point</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-        <!-- Page Content  -->
+		<!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5" style="background-color: white">
 			   <div class="container">
 				<div class="row">
@@ -176,7 +171,9 @@
 			                <div class="widget-49">
 			                    <div class="widget-49-title-wrapper">
 			                        <div class="widget-49-date-success">
-			                            <span class="widget-49-date-day">${mycard.pointcnt}P</span>
+			                            <span class="widget-49-date-day">
+			                            <fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${mycard.pointcnt}"/>P</span>
 			                        </div>
 			                        <div class="widget-49-meeting-info">
 			                            <span class="widget-49-pro-title">당신에게 적립된 포인트</span>
@@ -207,7 +204,9 @@
 									  <tbody>
 									  <c:forEach items="${pointlist}" var="dto">
 									    <tr class="alert" role="alert">
-									      <td>${dto.amount}P</td>
+									      <td>
+									      <fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${dto.amount}"/>P</td>
 									      <td>${dto.regdate}</td>
 									      <td>${dto.log}</td>
 									    </tr>

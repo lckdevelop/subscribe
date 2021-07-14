@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+#viewer{
+	margin-top: 100px;	
+	
+}
+
+
+#viewer div{
+	text-align: center;
+}
 .detail-brand{
 	margin-bottom: 20px;
 }
@@ -100,3 +109,14 @@
 	border-color: black;
 }
  
+.taged{
+	font-size: 20px;
+	font-weight: 600;
+	color: black;
+}
+.taged-product-name{
+	color: black;
+}
+.taged-product-name:hover{
+	color: gray;
+}

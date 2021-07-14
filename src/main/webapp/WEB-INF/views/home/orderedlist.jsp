@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -180,7 +180,9 @@
 			                <div class="widget-49">
 			                    <div class="widget-49-title-wrapper">
 			                        <div class="widget-49-date-success">
-			                            <span class="widget-49-date-day">${mycard.pointcnt}P</span>
+			                            <span class="widget-49-date-day">
+			                            <fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${mycard.pointcnt}"/>P</span>
 			                        </div>
 			                        <div class="widget-49-meeting-info">
 			                            <span class="widget-49-pro-title">당신에게 적립된 포인트</span>
@@ -216,7 +218,9 @@
 										    <tr class="alert" role="alert">
 										      <td><img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${dto.brandengname}/${dto.categoryproductNo}/${dto.thumbnail}.jpg" width="100"> </td>
 										      <td>${dto.name}</td>
-										      <td>${dto.productPrice}원</td>
+										      <td>
+										      <fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${dto.productPrice}"/>원</td>
 										      <td>${dto.productsize}</td>
 										      <td>${dto.qty}개</td>
 							<c:choose>

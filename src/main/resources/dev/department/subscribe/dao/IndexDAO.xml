@@ -3,10 +3,10 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.department.subscribe.dao.IndexDAO">
 	<select id="getBranSubsList" parameterType="int" resultType="BrandDTO" >		
-		select b.no, b.name, b.engname, decode(s.member_no, #{memNo}, 1, 0) as subsed
-		from brand b
-		left outer join subs s
-		on b.no = s.brand_no
+	select distinct b.no, b.name, b.engname, decode(s.member_no, 1, 1, 0) as subsed
+	      from brand b
+	      left join subs s
+	      on b.no = s.brand_no
 	</select>
 	
 	<select id="getBestSellers" resultType="ProductDTO"> 

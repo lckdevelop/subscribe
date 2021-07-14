@@ -10,11 +10,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="main" value="${main}" />
-<c:set var="sub" value="${sub}" />
-<c:set var="productInfo" value="${productInfo}" />
-<c:set var="brandInfo" value="${brandInfo}" />
-<c:set var="sizeInfo" value="${sizeInfo}" />
+<c:set var="subsBoardInfo" value="${subsBoardInfo}" />
+<c:set var="tagedProductsInfo" value="${tagedProductsInfo}" />
+<c:set var="brandName" value="${brandName}" />
+<c:set var="brandEngName" value="${brandEngName}" />
+
+
 
 <!DOCTYPE html>
 <html>
@@ -52,34 +53,37 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript">
-	
-	$(document).ready(function(){
-		addCart();
-		addZZim();
-	});
-	
-	function addCart() {
-		$('.btn-cart').click(function(){
-			var selected = $("input[type='radio'][name='size_no']:checked");
-			console.log($(selected.val()));
-			$.ajax({
-				method : 'GET',
-				url : '${pageContext.request.contextPath}/product/detail/addcart/' + ${productInfo.no} + '/' + ${productInfo.price} + '/' + selected.val()
-			});
-		});
+    
+    <script>
+    function moveProductDetail(brandNo, productNo){
+		location.href="${context}/product/detail/"+brandNo+"/"+productNo;
 	}
-	
-	function addZZim() {
-		$('.btn-zzim').click(function(){
-			$.ajax({
-				method : 'GET',
-				url : '${pageContext.request.contextPath}/product/detail/addzzim/' + ${productInfo.no}
-			});
-		});
-	}
-	
-	</script>
+    
+    function zzimBtn(productNo, productName) {
+    	$.ajax({
+	        type:"get",
+	        url:"${context}/zzimAction/"+productNo,
+	        success:function (data){
+	        	if (data == "성공") {
+		        	/* alert(productName + " 찜 하였습니다."); */
+		        	$(".heart"+productNo).fadeIn("slow");
+		        	setTimeout(function() {
+		        		  console.log('Works!');
+	        		}, 10000);
+		        	$(".heart"+productNo).fadeOut("slow");
+	        	} else if (data == "이미 존재") {
+	        		alert(productName + "\n\n이미 찜 완료된상품입니다.");
+	        	}
+	        	
+	       },
+	      error:function(data,textStatus){
+	         alert("로그인이 필요합니다.");
+	      },
+	      complete:function(data,textStatus){
+	      }
+	   });
+    }
+    </script>
 
 </head>
 
@@ -131,119 +135,103 @@
 			<div class="row text-center">
 				<div class="col-lg-6 col-sm-12">
 					<img
-						src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${brandInfo.engname}/${productInfo.categoryproductNo}/${productInfo.thumbnail}.jpg">
+						src="https://subscribe.s3.ap-northeast-2.amazonaws.com/coordi/${subsBoardInfo.thumbnail}">
 				</div>
 				<div class="col-lg-6 col-sm-12" align="left">
 					<div class="detail-brand">
-						<a href="#">${brandInfo.name}</a>
+						<a href="#">${brandName}</a>
 					</div>
 					<div class="detail-info">
-						<p class="product-name">${productInfo.name}</p>
-						<p class="product-price">
-							<fmt:formatNumber type="number" maxFractionDigits="3"
-								value="${productInfo.price}" />원</p>
+						<p class="product-name">${subsBoardInfo.title}</p>
 					</div>
 					<hr>
-					<div class="detail-size">
-						<div class="row" style="margin-left: 0px; margin-right: 0px;">
-							<c:forEach items="${sizeInfo}" var="size">
-								<div class="form_radio_btn">
-									<input id="${size.no}" type="radio" name="size_no"
-										value="${size.no}"> <label for="${size.no}">${size.productSize}</label>
+					<div>
+						<p class="taged">착용 상품</p>
+						
+						<c:forEach items="${tagedProductsInfo}" var="product">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${brandEngName}/${product.categoryproductNo}/${product.thumbnail}.jpg">
 								</div>
-							</c:forEach>
-						</div>
-					</div>
-					<div class="detail-button">
-						<div class="row">
-							<div class="col-lg-5 col-sm-5" style="padding-right: 0px;">
-								<button class="btn-buy"
-									style="margin-left: 0px; margin-right: 0px;">바로구매</button>
+								<div class="col-lg-10 ">
+									<a class="taged-product-name" href="${context}/product/detail/${product.brandNo}/${product.no}">${product.name}</a>
+								</div>
 							</div>
-							<div class="col-lg-5 col-sm-5" style="padding-left: 0px;">
-								<button class="btn-cart" data-toggle="modal" data-target="#addcartbtn"
-									style="margin-left: 0px; margin-right: 0px; padding-left: 0px;">장바구니</button>
-							</div>
-							<div class="col-lg-2 col-sm-2">
-								<button class="btn-zzim" data-toggle="modal" data-target="#addzzimbtn"
-									style="margin-left: 0px; margin-right: 0px;">찜</button>
-							</div>
-						</div>
+							<hr>
+						</c:forEach>
+						
 					</div>
 				</div>
 			</div>
+			<hr>
 		</div>
 	</section>
-	<!-- 장바구니 추가 모달 -->
-	<div class="modal fade" id="addcartbtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		 <div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content rounded-0">
-				 <div class="modal-body p-4 px-5">
-					<div class="main-content text-center">
-						 <div class="warp-icon mb-4">
-							   <img src="${context}/resources/custom/img/cart.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
-						</div>
-							   <label>장바구니에 추가되었습니다.</label>
-							    <div class="d-flex">
-							          <div class="mx-auto">
-							          <button class="btn btn-outline-dark" data-dismiss="modal">확인</button>
-							           </div>
-							       </div>
-							</div>
-						</div>
-					</div>
-				 </div>
-		    </div>
-							    
-	<!-- 찜 추가 모달 -->
-	<div class="modal fade" id="addzzimbtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		 <div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content rounded-0">
-				 <div class="modal-body p-4 px-5">
-					<div class="main-content text-center">
-						 <div class="warp-icon mb-4">
-							   <img src="${context}/resources/custom/img/like.png" style="height: 50px; width: 50px; margin-top: 15px" class="img-fluid">
-						</div>
-							   <label>나의 찜에 추가되었습니다.</label>
-							    <div class="d-flex">
-							          <div class="mx-auto">
-							          <button class="btn btn-outline-dark" data-dismiss="modal">확인</button>
-							           </div>
-							       </div>
-							</div>
-						</div>
-					</div>
-				 </div>
-		    </div>
-		    
+
+
 	<!-- Banner Section Begin -->
 	<div class=container>
 		<img src="${context}/resources/productdetail/ad.jpg">
-		<textarea style="display:none;" id="content">${productInfo.content}</textarea>
+		<textarea style="display:none;" id="content">${subsBoardInfo.content}</textarea>
 	</div>
 	<!-- Banner Section End -->
-	
+
 	<!-- Toast UI editor Viewer Section Begin -->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<div id="viewer">
+				<div id="viewer"></div>
+				<hr>
+				<script
+					src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
+				<script>
+					const content = document.getElementById('content');
+					const viewer = toastui.Editor.factory({
+						el : document.querySelector('#viewer'),
+						viewer : true,
+						height : '500px',
+						initialValue : content.value
+					});
+				</script>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+			
+				<p class="taged mt-2 mb-4">착용 상품 바로가기</p>
+				<div class="row">
+
+					<c:forEach items="${tagedProductsInfo}" var="product">
+						<div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="product__item">
+								<div class="product__item__pic set-bg"
+									data-setbg="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${brandEngName}/${product.categoryproductNo}/${product.thumbnail}.jpg">
+									<h3 class="heart${product.no} text-center" style="display:none; color: #ffb3e8; font-size: 60px; line-height: 1; padding-top:100px;">❤</h3>
+									<ul class="product__hover">
+										<li style="cursor:pointer"><a onClick="zzimBtn(${product.no}, '${product.name}')"><img src="${context}/resources/theme/img/icon/heart.png" alt=""><span>찜하기</span></a></li>
+											<li><a href="#"><img
+													src="${context}/resources/theme/img/icon/compare.png"
+													alt=""> <span>비교하기</span></a></li>
+											<li><a href="${context}/product/detail/${product.brandNo}/${product.no}"><img
+													src="${context}/resources/theme/img/icon/search.png" alt=""><span>상세보기</span></a></li>
+										</ul>
+								</div>
+								<div class="product__item__text">
+									<h6>${product.name}</h6>
+									<h5>
+										<fmt:formatNumber type="number" maxFractionDigits="3"
+											value="${product.price}" />
+										&nbsp;원
+									</h5>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
 
 				</div>
-				<script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
-    
-    <script>
-    	const content = document.getElementById('content');
-    	const viewer = toastui.Editor.factory({
-        	el: document.querySelector('#viewer'),
-        	viewer: true,
-        	height: '500px',
-        	initialValue: content.value
-    	});
-    	
-    </script>
+
 			</div>
-		</div>	
+		</div>
 	</div>
 	<!-- Toast UI editor Viewer Section End -->
 
@@ -273,6 +261,7 @@
     <script src="${context}/resources/theme/js/mixitup.min.js"></script>
     <script src="${context}/resources/theme/js/owl.carousel.min.js"></script>
     <script src="${context}/resources/theme/js/main.js"></script>
+ 
    
 </body>
 

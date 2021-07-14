@@ -60,6 +60,7 @@
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
 		       AND O.STORE_NO = #{storeNo}
+		       AND O.RECIEVE = 1
 	</select>
 	
 	<select id="getPickupList" parameterType="PagingDTO" resultType="PickupListDTO">
@@ -92,7 +93,7 @@
 		     WHERE P.BRAND_NO = #{brandNo}
 		       AND O.STORE_NO = #{storeNo}
 		       AND O.RECIEVE = 1
-		  ORDER BY NO DESC
+		  ORDER BY ORDERDATE DESC
 		    OFFSET (#{page} - 1) * 5 ROWS FETCH NEXT 5 ROWS ONLY
 	</select>
 	

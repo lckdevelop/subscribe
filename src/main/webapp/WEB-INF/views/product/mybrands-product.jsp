@@ -35,6 +35,10 @@
     <script src="${context}/resources/theme/js/jquery-3.3.1.min.js"></script>
     
     <script>
+    	$(document).ready(function(){
+	  	 	document.getElementById('subs').className += 'active';
+		});
+    	
     	window.userNo = ${userNo};
     	window.brandNo = 0;
     	window.pg = 1;

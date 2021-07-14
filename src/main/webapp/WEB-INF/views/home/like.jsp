@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -126,11 +126,13 @@
 			<c:forEach items="${likelist}" var="dto">
 				    <div class="col-md-4">
 				        <div class="card rounded">
-				            <div class="card-image">
+				            <div class="card-image text-center">
 				                 <img src="https://subscribe.s3.ap-northeast-2.amazonaws.com/product/${dto.brandengname}/${dto.categoryproductNo}/${dto.thumbnail}.jpg" width="320">
 				            </div>
 				            <div class="card-image-overlay m-auto"><br>
-				                <span class="card-detail-badge">${dto.productPrice} ￦</span>
+				                <span class="card-detail-badge">
+				                <fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${dto.productPrice}"/>&nbsp원</span>
 				            </div>
 				            <div class="card-body text-center">
 				                <div class="ad-title m-auto">

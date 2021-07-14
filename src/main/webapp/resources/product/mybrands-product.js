@@ -103,7 +103,7 @@ function getMybrands() {
 			
 			if (res.startPage == 1) {
 				if(window.brandNo == 0) {
-					brands += `<li class="active" onclick="selectBrand(0)"><a>전체</a></li>`;
+					brands += `<li class="page-block active" onclick="selectBrand(0)"><a>전체</a></li>`;
 				} else {
 					brands += `<li class="page-block"><a onclick="selectBrand(0)">전체</a></li>`;
 				}
