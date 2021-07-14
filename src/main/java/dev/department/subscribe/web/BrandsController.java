@@ -101,6 +101,7 @@ public class BrandsController {
 			int pageBlock=5;
 			int productCount=productService.getAllProductsCount(brandNo);
 			PagingDTO pagingDTO = new PagingDTO(1, pageSize, pageBlock, productCount);
+			pagingDTO.setBrandNo(brandNo);
 
 			ArrayList<ProductDTO> products = productService.getAllProductsWithPage(pagingDTO);
 			pagingDTO.setPage(0);
@@ -130,7 +131,7 @@ public class BrandsController {
 			int pageBlock=5;
 			int productCount=productService.getAllProductsCount(brandNo);
 			PagingDTO pagingDTO = new PagingDTO(pageNo, pageSize, pageBlock, productCount);
-
+			pagingDTO.setBrandNo(brandNo);
 			ArrayList<ProductDTO> products = productService.getAllProductsWithPage(pagingDTO);
 			
 			String all="all";
