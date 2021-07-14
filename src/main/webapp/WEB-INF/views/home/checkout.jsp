@@ -47,6 +47,12 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="${context}/resources/theme/js/send-notice.js"></script>
+    
+ 	<style>
+ 	.pt::after{
+ 	content: none;
+ 	}
+ 	</style>
 	
 	<script type="text/javascript">
 	
@@ -107,17 +113,16 @@
 	
 	function displayPoint(data) {
 		var mytable ='';
-	    mytable += '<tr class="alert" role="alert"><td>'+data.amount+'</td> <td class="quantity">';
-	    mytable += '<div class="input-group"><input type="text" id = "usepoint"  name = "usepoint" class="usepoint form-control input-number"></div></td><td>';
-	    mytable += '<button id="pointbtn" class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></td><td></td></tr>';
+	    mytable += '<tr><td class="pt">'+data.amount+'</td> <td class="pt">';
+	    mytable += '<div class="input-group"><input type="text" id = "usepoint"  class="usepoint form-control input-number"></div></td><td class="pt">';
+	    mytable += '<button class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></td><td class="pt"></td></tr>';
 		$('#pointcontent').html(mytable);
 		
 		clickPointEvent()
 	}
 	
 	function clickPointEvent() {
-		$('#pointbtn').click(function(){
-			console.log($("#usepoint").val());
+		$('.pointbtn').click(function(){
 			$.ajax({
 				method : 'GET',
 				url : '${pageContext.request.contextPath}/checkout/applypoint/'+ $("#usepoint").val()
@@ -519,7 +524,7 @@
 	     };
 	    
 	    Calendar.prototype.drawDays = function() {
-	        var startDay = new Date(year, month, 1).getDay(),
+	        var startDay = new Date(year, month + 1, 1).getDay(),
 	            nDays = new Date(year, month + 1, 0).getDate(),
 	    
 	            n = startDay;
@@ -540,13 +545,13 @@
 	                days[j].id = "disabled";
 	                
 	            }else if(j === day + startDay - 1){
-	                if((this.options && (month === setDate.getMonth()) && (year === setDate.getFullYear())) || (!this.options && (month === today.getMonth())&&(year===today.getFullYear()))){
+	                if((this.options && (month === setDate.getMonth() + 1) && (year === setDate.getFullYear())) || (!this.options && (month === today.getMonth())&&(year===today.getFullYear()))){
 	                    this.drawHeader(day);
 	                    days[j].id = "today";
 	                }
 	            }
 	            if(selectedDay){
-	                if((j === selectedDay.getDate() + startDay - 1)&&(month === selectedDay.getMonth())&&(year === selectedDay.getFullYear())){
+	                if((j === selectedDay.getDate() + startDay - 1)&&(month === selectedDay.getMonth() + 1)&&(year === selectedDay.getFullYear())){
 	                days[j].className = "selected";
 	                this.drawHeader(selectedDay.getDate());
 	                }
@@ -566,8 +571,10 @@
 	        this.setCookie('selected_day', 1);
 	        
 				$(".selecttime").click(function () {
+					console.log(month + 1);
+					var monthtemp = month + 1;
 					var time = $(this).attr('myval');
-					var result = year + "-" + month + "-" + o.innerHTML + "-" + time;
+					var result = year + "-" + monthtemp + "-" + o.innerHTML + "-" + time;
 					console.log(result);
 					document.getElementById('reserveDate').value = result;
 					$.ajax({
