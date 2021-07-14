@@ -418,7 +418,7 @@ public class AdminController {
 			set.put("to", reservationDTO.getPhone().replace("-", ""));
 			set.put("from", "01056575293");
 			set.put("text", text);
-			set.put("type", "sms");
+			set.put("type", "LMS");
 			
 			JSONObject obj = (JSONObject) coolsms.send(set);
 			

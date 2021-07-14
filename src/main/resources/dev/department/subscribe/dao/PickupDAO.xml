@@ -60,6 +60,7 @@
 		        ON OP.PRODUCT_NO = P.NO
 		     WHERE P.BRAND_NO = #{brandNo}
 		       AND O.STORE_NO = #{storeNo}
+		       AND O.RECIEVE = 1
 	</select>
 	
 	<select id="getPickupList" parameterType="PagingDTO" resultType="PickupListDTO">
