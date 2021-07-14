@@ -27,16 +27,16 @@
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
 	<link rel="stylesheet"
     	  href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css"/>
+    <link href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">	  
 	
 	
 
 </head>
 
 <body id="page-top">
-	<header class="header">
+    <header class="header">
     	<jsp:include page="/WEB-INF/views/home/header1.jsp" flush="false" />
     </header>
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -45,9 +45,10 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
-                <div class="sidebar-brand-text mx-3">브랜드 관리자</div>
+                <div class="sidebar-brand-text mx-3">${brandInfo.engname}</div>
             </a>
 
+            
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -75,9 +76,7 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <a class="collapse-item" href="./sales">매출 관리</a>
                     </div>
                 </div>
             </li>
@@ -97,6 +96,7 @@
                 </div>
             </li>
             
+            
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscribe"
@@ -106,8 +106,7 @@
                 </a>
                 <div id="collapseSubscribe" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">구독자 목록</a>
-                        <a class="collapse-item" href="#">쿠폰 발급</a>
+                        <a class="collapse-item" href="./coupon">쿠폰 관리</a>
                         <a class="collapse-item" href="./mailform">메일 발송</a>
                     </div>
                 </div>
@@ -123,6 +122,7 @@
                 <div id="collapseReservation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="./reserve">예약 관리</a>
+                        <a class="collapse-item" href="./pickup">픽업 관리</a>
                     </div>
                 </div>
             </li>
@@ -475,8 +475,9 @@
     <script src="${context}/resources/theme/js/jquery.easing.min.js"></script>
     <script src="${context}/resources/theme/js/sb-admin-2.min.js"></script>
     <script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="${context}/resources/registproduct/js/registerstyle.js"></script>
-    
+    <script src="${context}/resources/theme/js/receive-notice.js"></script>
     <script>
     	var chk_arr={};
     	$("input[name=product-check]:checked").each(function(){
