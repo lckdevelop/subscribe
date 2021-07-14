@@ -219,6 +219,7 @@
 	<!-- Banner Section Begin -->
 	<div class=container>
 		<img src="${context}/resources/productdetail/ad.jpg">
+		<textarea style="display:none;" id="content">${productInfo.content}</textarea>
 	</div>
 	<!-- Banner Section End -->
 	
@@ -232,12 +233,12 @@
 				<script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
     
     <script>
-    	const content = "<h1>제목</h1>";
+    	const content = document.getElementById('content');
     	const viewer = toastui.Editor.factory({
         	el: document.querySelector('#viewer'),
         	viewer: true,
         	height: '500px',
-        	initialValue: content
+        	initialValue: content.value
     	});
     	
     </script>

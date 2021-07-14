@@ -60,6 +60,7 @@
 		from coupon a
 		join brand b on a.brand_no = b.no
 		where member_no = #{memberNo}
+		and a.classification = 0
 		and a.brand_no in (select distinct c.no from cart a
 		                    join product b
 		                    on a.product_no = b.no
@@ -97,6 +98,10 @@
 		case when type = 0 then (select price from cart where product_no = #{productNo}) * (100 - amount) / 100
 		when type = 1 then (select price from cart where product_no = #{productNo}) - amount end
 		from coupon where no = #{couponNo}) where product_no = #{productNo} and member_no = #{memberNo}
+	</update>
+	
+	<update id="updateCouponused" parameterType="CartListDTO">
+		update coupon set classification = 1 where no = #{couponNo}
 	</update>
 	
 	<select id="getPointAmount" parameterType="CouponDTO" resultType="PointDTO">

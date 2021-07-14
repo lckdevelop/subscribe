@@ -72,4 +72,6 @@ public interface PurprocessService {
 
 	void addToZzim(CartDTO zzimDTO) throws Exception;
 
+	void updateCouponused(CartListDTO cartlistDTO) throws Exception;
+
 }
