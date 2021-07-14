@@ -106,6 +106,13 @@ public class PurprocessController {
 			purprocessService.updatePrice(cartlistDTO);
 			purprocessService.updateDCPrice(cartlistDTO);
 			cartlist = purprocessService.selectCartList(cartlistDTO);
+			for(int i = 0; i < cartlist.size(); i++) {
+	        	 if(cartlist.get(i).getShoesize() == null) {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getClothsize());
+	        	 }else {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getShoesize());
+	        	 }
+	         }
 			log.info(cartlist.toString());
 		}
 		return cartlist;
@@ -123,6 +130,13 @@ public class PurprocessController {
 			purprocessService.updatePrice(cartlistDTO);
 			purprocessService.updateDCPrice(cartlistDTO);
 			cartlist = purprocessService.selectCartList(cartlistDTO);
+			for(int i = 0; i < cartlist.size(); i++) {
+	        	 if(cartlist.get(i).getShoesize() == null) {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getClothsize());
+	        	 }else {
+	        		 cartlist.get(i).setProductsize(cartlist.get(i).getShoesize());
+	        	 }
+	         }
 			log.info(cartlist.toString());
 		}
 		return cartlist;
@@ -391,7 +405,7 @@ public class PurprocessController {
 			cartlistDTO.setMemberNo(sMember.getNo());
 			purprocessService.applyDiscount(cartlistDTO);
 			//쿠폰 사용 업데이트
-			
+			purprocessService.updateCouponused(cartlistDTO);
 		}
 	}
 	

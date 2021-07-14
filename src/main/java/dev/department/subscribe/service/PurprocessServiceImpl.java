@@ -345,5 +345,15 @@ public class PurprocessServiceImpl implements PurprocessService{
 		}
 	}
 
+	@Override
+	public void updateCouponused(CartListDTO cartlistDTO) throws Exception {
+		try {
+			purprocessDAO.updateCouponused(cartlistDTO);
+		} catch(Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
 	
 }
