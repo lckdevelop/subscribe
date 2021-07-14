@@ -115,7 +115,7 @@
 	</select>
 	
 	<insert id="usePoint" parameterType="PointDTO">
-		Insert Into point values (point_id_seq.nextval, -#{amount}, to_date(sysdate,'yyyy.mm.dd hh24:mi'),
+		Insert Into point values (point_id_seq.nextval, -#{amount}, sysdate,
 		'결제 포인트 사용', #{memberNo})
 	</insert>
 	
