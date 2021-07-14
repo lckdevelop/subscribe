@@ -379,7 +379,7 @@
 												
 												<ul class="list-group list-group-flush">
 													<c:forEach items="${productInfo}" var="product">
-														<li class="list-group-item">${product.name}
+														<li class="list-group-item">${product.no}&nbsp;&nbsp;${product.name}
 															<label class="checkbox"> 
 																<input type="checkbox" name="product-check" value="${product.no}" />
 																<span class="default"></span>
