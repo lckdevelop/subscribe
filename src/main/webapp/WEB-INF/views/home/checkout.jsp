@@ -113,9 +113,7 @@
 	
 	function displayPoint(data) {
 		var mytable ='';
-	    mytable += '<tr><td class="pt">'+data.amount+'</td> <td class="pt">';
-	    mytable += '<div class="input-group"><input type="text" id = "usepoint"  class="usepoint form-control input-number"></div></td><td class="pt">';
-	    mytable += '<button class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></td><td class="pt"></td></tr>';
+		 mytable += '<div class="card text-center"><div class="card-body" >보유 포인트 : '+ data.amount+'P<br><br><input type="text" id = "usepoint"  class="usepoint form-control input-number"><br><button class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></div></div>';
 		$('#pointcontent').html(mytable);
 		
 		clickPointEvent()
@@ -148,9 +146,7 @@
 	
 	function displayPointDisable(data) {
 		var mytable ='';
-	    mytable += '<tr class="alert" role="alert"><td>'+data.amount+'</td> <td class="quantity">';
-	    mytable += '<div class="input-group">&nbsp;&nbsp;&nbsp;&nbsp;<img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid"></div></td><td>';
-	    mytable += '포인트 사용 완료</td><td></td></tr>';
+		 mytable += '<div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.amount+'P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;포인트 사용 완료</p></div></div>';
 		$('#pointcontent').html(mytable);
 	}
 	
@@ -524,8 +520,8 @@
 	     };
 	    
 	    Calendar.prototype.drawDays = function() {
-	        var startDay = new Date(year, month + 1, 1).getDay(),
-	            nDays = new Date(year, month + 1, 0).getDate(),
+	        var startDay = new Date(year, month, 1).getDay(),
+	            nDays = new Date(year, month, 0).getDate(),
 	    
 	            n = startDay;
 	        for(var k = 0; k <42; k++) {
@@ -545,13 +541,13 @@
 	                days[j].id = "disabled";
 	                
 	            }else if(j === day + startDay - 1){
-	                if((this.options && (month === setDate.getMonth() + 1) && (year === setDate.getFullYear())) || (!this.options && (month === today.getMonth())&&(year===today.getFullYear()))){
+	                if((this.options && (month === setDate.getMonth()) && (year === setDate.getFullYear())) || (!this.options && (month === today.getMonth())&&(year===today.getFullYear()))){
 	                    this.drawHeader(day);
 	                    days[j].id = "today";
 	                }
 	            }
 	            if(selectedDay){
-	                if((j === selectedDay.getDate() + startDay - 1)&&(month === selectedDay.getMonth() + 1)&&(year === selectedDay.getFullYear())){
+	                if((j === selectedDay.getDate() + startDay - 1)&&(month === selectedDay.getMonth())&&(year === selectedDay.getFullYear())){
 	                days[j].className = "selected";
 	                this.drawHeader(selectedDay.getDate());
 	                }
@@ -1084,19 +1080,9 @@
 												<div class="row">
 													<div class="col-md-12">
 														<div class="table-wrap">
-															<table class="table">
-															  <thead class="thead-primary">
-															    <tr>
-															      <th>보유 포인트</th>
-															      <th>사용할 포인트</th>
-															      <th>포인트 적용</th>
-															      <th></th>
-															    </tr>
-															  </thead>
-															  <tbody id="pointcontent">
-															    
-															  </tbody>
-															</table>
+															<div id="pointcontent">
+															
+															</div>
 														</div>
 													</div>
 												</div>
