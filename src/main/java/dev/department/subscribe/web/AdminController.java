@@ -515,11 +515,6 @@ public class AdminController {
 				Authentication authentication, Model model) {
 			SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
 			
-			log.info(title);
-			log.info(content);
-			log.info(checkedProduct[0]);
-			log.info(checkedProduct[1]);
-			log.info(imgfile.getOriginalFilename());
 			SubsBoardDTO sbDTO = new SubsBoardDTO();
 			sbDTO.setTitle(title);
 			sbDTO.setContent(content);

@@ -28,7 +28,7 @@
 	<insert id="welcomePoint" parameterType="int">
 		Insert Into point 
 		values 
-		(point_id_seq.nextval, 5000, to_date(sysdate,'yyyy.mm.dd hh24:mi'), '회원가입 포인트', #{memberNo})
+		(point_id_seq.nextval, 5000, sysdate, '회원가입 포인트', #{memberNo})
 	</insert>
 	<select id="getAdminIdentifier" parameterType="String" resultType="MemberDTO">
 		SELECT NO                 ,

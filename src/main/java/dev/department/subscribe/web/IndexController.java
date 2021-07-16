@@ -73,7 +73,6 @@ public class IndexController {
 	// 회원가입 진행
 	@PostMapping("/signaction")
 	public String signAction(@ModelAttribute MemberDTO memberDTO) {
-		log.info("여기오나요~??");
 		try {
 			memberService.memberJoin(memberDTO); // 회원가입
 			int memberNo = memberDTO.getMemberSeq();
@@ -210,7 +209,6 @@ public class IndexController {
 	public SecurityMember recharge(@RequestParam String id, Authentication authentication) {
 		SecurityMember securitymember = (SecurityMember) memberDetailServieImpl.loadUserByUsername(id);
 		log.info(authentication + " ");
-		log.info("여기 아닌가요?");
 		return securitymember;
 	}
 	@GetMapping("/logoutAction")

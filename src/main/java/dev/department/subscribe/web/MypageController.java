@@ -54,9 +54,6 @@ public class MypageController {
 		MypagecardDTO mycard = new MypagecardDTO();
 		if (authentication != null) {
 	         SecurityMember sMember = (SecurityMember) authentication.getPrincipal();
-
-	         log.info(sMember.getName() + ": 겟 네임입니다~" );
-	         log.info(sMember.getNo() + ": 겟 넘버입니다~" );
 	         
 	 		MemberDTO memberDTO = new MemberDTO();
 	 		memberDTO.setNo(sMember.getNo());

@@ -97,8 +97,6 @@
 		var mytable ='';
 	    mytable += '<div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ data.address+'</p></div></div>';
 		$('#displayTarget').html(mytable);
-		
-		clickPointEvent()
 	}
 	
 	function selectPoint() {
@@ -113,7 +111,9 @@
 	
 	function displayPoint(data) {
 		var mytable ='';
-		 mytable += '<div class="card text-center"><div class="card-body" >보유 포인트 : '+ data.amount+'P<br><br><input type="text" id = "usepoint"  class="usepoint form-control input-number"><br><button class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></div></div>';
+		 mytable += '<tr><td class="pt">'+data.amount+'</td> <td class="pt">';
+	     mytable += '<div class="input-group"><input type="text" id = "usepoint"  class="usepoint form-control input-number"></div></td><td class="pt">';
+	     mytable += '<button class="pointbtn btn btn-outline-dark" style="border-radius: 20px" data-toggle="modal" data-target="#applypoint">포인트 사용</button></td><td class="pt"></td></tr>';
 		$('#pointcontent').html(mytable);
 		
 		clickPointEvent()
@@ -146,7 +146,9 @@
 	
 	function displayPointDisable(data) {
 		var mytable ='';
-		 mytable += '<div class="card text-center"><div class="card-body" ><p class="card-text">'+ data.amount+'P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;포인트 사용 완료</p></div></div>';
+		mytable += '<tr class="alert" role="alert"><td>'+data.amount+'</td> <td class="quantity">';
+	    mytable += '<div class="input-group">&nbsp;&nbsp;&nbsp;&nbsp;<img src="${context}/resources/custom/img/checkicon.png" style="height: 30px; width: 30px;" class="img-fluid"></div></td><td>';
+	    mytable += '포인트 사용 완료</td><td></td></tr>';
 		$('#pointcontent').html(mytable);
 	}
 	
@@ -334,7 +336,7 @@
 	            pay_method: 'card',
 	            merchant_uid: 'merchant_' + new Date().getTime(),
 	            name: '주문명: 상품 결제',
-	            amount: data.productPrice,
+	            amount: 100,
 	            m_redirect_url: 'https://www.yourdomain.com/payments/complete'
 	         
 	        }, function (rsp) {
@@ -1077,16 +1079,26 @@
 											 <br><br>
 										    <label class="label">포인트 사용</label><hr>
 												<div class="container">
-												<div class="row">
-													<div class="col-md-12">
-														<div class="table-wrap">
-															<div id="pointcontent">
-															
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+			                                    <div class="row">
+			                                       <div class="col-md-12">
+			                                          <div class="table-wrap">
+			                                             <table class="table">
+			                                               <thead class="thead-primary">
+			                                                 <tr>
+			                                                   <th>보유 포인트</th>
+			                                                   <th>사용할 포인트</th>
+			                                                   <th>포인트 적용</th>
+			                                                   <th></th>
+			                                                 </tr>
+			                                               </thead>
+			                                               <tbody id="pointcontent">
+			                                                 
+			                                               </tbody>
+			                                             </table>
+			                                          </div>
+			                                       </div>
+			                                    </div>
+			                                 </div>
 						                </div>
 				                    </div>
 				            </div>
